@@ -1,0 +1,46 @@
+# Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+*.sln.docstates
+ 
+# Ignore build output
+bin/
+obj/
+ 
+# Ignore NuGet packages
+packages/
+*.nupkg
+*.snupkg
+ 
+# Ignore build and publish artifacts
+**/bin/
+**/obj/
+**/bin-Debug/
+**/bin-Release/
+**/bin-iphone/
+**/bin-android/
+**/bin-maccatalyst/
+**/bin-macOS/
+**/bin-macOS/Build/
+**/bin-macOS/Applications/
+**/bin-windows/
+**/bin-uap/
+ 
+# Ignore build tools
+.projectpaket.files/
+*.lock
+project.lock.json
+.DS_Store
+ 
+# Ignore macOS-specific files
+*.DS_Store
+.suo
+*.userprefs
+ 
+# Ignore other miscellaneous files
+*.bak
+*.log
+ 
+# Ignore MAUI specific files
+*.maui
