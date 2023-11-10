@@ -1,25 +1,34 @@
-﻿namespace Opdracht_1
+﻿
+namespace Opdracht_1
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        private List<Double> data = new List<Double>();
+        private HttpClient httpClient = new HttpClient();
+        private string url = "";
 
         public MainPage()
         {
+            data.Add(0);
+            data.Add(1);
+            data.Add(2);
+            data.Add(3);
+            data.Add(4);
+
             InitializeComponent();
+            GetValues();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        public async void GetValues()
         {
-            count++;
+            ValueList.ItemsSource = data;
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+            HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, url);
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            HttpResponseMessage respones = await httpClient.SendAsync(message);
+
         }
+
     }
 
 }
