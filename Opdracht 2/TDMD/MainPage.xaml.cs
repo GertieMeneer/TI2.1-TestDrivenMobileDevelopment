@@ -26,12 +26,14 @@ namespace TDMD
             {
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync("http://10.0.2.2:8000/api/newdeveloper");
+                    //when android phone: http://10.0.2.2:8000/api/newdeveloper
+                    //when windows: http://localhost:8000/api/newdeveloper
+                    HttpResponseMessage response = await client.GetAsync("http://localhost:8000/api/newdeveloper");
 
                     // Ensure successful response before attempting to read content
                     if (response.IsSuccessStatusCode)
                     {
-                        Status.Text = "Connected!";
+                        Status.Text = "Status: Connected!";
                         // Read the content as a string
                         string jsonString = await response.Content.ReadAsStringAsync();
 

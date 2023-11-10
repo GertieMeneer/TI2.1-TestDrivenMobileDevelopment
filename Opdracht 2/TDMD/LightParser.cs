@@ -16,26 +16,35 @@ namespace TDMD
                 JObject jsonObject = JObject.Parse(jsonResponse);
                 JObject lightsObject = jsonObject["lights"].ToObject<JObject>();
 
-                // Itereer door elke lamp
                 foreach (var keyValuePair in lightsObject)
                 {
                     string key = keyValuePair.Key;
                     JObject lightObject = keyValuePair.Value.ToObject<JObject>();
 
-                    // Haal lamp eigenschappen op
                     string id = key;
-                    string name = lightObject["name"].ToObject<string>();
+                    string name = lightObject["name"].ToString();
                     bool isOn = lightObject["state"]["on"].ToObject<bool>();
+                    string type = lightObject["type"].ToString();
+                    string swversion = lightObject["swversion"].ToString();
+                    string uniqueid = lightObject["uniqueid"].ToString();
+                    int brightness = lightObject["state"]["bri"].ToObject<int>();
+                    int hue = lightObject["state"]["hue"].ToObject<int>();
+                    int sat = lightObject["state"]["sat"].ToObject<int>();
 
-                    // Maak een Lamp object aan
                     Lamp lamp = new Lamp
                     {
-                        modelid = id,
+                        type = type,
                         name = name,
-                        status = isOn
+                        modelid = id,
+                        swversion = swversion,
+                        uniqueid = uniqueid,
+
+                        status = isOn,
+                        brightness = brightness,
+                        hue = hue,
+                        sat = sat
                     };
 
-                    // Voeg de lamp toe aan de lijst
                     lamps.Add(lamp);
                 }
             }

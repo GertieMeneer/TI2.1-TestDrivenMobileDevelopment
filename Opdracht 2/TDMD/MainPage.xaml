@@ -6,13 +6,11 @@
 
     <ScrollView>
         <VerticalStackLayout>
-            <Label x:Name="Status" Text="Disconnected"/>
-
-            <!-- Voeg een ListView toe met een binding naar Lights in de ViewModel -->
+            <Label x:Name="Status" Text="Status: Disconnected" Margin="0, 0, 0, 10" FontSize="32"/>
             <ListView ItemsSource="{Binding Lamps}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding name}" Detail="{Binding status, StringFormat='Is On: {0}'}" />
+                        <TextCell Text="{Binding name}" Detail="{Binding status, StringFormat='Is On: {0}'}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
