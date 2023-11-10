@@ -12,7 +12,7 @@
             <ListView ItemsSource="{Binding Lamps}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding Name}" Detail="{Binding IsOn, StringFormat='Is On: {0}'}" />
+                        <TextCell Text="{Binding name}" Detail="{Binding status, StringFormat='Is On: {0}'}" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
