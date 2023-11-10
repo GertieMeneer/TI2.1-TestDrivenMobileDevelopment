@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace Opdracht_2
+namespace TDMD
 {
     internal class Program : MauiApplication
     {

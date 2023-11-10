@@ -1,8 +1,8 @@
 ﻿<maui:MauiWinUIApplication
-    x:Class="Opdracht_2.WinUI.App"
+    x:Class="TDMD.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:Opdracht_2.WinUI">
+    xmlns:local="using:TDMD.WinUI">
 
 </maui:MauiWinUIApplication>

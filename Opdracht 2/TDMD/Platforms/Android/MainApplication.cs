@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace Opdracht_2
+namespace TDMD
 {
     [Application]
     public class MainApplication : MauiApplication

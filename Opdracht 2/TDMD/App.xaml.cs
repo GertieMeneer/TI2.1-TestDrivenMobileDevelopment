@@ -1,4 +1,4 @@
-﻿namespace Opdracht_2
+﻿namespace TDMD
 {
     public partial class App : Application
     {

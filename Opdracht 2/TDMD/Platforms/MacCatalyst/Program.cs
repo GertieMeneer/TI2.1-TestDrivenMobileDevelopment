@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Opdracht_2
+namespace TDMD
 {
     public class Program
     {

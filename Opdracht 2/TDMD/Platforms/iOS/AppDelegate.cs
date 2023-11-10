@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Opdracht_2
+namespace TDMD
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

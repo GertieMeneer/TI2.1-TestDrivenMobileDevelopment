@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace Opdracht_2
+namespace TDMD
 {
     public static class MauiProgram
     {

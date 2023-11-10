@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Shell
-    x:Class="Opdracht_2.AppShell"
+    x:Class="TDMD.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:Opdracht_2"
+    xmlns:local="clr-namespace:TDMD"
     Shell.FlyoutBehavior="Disabled"
-    Title="Opdracht_2">
+    Title="TDMD">
 
     <ShellContent
         Title="Home"
