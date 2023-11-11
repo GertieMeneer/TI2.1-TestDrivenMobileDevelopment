@@ -33,6 +33,7 @@ namespace TDMD
 
                     Lamp lamp = new Lamp
                     {
+                        id = key,
                         type = type,
                         name = name,
                         modelid = id,

@@ -7,7 +7,7 @@
     <ScrollView>
         <VerticalStackLayout>
             <Label x:Name="Status" Text="Status: Disconnected" Margin="0, 0, 0, 10" FontSize="32"/>
-            <ListView ItemsSource="{Binding Lamps}">
+            <ListView ItemsSource="{Binding Lamps}" ItemSelected="OnItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextCell Text="{Binding name}" Detail="{Binding status, StringFormat='Is On: {0}'}"/>
