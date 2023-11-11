@@ -18,21 +18,26 @@ namespace TDMD
         {
             try
             {
+                // Replace {uniqueid} and {status} with actual values
+
                 HttpClient client = new HttpClient();
 
+                // Prepare your JSON data
                 JObject jObject = new JObject();
                 jObject["devicetype"] = "my_device#gertiemeneer";
                 var json = jObject.ToString();
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+                // Make the POST request
                 HttpResponseMessage response = await client.PostAsync(url, content);
 
                 // Check if the request was successful
                 if (response.IsSuccessStatusCode)
                 {
-                    // Read and handle the response if needed
+                    // Read and handle the response
                     string responseContent = await response.Content.ReadAsStringAsync();
-                    Debug.WriteLine($"Response: {responseContent}");
+
+                    // Parse the JSON response
                     JArray jsonArray = JArray.Parse(responseContent);
                     JObject successObject = jsonArray[0]["success"] as JObject;
 
@@ -45,13 +50,14 @@ namespace TDMD
                 else
                 {
                     // Handle the error, e.g., log or throw an exception
-                    Debug.WriteLine($"Error: {response.StatusCode}");
+                    Console.WriteLine($"Error: {response.StatusCode}");
                     return null;
                 }
-
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                // Handle exceptions
+                Console.WriteLine($"Exception: {ex.Message}");
                 return null;
             }
         }

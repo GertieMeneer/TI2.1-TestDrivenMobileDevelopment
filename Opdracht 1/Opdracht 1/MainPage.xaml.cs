@@ -35,7 +35,7 @@ namespace Opdracht_1
                 foreach (JObject item in responseData)
                 {
                     double value = (double)item["value"];
-                    // Assuming "value" is the property you want to add to the data list.
+                    // Assuming "value" is the property you want to add to the data list. je bent gay lol <3
                     data.Add(value);
                 }
 

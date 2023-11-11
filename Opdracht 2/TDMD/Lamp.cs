@@ -26,7 +26,7 @@ namespace TDMD
             try
             {
                 // Replace "your_api_endpoint" with the actual API endpoint you want to call
-                string apiUrl = $"http://10.0.2.2:8000/api/f5495a1e5e2322e137a2e220a696e4c/lights/{id}/state";
+                string apiUrl = $"http://10.0.2.2:8000/api/ebc1ef8499a991a9f52455ce201bcf6/lights/{id}/state";
 
                 // Create an instance of HttpClient
                 using (HttpClient client = new HttpClient())
@@ -37,7 +37,7 @@ namespace TDMD
                     HttpContent content = new StringContent(requestBody, System.Text.Encoding.UTF8, "application/json");
 
                     // Make the POST request
-                    HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+                    HttpResponseMessage response = await client.PutAsync(apiUrl, content);
 
                     // Check if the request was successful (status code 2xx)
                     if (response.IsSuccessStatusCode)
