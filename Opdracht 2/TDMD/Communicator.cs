@@ -37,7 +37,6 @@ namespace TDMD
                     catch
                     {
                         return false;
-                        Debug.WriteLine("You didn't click on the link button!!!");
                     }
 
                     Debug.WriteLine($"User ID: {userid}");

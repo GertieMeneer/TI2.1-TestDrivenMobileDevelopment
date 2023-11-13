@@ -4,9 +4,16 @@
              x:Class="TDMD.LampInfoPage"
              Title="LampInfoPage">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
+        <Label
+            x:Name="LampNameLabel"
+            Text="lamp name"
+            FontSize="30"
             VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+        <Label
+            x:Name="LampIDLabel"
+            Text="Lamp id"
+            VerticalOptions="Center"
             HorizontalOptions="Center" />
     </VerticalStackLayout>
 </ContentPage>

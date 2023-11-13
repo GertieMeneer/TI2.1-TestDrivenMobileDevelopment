@@ -34,31 +34,8 @@ namespace TDMD
                 DisplayAlert("Info", "Connected successfully", "Ok");
             }
 
-            await TurnOffLampAsync(1);
         }
-
         
-
-        private async Task TurnOffLampAsync(int lampId)
-        {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                string url = $"http://10.0.2.2:8000/api/{Communicator.userid}/lights/{lampId}/state";
-                string body = "{\"on\":false}";
-
-                var content = new StringContent(body, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await httpClient.PutAsync(url, content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine($"Lamp {lampId} turned off successfully.");
-                }
-                else
-                {
-                    Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                }
-            }
-        }
 
         
 
@@ -103,7 +80,7 @@ namespace TDMD
             Lamp selectedLamp = (Lamp)e.SelectedItem;
 
             ((ListView)sender).SelectedItem = null;
-            Navigation.PushAsync(new LampInfoPage());
+            Navigation.PushAsync(new LampInfoPage(selectedLamp));
         }
 
         private async void OnToggleButtonClicked(object sender, EventArgs e)
