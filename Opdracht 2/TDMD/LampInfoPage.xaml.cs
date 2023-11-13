@@ -20,6 +20,7 @@ public partial class LampInfoPage : ContentPage
         }
 
 		LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(lamp.brightness)}%";
+		BrightnessSlider.Value = ValueToPercentage(lamp.brightness);
 		LampHueLabel.Text = $"Lamp Hue: {lamp.hue}";
 		LampSatLabel.Text = $"Lamp Saturation: {lamp.sat}";
 
