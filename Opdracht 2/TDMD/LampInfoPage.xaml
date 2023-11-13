@@ -11,10 +11,26 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <Label x:Name="LampStatusLabel"
-               Text="Lamp status"
-               VerticalOptions="Center"
-               HorizontalOptions="Center"/>
+        <Label 
+            x:Name="LampStatusLabel"
+            Text="Lamp status"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"/>
+        <Label 
+            x:Name="LampBrightnessLabel"
+            Text="Lamp brightness"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        <Label 
+            x:Name="LampHueLabel"
+            Text="Lamp hue"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        <Label 
+            x:Name="LampSatLabel"
+            Text="Lamp sat"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
 
         <Label
             x:Name="LampIDLabel"

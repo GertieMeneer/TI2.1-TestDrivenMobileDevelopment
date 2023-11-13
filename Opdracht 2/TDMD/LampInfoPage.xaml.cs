@@ -15,10 +15,20 @@ public partial class LampInfoPage : ContentPage
             LampStatusLabel.Text = "Lamp status: OFF";
         }
 
+		LampBrightnessLabel.Text = $"Lamp Brightness: {ConvertBrightness(lamp.brightness)}";
+		LampHueLabel.Text = lamp.hue.ToString();
+		LampSatLabel.Text = lamp.sat.ToString();
+
         LampIDLabel.Text = $"Lamp ID: {lamp.id}";
 		LampTypeLabel.Text = $"Lamp type: {lamp.type}";
 		LampModelIDLabel.Text = $"Lamp Model ID: {lamp.modelid}";
 		LampSoftwareLabel.Text = $"Lamp Software: {lamp.swversion}";
 		LampUniqueIDLabel.Text = $"Lamp Unique ID: {lamp.uniqueid}";
+	}
+
+	private int ConvertBrightness(int value)
+	{
+		int percentage = (value / 254) * 100;
+		return percentage;
 	}
 }
