@@ -46,15 +46,11 @@ namespace TDMD
                     //when windows: http://localhost:8000/api/newdeveloper
                     HttpResponseMessage response = await client.GetAsync("http://10.0.2.2:8000/api/newdeveloper");
 
-                    // Ensure successful response before attempting to read content
                     if (response.IsSuccessStatusCode)
                     {
                         Status.Text = "Status: Connected!";
-                        // Read the content as a string
                         string jsonString = await response.Content.ReadAsStringAsync();
 
-                        // Now you can parse the JSON string into a JObject
-                        // using Newtonsoft.Json as shown in the previous response
                         viewModel.Lamps = LightParser.ParseLights(jsonString);
                     }
                     else

@@ -17,7 +17,7 @@ public partial class LampInfoPage : ContentPage
             LampStatusLabel.Text = "Lamp status: OFF";
         }
 
-		LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(lamp.brightness)}%";
+		LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(Math.Round(lamp.brightness, 0))}%";
 		LampHueLabel.Text = $"Lamp Hue: {lamp.hue}";
 		LampSatLabel.Text = $"Lamp Saturation: {lamp.sat}";
 
@@ -31,7 +31,7 @@ public partial class LampInfoPage : ContentPage
 	private double ValueToPercentage(double value)
 	{
 		double percentage = (value / 254.0) * 100.0;
-		return percentage;
+		return Math.Round(percentage);
 	}
 
 	private double PercentageToValue(double percentage)
