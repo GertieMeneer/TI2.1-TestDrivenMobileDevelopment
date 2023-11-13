@@ -102,11 +102,8 @@ namespace TDMD
 
             Lamp selectedLamp = (Lamp)e.SelectedItem;
 
-            DisplayAlert("Selected Item", $"Name: {selectedLamp.name}\nStatus: {selectedLamp.status}", "OK");
-
             ((ListView)sender).SelectedItem = null;
-
-            await Navigation.PushAsync(new LampInfoPage());
+            Navigation.PushAsync(new LampInfoPage());
         }
 
         private async void OnToggleButtonClicked(object sender, EventArgs e)
