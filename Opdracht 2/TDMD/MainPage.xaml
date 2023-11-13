@@ -12,8 +12,8 @@
                     <DataTemplate>
                         <ViewCell>
                             <HorizontalStackLayout>
-                                <Label Text="{Binding name}" VerticalOptions="Center" Margin="10,0,0,0"/>
-                                <Label Text="{Binding status, StringFormat='Is On: {0}'}" VerticalOptions="Center" Margin="10,0,0,0"/>
+                                <Label Text="{Binding Name}" VerticalOptions="Center" Margin="10,0,0,0"/>
+                                <Label Text="{Binding Status, StringFormat='Is On: {0}'}" VerticalOptions="Center" Margin="10,0,0,0"/>
                                 <BoxView HorizontalOptions="FillAndExpand"/>
                                 <Button Text="Toggle" Clicked="OnToggleButtonClicked" CommandParameter="{Binding .}" Margin="10,0,0,0" BackgroundColor="Gray"/>
                             </HorizontalStackLayout>

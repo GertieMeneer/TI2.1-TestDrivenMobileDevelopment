@@ -33,17 +33,17 @@ namespace TDMD
 
                     Lamp lamp = new Lamp
                     {
-                        id = key,
-                        type = type,
-                        name = name,
-                        modelid = id,
-                        swversion = swversion,
-                        uniqueid = uniqueid,
+                        ID = key,
+                        Type = type,
+                        Name = name,
+                        ModelID = id,
+                        SWVersion = swversion,
+                        UniqueID = uniqueid,
 
-                        status = isOn,
-                        brightness = brightness,
-                        hue = hue,
-                        sat = sat
+                        Status = isOn,
+                        Brightness = brightness,
+                        Hue = hue,
+                        Sat = sat
                     };
 
                     lamps.Add(lamp);

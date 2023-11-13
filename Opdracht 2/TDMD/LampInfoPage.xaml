@@ -48,6 +48,7 @@
             VerticalOptions="Center"
             HorizontalOptions="Center" />
         <Slider x:Name="saturationSlider" Minimum="0" Maximum="254" />
+        
         <Button Text="Change Light Color" Clicked="ChangeLightColor_Clicked" />
 
         <Label Text=""/>

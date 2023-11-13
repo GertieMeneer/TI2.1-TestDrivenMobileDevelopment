@@ -7,8 +7,8 @@ public partial class LampInfoPage : ContentPage
 	{
 		InitializeComponent();
 		_lamp = lamp;
-        LampNameLabel.Text = lamp.name;
-		if (lamp.status)
+        LampNameLabel.Text = lamp.Name;
+		if (lamp.Status)
 		{
 			LampStatusLabel.Text = "Lamp status: ON";
 			LampStatusLabel.TextColor = Color.FromHex("#75fa28");
@@ -19,16 +19,18 @@ public partial class LampInfoPage : ContentPage
 			LampStatusLabel.TextColor = Color.FromHex("#fc0317");
         }
 
-		LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(lamp.brightness)}%";
-		BrightnessSlider.Value = ValueToPercentage(lamp.brightness);
-		LampHueLabel.Text = $"Lamp Hue: {lamp.hue}";
-		LampSatLabel.Text = $"Lamp Saturation: {lamp.sat}";
+		LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(lamp.Brightness)}%";
+		BrightnessSlider.Value = ValueToPercentage(lamp.Brightness);
+		LampHueLabel.Text = $"Lamp Hue: {lamp.Hue}";
+		hueSlider.Value = lamp.Hue;
+		saturationSlider.Value = Convert.ToInt32(lamp.Sat);
+		LampSatLabel.Text = $"Lamp Saturation: {lamp.Sat}";
 
-        LampIDLabel.Text = $"Lamp ID: {lamp.id}";
-		LampTypeLabel.Text = $"Lamp type: {lamp.type}";
-		LampModelIDLabel.Text = $"Lamp Model ID: {lamp.modelid}";
-		LampSoftwareLabel.Text = $"Lamp Software: {lamp.swversion}";
-		LampUniqueIDLabel.Text = $"Lamp Unique ID: {lamp.uniqueid}";
+        LampIDLabel.Text = $"Lamp ID: {lamp.ID}";
+		LampTypeLabel.Text = $"Lamp type: {lamp.Type}";
+		LampModelIDLabel.Text = $"Lamp Model ID: {lamp.ModelID}";
+		LampSoftwareLabel.Text = $"Lamp Software: {lamp.SWVersion}";
+		LampUniqueIDLabel.Text = $"Lamp Unique ID: {lamp.UniqueID}";
 	}
 
 	private double ValueToPercentage(double value)
@@ -53,8 +55,8 @@ public partial class LampInfoPage : ContentPage
 
 	private async void ChangeLightColor_Clicked(Object sender, EventArgs e)
 	{
-		double hue = hueSlider.Value;
-		double sat = saturationSlider.Value;
+		int hue = (int)hueSlider.Value;
+		int sat = (int)saturationSlider.Value;
 
 		await _lamp.SetColor(hue, sat);
 
