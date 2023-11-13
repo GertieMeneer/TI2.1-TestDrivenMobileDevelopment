@@ -110,7 +110,8 @@ namespace TDMD
             // Deselect the item
             ((ListView)sender).SelectedItem = null;
         }
-        void OnToggleButtonClicked(object sender, EventArgs e)
+
+        private async void OnToggleButtonClicked(object sender, EventArgs e)
         {
             if(Communicator.userid == null)
             {
@@ -120,7 +121,8 @@ namespace TDMD
             {
                 var button = (Button)sender;
                 var lamp = (Lamp)button.CommandParameter;
-                lamp.ToggleLamp();
+                await lamp.ToggleLamp();
+                LoadLamps();
             }
             
         }

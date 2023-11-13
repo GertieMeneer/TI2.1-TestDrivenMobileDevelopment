@@ -37,6 +37,7 @@ namespace TDMD
                 {
                     Debug.WriteLine($"Lamp {id} turned on successfully.");
                     status = otherState;
+
                 }
                 else
                 {
