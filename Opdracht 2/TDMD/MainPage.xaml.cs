@@ -29,10 +29,11 @@ namespace TDMD
             {
                 DisplayAlert("Error", "Error getting UserID, maybe the server is not running or " +
                     "maybe link button not pressed?", "Ok");
+                UserID.Text = "No UserID. Link button > refresh app";
             }
             else
             {
-                DisplayAlert("Info", "Connected successfully", "Ok");
+                UserID.Text = Communicator.userid;
             }
 
         }

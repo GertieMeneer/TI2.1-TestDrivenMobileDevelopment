@@ -41,22 +41,44 @@ public partial class LampInfoPage : ContentPage
 
     private async void OnApplyBrightnessClick(Object sender, EventArgs e)
 	{
-		double percentage = BrightnessSlider.Value;
-		double value = Converter.PercentageToValue(percentage);
+        if (_lamp.Status == false)
+        {
+            DisplayAlert("Error", "Lamp is turned off. Cannot change color", "Ok");
+        }
+        else if (Communicator.userid == null)
+        {
+            DisplayAlert("Error", "No UserID. Cannot change color. Please press the link button and refresh the list of lamps", "Ok");
+        }
+        else
+		{
+            double percentage = BrightnessSlider.Value;
+            double value = Converter.PercentageToValue(percentage);
 
-		await _lamp.SetBrightness(value);
+            await _lamp.SetBrightness(value);
 
-        LampBrightnessLabel.Text = $"Lamp Brightness: {Converter.ValueToPercentage(_lamp.Brightness)}%";
+            LampBrightnessLabel.Text = $"Lamp Brightness: {Converter.ValueToPercentage(_lamp.Brightness)}%";
+        }
     }
 
 	private async void ChangeLightColor_Clicked(Object sender, EventArgs e)
 	{
-		int hue = (int)hueSlider.Value;
-		int sat = (int)saturationSlider.Value;
+		if(_lamp.Status == false)
+		{
+			DisplayAlert("Error", "Lamp is turned off. Cannot change brightness", "Ok");
+		}
+		else if(Communicator.userid == null)
+		{
+			DisplayAlert("Error", "No UserID. Cannot change brightness. Please press the link button and refresh the list of lamps", "Ok");
+		}
+		else
+		{
+            int hue = (int)hueSlider.Value;
+            int sat = (int)saturationSlider.Value;
 
-		await _lamp.SetColor(hue, sat);
+            await _lamp.SetColor(hue, sat);
 
-        LampHueLabel.Text = $"Lamp Hue: {_lamp.Hue}";
-        LampSatLabel.Text = $"Lamp Saturation: {_lamp.Sat}";
+            LampHueLabel.Text = $"Lamp Hue: {_lamp.Hue}";
+            LampSatLabel.Text = $"Lamp Saturation: {_lamp.Sat}";
+        }
     }
 }

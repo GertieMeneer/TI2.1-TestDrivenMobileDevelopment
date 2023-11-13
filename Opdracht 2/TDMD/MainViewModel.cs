@@ -66,6 +66,10 @@ namespace TDMD
 
         private async Task RefreshData()
         {
+            if(Communicator.userid == null)
+            {
+                await Communicator.GetUserIdAsync();
+            }
             LoadLamps();
         }
 
