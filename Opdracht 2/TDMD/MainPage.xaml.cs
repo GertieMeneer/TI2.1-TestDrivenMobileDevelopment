@@ -95,20 +95,18 @@ namespace TDMD
             }
         }
 
-        private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private async void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem == null)
                 return;
 
-            // Handle item selection, e.g., show a pop-up or navigate to a new page
             Lamp selectedLamp = (Lamp)e.SelectedItem;
-            //selectedLamp.ToggleAsync();
 
-            // Here, you can implement the logic to display a pop-up or navigate to a new page with more details
             DisplayAlert("Selected Item", $"Name: {selectedLamp.name}\nStatus: {selectedLamp.status}", "OK");
 
-            // Deselect the item
             ((ListView)sender).SelectedItem = null;
+
+            await Navigation.PushAsync(new LampInfoPage());
         }
 
         private async void OnToggleButtonClicked(object sender, EventArgs e)
@@ -122,7 +120,8 @@ namespace TDMD
                 var button = (Button)sender;
                 var lamp = (Lamp)button.CommandParameter;
                 await lamp.ToggleLamp();
-                LoadLamps();
+
+                LoadLamps();        //om de lijst te refreshen zodat ison verandert, niet de beste manier though, ff fix vinden :))
             }
             
         }
