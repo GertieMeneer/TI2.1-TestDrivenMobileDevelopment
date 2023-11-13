@@ -11,13 +11,15 @@ public partial class LampInfoPage : ContentPage
 		if (lamp.status)
 		{
 			LampStatusLabel.Text = "Lamp status: ON";
+			LampStatusLabel.TextColor = Color.FromHex("#75fa28");
         }
 		else
 		{
             LampStatusLabel.Text = "Lamp status: OFF";
+			LampStatusLabel.TextColor = Color.FromHex("#fc0317");
         }
 
-		LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(Math.Round(lamp.brightness, 0))}%";
+		LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(lamp.brightness)}%";
 		LampHueLabel.Text = $"Lamp Hue: {lamp.hue}";
 		LampSatLabel.Text = $"Lamp Saturation: {lamp.sat}";
 
