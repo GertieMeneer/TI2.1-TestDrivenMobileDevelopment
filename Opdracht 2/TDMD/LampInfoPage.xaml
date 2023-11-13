@@ -32,16 +32,23 @@
             Text="Apply Brightness"
             Clicked="OnApplyBrightnessClick" />
 
+        <Label Text=""/>
+
         <Label 
             x:Name="LampHueLabel"
             Text="Lamp hue"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
+        <Slider x:Name="hueSlider" Minimum="0" Maximum="65535" />
+        
+        
         <Label 
             x:Name="LampSatLabel"
             Text="Lamp sat"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
+        <Slider x:Name="saturationSlider" Minimum="0" Maximum="254" />
+        <Button Text="Change Light Color" Clicked="ChangeLightColor_Clicked" />
 
         <Label Text=""/>
 

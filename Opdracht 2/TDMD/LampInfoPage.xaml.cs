@@ -18,8 +18,8 @@ public partial class LampInfoPage : ContentPage
         }
 
 		LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(lamp.brightness)}%";
-		LampHueLabel.Text = lamp.hue.ToString();
-		LampSatLabel.Text = lamp.sat.ToString();
+		LampHueLabel.Text = $"Lamp Hue: {lamp.hue}";
+		LampSatLabel.Text = $"Lamp Saturation: {lamp.sat}";
 
         LampIDLabel.Text = $"Lamp ID: {lamp.id}";
 		LampTypeLabel.Text = $"Lamp type: {lamp.type}";
@@ -47,4 +47,13 @@ public partial class LampInfoPage : ContentPage
 
 		await _lamp.SetBrightness(value);
     }
+
+	private async void ChangeLightColor_Clicked(Object sender, EventArgs e)
+	{
+		double hue = hueSlider.Value;
+		double sat = saturationSlider.Value;
+
+		await _lamp.SetColor(hue, sat);
+
+	}
 }
