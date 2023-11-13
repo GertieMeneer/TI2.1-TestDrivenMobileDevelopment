@@ -19,8 +19,8 @@ public partial class LampInfoPage : ContentPage
 			LampStatusLabel.TextColor = Color.FromHex("#fc0317");
         }
 
-		LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(lamp.Brightness)}%";
-		BrightnessSlider.Value = ValueToPercentage(lamp.Brightness);
+		LampBrightnessLabel.Text = $"Lamp Brightness: {Converter.ValueToPercentage(lamp.Brightness)}%";
+		BrightnessSlider.Value = Converter.ValueToPercentage(lamp.Brightness);
 		LampHueLabel.Text = $"Lamp Hue: {lamp.Hue}";
 		hueSlider.Value = lamp.Hue;
 		saturationSlider.Value = Convert.ToInt32(lamp.Sat);
@@ -33,26 +33,20 @@ public partial class LampInfoPage : ContentPage
 		LampUniqueIDLabel.Text = $"Lamp Unique ID: {lamp.UniqueID}";
 	}
 
-	private double ValueToPercentage(double value)
-	{
-		double percentage = (value / 254.0) * 100.0;
-		return Math.Round(percentage);
-	}
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
 
-	private double PercentageToValue(double percentage)
-	{
-        double convertedValue = (percentage / 100.0) * 253.0 + 1.0;
-		return convertedValue;
     }
 
-	private async void OnApplyBrightnessClick(Object sender, EventArgs e)
+    private async void OnApplyBrightnessClick(Object sender, EventArgs e)
 	{
 		double percentage = BrightnessSlider.Value;
-		double value = PercentageToValue(percentage);
+		double value = Converter.PercentageToValue(percentage);
 
 		await _lamp.SetBrightness(value);
 
-        LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(_lamp.Brightness)}%";
+        LampBrightnessLabel.Text = $"Lamp Brightness: {Converter.ValueToPercentage(_lamp.Brightness)}%";
     }
 
 	private async void ChangeLightColor_Clicked(Object sender, EventArgs e)

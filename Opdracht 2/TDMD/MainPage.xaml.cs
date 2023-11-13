@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net.Http.Json;
 using System.Net.Security;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace TDMD
 {
@@ -36,7 +37,7 @@ namespace TDMD
 
         }
         
-        public async void LoadLamps()
+        public async Task LoadLamps()
         {
             using (HttpClient client = new HttpClient())
             {
@@ -86,11 +87,9 @@ namespace TDMD
             {
                 var button = (Button)sender;
                 var lamp = (Lamp)button.CommandParameter;
-                await lamp.ToggleLamp();
-
-                LoadLamps();        //om de lijst te refreshen zodat ison verandert, niet de beste manier though, ff fix vinden :))
+                await lamp.ToggleLamp(button);
+                await LoadLamps();
             }
-            
         }
     }
 }

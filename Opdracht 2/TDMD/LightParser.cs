@@ -42,6 +42,7 @@ namespace TDMD
 
                         Status = isOn,
                         Brightness = brightness,
+                        BrightnessPercentage = Converter.ValueToPercentage(brightness),
                         Hue = hue,
                         Sat = sat
                     };
@@ -55,6 +56,6 @@ namespace TDMD
             }
 
             return lamps;
-        }
+        } 
     }
 }

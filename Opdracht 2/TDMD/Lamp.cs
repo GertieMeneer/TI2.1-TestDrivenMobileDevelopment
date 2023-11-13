@@ -18,11 +18,12 @@ namespace TDMD
 
         public bool Status { get; set; }
         public double Brightness { get; set; }
+        public double BrightnessPercentage { get; set; }
         public int Hue { get; set; }
         public int Sat { get; set; }
 
         
-        public async Task ToggleLamp()
+        public async Task ToggleLamp(Button button)
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -37,7 +38,6 @@ namespace TDMD
                 {
                     Debug.WriteLine($"Lamp {ID} turned on successfully.");
                     Status = otherState;
-
                 }
                 else
                 {
@@ -60,6 +60,7 @@ namespace TDMD
                 {
                     Debug.WriteLine($"Lamp {ID} turned on successfully.");
                     Brightness = value;
+                    BrightnessPercentage = Converter.ValueToPercentage(Brightness);
                 }
                 else
                 {
@@ -90,6 +91,7 @@ namespace TDMD
                 }
             }
         }
+
 
     }
 }
