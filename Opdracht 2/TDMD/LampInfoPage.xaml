@@ -10,9 +10,35 @@
             FontSize="30"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+
+        <Label x:Name="LampStatusLabel"
+               Text="Lamp status"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"/>
+
         <Label
             x:Name="LampIDLabel"
             Text="Lamp id"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        <Label
+            x:Name="LampTypeLabel"
+            Text="Lamp type"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        <Label
+            x:Name="LampModelIDLabel"
+            Text="Lamp modelID"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        <Label
+            x:Name="LampSoftwareLabel"
+            Text="Lamp software"
+            VerticalOptions="Center"
+            HorizontalOptions="Center" />
+        <Label
+            x:Name="LampUniqueIDLabel"
+            Text="Lamp unique id"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
     </VerticalStackLayout>
