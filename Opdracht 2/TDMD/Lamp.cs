@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace TDMD
 {
-    public class Lamp
+    public class Lamp : INotifyPropertyChanged
     {
+        private bool _status;
         public string ID { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
@@ -16,14 +19,28 @@ namespace TDMD
         public string SWVersion { get; set; }
         public string UniqueID { get; set; }
 
-        public bool Status { get; set; }
+        public bool Status
+        {
+            get { return _status; }
+            set
+            {
+                _status = value;
+                OnPropertyChanged();
+            }
+        }
         public double Brightness { get; set; }
         public double BrightnessPercentage { get; set; }
         public int Hue { get; set; }
         public int Sat { get; set; }
 
-        
-        public async Task ToggleLamp(Button button)
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public async Task ToggleLamp()
         {
             using (HttpClient httpClient = new HttpClient())
             {

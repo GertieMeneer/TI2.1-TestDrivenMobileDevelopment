@@ -29,11 +29,11 @@ namespace TDMD
             {
                 DisplayAlert("Error", "Error getting UserID, maybe the server is not running or " +
                     "maybe link button not pressed?", "Ok");
-                UserID.Text = "No UserID. Link button > refresh app";
+                viewModel.UserIDText = "No UserID. Link button > refresh app";
             }
             else
             {
-                UserID.Text = Communicator.userid;
+                viewModel.UserIDText = $"UserID: {Communicator.userid}";
             }
 
         }
@@ -53,7 +53,7 @@ namespace TDMD
                         Status.Text = "Status: Connected!";
                         string jsonString = await response.Content.ReadAsStringAsync();
 
-                        viewModel.Lamps = LightParser.ParseLights(jsonString);
+                        viewModel.Lamps = LampParser.ParseLights(jsonString);
                     }
                     else
                     {
@@ -80,7 +80,7 @@ namespace TDMD
 
         private async void OnToggleButtonClicked(object sender, EventArgs e)
         {
-            if(Communicator.userid == null)
+            if (Communicator.userid == null)
             {
                 DisplayAlert("Error", "No UserID, cannot toggle lamps. Try pressing the link button and refreshing the app", "Ok");
             }
@@ -88,8 +88,15 @@ namespace TDMD
             {
                 var button = (Button)sender;
                 var lamp = (Lamp)button.CommandParameter;
-                await lamp.ToggleLamp(button);
+                await lamp.ToggleLamp();
+
+                var lampInList = viewModel.Lamps.FirstOrDefault(l => l.ID == lamp.ID);
+                if (lampInList != null)
+                {
+                    lampInList.Status = lamp.Status;
+                }
             }
         }
+
     }
 }

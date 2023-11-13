@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using static Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace TDMD
 {
@@ -11,6 +12,22 @@ namespace TDMD
         private ObservableCollection<Lamp> _lamps;
         private bool _isRefreshing = false;
         private string _status;
+        private string _userID;
+
+        public MainViewModel()
+        {
+            Lamps = new ObservableCollection<Lamp>(new List<Lamp>());
+        }
+
+        public string UserIDText
+        {
+            get { return _userID; }
+            set
+            { 
+                _userID = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<Lamp> Lamps
         {
@@ -22,7 +39,7 @@ namespace TDMD
             }
         }
 
-        public string Status
+        public string ConnectionStatus
         {
             get { return _status; }
             set
@@ -58,17 +75,15 @@ namespace TDMD
             }
         }
 
-        public MainViewModel()
-        {
-            // Initialize the ObservableCollection
-            Lamps = new ObservableCollection<Lamp>(new List<Lamp>());
-        }
-
         private async Task RefreshData()
         {
             if(Communicator.userid == null)
             {
                 await Communicator.GetUserIdAsync();
+                if(Communicator.userid != null)
+                {
+                    UserIDText = $"UserID: {Communicator.userid}";
+                }
             }
             LoadLamps();
         }
@@ -83,10 +98,10 @@ namespace TDMD
 
                     if (response.IsSuccessStatusCode)
                     {
-                        Status = "Status: Connected!";
+                        ConnectionStatus = "Status: Connected!";
                         string jsonString = await response.Content.ReadAsStringAsync();
 
-                        Lamps = LightParser.ParseLights(jsonString);
+                        Lamps = LampParser.ParseLights(jsonString);
                     }
                     else
                     {

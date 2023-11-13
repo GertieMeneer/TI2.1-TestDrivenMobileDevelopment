@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace TDMD
 {
-    public class LightParser
+    public class LampParser
     {
         public static ObservableCollection<Lamp> ParseLights(string jsonResponse)
         {
