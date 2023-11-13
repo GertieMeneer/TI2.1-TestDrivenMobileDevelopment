@@ -21,6 +21,17 @@
             Text="Lamp brightness"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
+
+        <Slider 
+            x:Name="BrightnessSlider"
+            Minimum="0"
+            Maximum="100" />
+
+        <Button
+            x:Name="ApplyBrightnessButton"
+            Text="Apply Brightness"
+            Clicked="OnApplyBrightnessClick" />
+
         <Label 
             x:Name="LampHueLabel"
             Text="Lamp hue"
@@ -32,6 +43,13 @@
             VerticalOptions="Center"
             HorizontalOptions="Center" />
 
+        <Label Text=""/>
+
+        <Label
+            Text="Lamp Info"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            FontSize="20" />
         <Label
             x:Name="LampIDLabel"
             Text="Lamp id"

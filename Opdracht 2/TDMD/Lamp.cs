@@ -17,7 +17,7 @@ namespace TDMD
         public string uniqueid { get; set; }
 
         public bool status { get; set; }
-        public int brightness { get; set; }
+        public double brightness { get; set; }
         public int hue { get; set; }
         public int sat { get; set; }
 
@@ -45,5 +45,28 @@ namespace TDMD
                 }
             }
         }
+
+        public async Task SetBrightness(double value)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string url = $"http://10.0.2.2:8000/api/{Communicator.userid}/lights/{id}/state";
+                string body = $"{{\"bri\":{value}}}";
+
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await httpClient.PutAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Debug.WriteLine($"Lamp {id} turned on successfully.");
+                    brightness = value;
+                }
+                else
+                {
+                    Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                }
+            }
+        }
+
     }
 }

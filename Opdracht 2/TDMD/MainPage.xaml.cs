@@ -18,10 +18,10 @@ namespace TDMD
             BindingContext = viewModel;
 
             LoadLamps();
-            InitializeAsync();
+            GetUserIDAsync();
         }
 
-        private async void InitializeAsync()
+        private async void GetUserIDAsync()
         {
             // before running the app click on the link button in the HUE emulator!!!
             if(await Communicator.GetUserIdAsync() == false)
@@ -36,9 +36,6 @@ namespace TDMD
 
         }
         
-
-        
-
         public async void LoadLamps()
         {
             using (HttpClient client = new HttpClient())
