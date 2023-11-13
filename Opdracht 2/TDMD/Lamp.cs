@@ -12,6 +12,7 @@ namespace TDMD
     public class Lamp : INotifyPropertyChanged
     {
         private bool _status;
+        private double _brightness;
         public string ID { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
@@ -28,7 +29,15 @@ namespace TDMD
                 OnPropertyChanged();
             }
         }
-        public double Brightness { get; set; }
+        public double Brightness 
+        { 
+            get { return _brightness; }
+            set
+            {
+                _brightness = value;
+                OnPropertyChanged();
+            }
+        }
         public double BrightnessPercentage { get; set; }
         public int Hue { get; set; }
         public int Sat { get; set; }

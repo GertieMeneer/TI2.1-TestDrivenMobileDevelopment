@@ -1,3 +1,4 @@
+
 namespace TDMD;
 
 public partial class LampInfoPage : ContentPage
@@ -57,6 +58,7 @@ public partial class LampInfoPage : ContentPage
             await _lamp.SetBrightness(value);
 
             LampBrightnessLabel.Text = $"Lamp Brightness: {Converter.ValueToPercentage(_lamp.Brightness)}%";
+
         }
     }
 
