@@ -51,6 +51,8 @@ public partial class LampInfoPage : ContentPage
 		double value = PercentageToValue(percentage);
 
 		await _lamp.SetBrightness(value);
+
+        LampBrightnessLabel.Text = $"Lamp Brightness: {ValueToPercentage(_lamp.Brightness)}%";
     }
 
 	private async void ChangeLightColor_Clicked(Object sender, EventArgs e)
@@ -60,5 +62,7 @@ public partial class LampInfoPage : ContentPage
 
 		await _lamp.SetColor(hue, sat);
 
-	}
+        LampHueLabel.Text = $"Lamp Hue: {_lamp.Hue}";
+        LampSatLabel.Text = $"Lamp Saturation: {_lamp.Sat}";
+    }
 }
