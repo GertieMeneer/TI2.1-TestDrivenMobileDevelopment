@@ -10,7 +10,14 @@
             <ListView ItemsSource="{Binding Lamps}" ItemSelected="OnItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding name}" Detail="{Binding status, StringFormat='Is On: {0}'}"/>
+                        <ViewCell>
+                            <HorizontalStackLayout>
+                                <Label Text="{Binding name}" VerticalOptions="Center"/>
+                                <Label Text="{Binding status, StringFormat='Is On: {0}'}" VerticalOptions="Center"/>
+                                <BoxView HorizontalOptions="FillAndExpand"/>
+                                <Button Text="Toggle" Clicked="OnToggleButtonClicked" CommandParameter="{Binding .}" Margin="10,0,0,0"/>
+                            </HorizontalStackLayout>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

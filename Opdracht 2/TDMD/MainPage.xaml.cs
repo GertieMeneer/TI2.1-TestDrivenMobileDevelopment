@@ -60,26 +60,7 @@ namespace TDMD
             }
         }
 
-        private async Task TurnOnLampAsync(int lampId)
-        {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                string url = $"http://10.0.2.2:8000/api/{Communicator.userid}/lights/{lampId}/state";
-                string body = "{\"on\":true}";
-
-                var content = new StringContent(body, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await httpClient.PutAsync(url, content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    Debug.WriteLine($"Lamp {lampId} turned on successfully.");
-                }
-                else
-                {
-                    Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                }
-            }
-        }
+        
 
         public async void LoadLamps()
         {
@@ -121,13 +102,27 @@ namespace TDMD
 
             // Handle item selection, e.g., show a pop-up or navigate to a new page
             Lamp selectedLamp = (Lamp)e.SelectedItem;
-            selectedLamp.ToggleAsync();
+            //selectedLamp.ToggleAsync();
 
             // Here, you can implement the logic to display a pop-up or navigate to a new page with more details
             DisplayAlert("Selected Item", $"Name: {selectedLamp.name}\nStatus: {selectedLamp.status}", "OK");
 
             // Deselect the item
             ((ListView)sender).SelectedItem = null;
+        }
+        void OnToggleButtonClicked(object sender, EventArgs e)
+        {
+            if(Communicator.userid == null)
+            {
+                DisplayAlert("Error", "No UserID, cannot toggle lamps. Try pressing the link button and refreshing the app", "Ok");
+            }
+            else
+            {
+                var button = (Button)sender;
+                var lamp = (Lamp)button.CommandParameter;
+                lamp.ToggleLamp();
+            }
+            
         }
     }
 }

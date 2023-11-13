@@ -21,45 +21,28 @@ namespace TDMD
         public int hue { get; set; }
         public int sat { get; set; }
 
-        public async Task ToggleAsync()
+        
+        public async Task ToggleLamp()
         {
-            try
+            using (HttpClient httpClient = new HttpClient())
             {
-                // Replace "your_api_endpoint" with the actual API endpoint you want to call
-                string apiUrl = $"http://10.0.2.2:8000/api/ebc1ef8499a991a9f52455ce201bcf6/lights/{id}/state";
+                bool otherState = !status;
+                string url = $"http://10.0.2.2:8000/api/{Communicator.userid}/lights/{id}/state";
+                string body = $"{{\"on\":{otherState.ToString().ToLower()}}}";
 
-                // Create an instance of HttpClient
-                using (HttpClient client = new HttpClient())
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await httpClient.PutAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    bool newState = !status;
-                    // Create the content to be sent in the request (you may need to adjust this based on your API)
-                    string requestBody = $"{{\"on\": {newState}}}";
-                    HttpContent content = new StringContent(requestBody, System.Text.Encoding.UTF8, "application/json");
-
-                    // Make the POST request
-                    HttpResponseMessage response = await client.PutAsync(apiUrl, content);
-
-                    // Check if the request was successful (status code 2xx)
-                    if (response.IsSuccessStatusCode)
-                    {
-                        string responseContent = await response.Content.ReadAsStringAsync();
-                        // Process the response content as needed
-                        Debug.WriteLine(responseContent);
-                        status = newState;
-                    }
-                    else
-                    {
-                        // Handle the error case
-                        Debug.WriteLine($"Error: {response.StatusCode}");
-                    }
+                    Debug.WriteLine($"Lamp {id} turned on successfully.");
+                    status = otherState;
+                }
+                else
+                {
+                    Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
                 }
             }
-            catch (Exception ex)
-            {
-                // Handle exceptions
-                Debug.WriteLine($"Exception: {ex.Message}");
-            }
         }
-    
     }
 }
