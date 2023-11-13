@@ -36,7 +36,7 @@ namespace TDMD
             }
 
         }
-        
+
         public async Task LoadLamps()
         {
             using (HttpClient client = new HttpClient())
@@ -88,7 +88,6 @@ namespace TDMD
                 var button = (Button)sender;
                 var lamp = (Lamp)button.CommandParameter;
                 await lamp.ToggleLamp(button);
-                await LoadLamps();
             }
         }
     }
