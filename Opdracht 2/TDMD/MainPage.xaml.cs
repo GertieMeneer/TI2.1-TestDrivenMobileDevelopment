@@ -10,7 +10,6 @@ namespace TDMD
     public partial class MainPage : ContentPage
     {
         private MainViewModel viewModel;
-        private string userid = "";
 
         public MainPage()
         {
@@ -25,50 +24,26 @@ namespace TDMD
         private async void InitializeAsync()
         {
             // before running the app click on the link button in the HUE emulator!!!
-            await GetUserIdAsync();
+            if(await Communicator.GetUserIdAsync() == false)
+            {
+                DisplayAlert("Error", "Error getting UserID, maybe the server is not running or " +
+                    "maybe link button not pressed?", "Ok");
+            }
+            else
+            {
+                DisplayAlert("Info", "Connected successfully", "Ok");
+            }
 
             await TurnOffLampAsync(1);
         }
 
-        private async Task GetUserIdAsync()
-        {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                string url = $"http://10.0.2.2:8000/api";
-                string body = "{\"devicetype\":\"my_hue_app#gertiemeneer\"}";
-
-                var content = new StringContent(body, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await httpClient.PostAsync(url, content);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    string result = await response.Content.ReadAsStringAsync();
-
-                    try
-                    {
-                        JArray jsonArray = JArray.Parse(result);
-                        JObject successObject = jsonArray[0]["success"] as JObject;
-                        userid = (string)successObject["username"];
-                    }
-                    catch
-                    {
-                        Debug.WriteLine("You didn't click on the link button!!!");
-                    }
-
-                    Debug.WriteLine($"User ID: {userid}");
-                }
-                else
-                {
-                    Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                }
-            }
-        }
+        
 
         private async Task TurnOffLampAsync(int lampId)
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://10.0.2.2:8000/api/{userid}/lights/{lampId}/state";
+                string url = $"http://10.0.2.2:8000/api/{Communicator.userid}/lights/{lampId}/state";
                 string body = "{\"on\":false}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -89,7 +64,7 @@ namespace TDMD
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://10.0.2.2:8000/api/{userid}/lights/{lampId}/state";
+                string url = $"http://10.0.2.2:8000/api/{Communicator.userid}/lights/{lampId}/state";
                 string body = "{\"on\":true}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
