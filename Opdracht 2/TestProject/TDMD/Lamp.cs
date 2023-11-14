@@ -23,7 +23,7 @@ namespace TDMD
             using (HttpClient httpClient = new HttpClient())
             {
                 bool otherState = !Status;
-                string url = $"http://10.0.2.2:8000/api/{Communicator.userid}/lights/{ID}/state";
+                string url = $"http://localhost:8000/api/{Communicator.userid}/lights/{ID}/state";
                 string body = $"{{\"on\":{otherState.ToString().ToLower()}}}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -46,7 +46,7 @@ namespace TDMD
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://10.0.2.2:8000/api/{Communicator.userid}/lights/{ID}/state";
+                string url = $"http://localhost:8000/api/{Communicator.userid}/lights/{ID}/state";
                 string body = $"{{\"bri\":{value}}}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -68,7 +68,7 @@ namespace TDMD
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://10.0.2.2:8000/api/{Communicator.userid}/lights/{ID}/state";
+                string url = $"http://localhost:8000/api/{Communicator.userid}/lights/{ID}/state";
                 string body = $"{{\"hue\": {hue}, \"sat\": {sat}}}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");

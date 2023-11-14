@@ -14,7 +14,7 @@ namespace TDMD
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://10.0.2.2:8000/api";
+                string url = $"http://localhost:8000/api";
                 string body = "{\"devicetype\":\"my_hue_app#gertiemeneer\"}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
