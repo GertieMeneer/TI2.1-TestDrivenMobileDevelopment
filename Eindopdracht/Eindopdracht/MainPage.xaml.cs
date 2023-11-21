@@ -1,24 +1,17 @@
-﻿namespace Eindopdracht
+﻿using Microsoft.Maui.Maps;
+
+namespace Eindopdracht
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
-        }
 
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
+            var location = new Location(36, -122);
+            var mapSpan = new MapSpan(location, 0.01, 0.01);
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
+            map.MoveToRegion(mapSpan);
         }
     }
 
