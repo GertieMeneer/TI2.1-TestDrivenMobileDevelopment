@@ -8,19 +8,21 @@ namespace Eindopdracht
         {
             InitializeComponent();
 
-            var location = new Location(36, -122);
-            var mapSpan = new MapSpan(location, 0.01, 0.01);
+            //var location = new Location(36, -122);
+            //var mapSpan = new MapSpan(location, 0.01, 0.01);
 
-            GetCurrentLocation();
-
-            map.MoveToRegion(mapSpan);
+            GetCurrentLocationAndSetIt();
         }
         
-        public async Task GetCurrentLocation()
+        public async Task GetCurrentLocationAndSetIt()
         {   
-            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(60));
 
             Location location = await Geolocation.Default.GetLocationAsync(request);
+
+            var mapSpan = new MapSpan(location, 0.01, 0.01);
+
+            map.MoveToRegion(mapSpan);
         }
     }
 
