@@ -289,7 +289,6 @@
 	<uses-permission android:name="android.permission.REQUEST_PASSWORD_COMPLEXITY" />
 	<uses-permission android:name="android.permission.RESTART_PACKAGES" />
 	<uses-permission android:name="android.permission.RUN_USER_INITIATED_JOBS" />
-	<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 	<uses-permission android:name="android.permission.SEND_RESPOND_VIA_MESSAGE" />
 	<uses-permission android:name="android.permission.SEND_SMS" />
 	<uses-permission android:name="android.permission.SET_ACTIVITY_WATCHER" />
@@ -322,7 +321,6 @@
 	<uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
 	<uses-permission android:name="android.permission.USE_BIOMETRIC" />
 	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
-	<uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 	<uses-permission android:name="android.permission.USE_FINGERPRINT" />
 	<uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 	<uses-permission android:name="android.permission.USE_ICC_AUTH_WITH_DEVICE_IDENTIFIER" />
@@ -345,5 +343,6 @@
 	<uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
 	<uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />
 	<uses-permission android:name="com.android.voicemail.permission.WRITE_VOICEMAIL" />
-	<uses-sdk />
+	<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+	<uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 </manifest>

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
+using Plugin.LocalNotification;
 
 namespace Eindopdracht
 {
@@ -10,6 +12,8 @@ namespace Eindopdracht
             builder
                 .UseMauiApp<App>()
                 .UseMauiMaps()
+                .UseLocalNotification()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
