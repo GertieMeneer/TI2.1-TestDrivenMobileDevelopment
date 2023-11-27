@@ -1,6 +1,7 @@
 ﻿using Eindopdracht.NSData;
 using Eindopdracht.ViewModels;
 using Newtonsoft.Json;
+using Plugin.LocalNotification;
 
 namespace Eindopdracht
 {
@@ -119,7 +120,7 @@ namespace Eindopdracht
         {
             if (e.Item is NSStation selectedStation)
             {                
-                Navigation.PushAsync(new StationDetailPage(selectedStation));
+                Navigation.PushAsync(new StationDetailPage(selectedStation, _location));
             }
 
             ((ListView)sender).SelectedItem = null;
