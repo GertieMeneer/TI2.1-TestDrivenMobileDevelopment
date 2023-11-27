@@ -10,7 +10,7 @@
                    SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}" />
         <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshData}">
 
-            <ListView x:Name="stationListView" ItemsSource="{Binding ShowStations}" VerticalOptions="FillAndExpand">
+            <ListView x:Name="stationListView" ItemsSource="{Binding ShowStations}" VerticalOptions="FillAndExpand" ItemTapped="OnStationTapped">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

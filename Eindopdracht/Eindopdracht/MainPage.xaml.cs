@@ -54,6 +54,11 @@ namespace Eindopdracht
                 double userLongitude = location.Longitude;
 
                 List<NSStation> allStations = await GetNearestNSStations(userLatitude, userLongitude);
+
+                // store all the stations in a preference
+                string allStationsJson = JsonConvert.SerializeObject(allStations);
+                Preferences.Set("allStationsInJSON", allStationsJson);
+
                 allStations.Sort((s1, s2) => s1.Distance.CompareTo(s2.Distance));
                 List<NSStation> nearestStations = allStations.Take(10).ToList();
 
@@ -68,6 +73,8 @@ namespace Eindopdracht
         {
             try
             {
+                await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+
                 GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
 
                 location = await Geolocation.GetLocationAsync(request);
@@ -114,7 +121,9 @@ namespace Eindopdracht
                     stations.Add(new NSStation
                     {
                         Name = station.Names.Lang,
-                        Distance = distance
+                        Distance = distance,
+                        Lat = stationLat,
+                        Lng = stationLng
                     });
                 }
             }
@@ -133,25 +142,14 @@ namespace Eindopdracht
             return distance;
         }
 
-        private async void showNotification()
+        private void OnStationTapped(object sender, ItemTappedEventArgs e)
         {
-            await LocalNotificationCenter.Current.RequestNotificationPermission();
+            if (e.Item is NSStation selectedStation)
+            {                
+                Navigation.PushAsync(new StationDetailPage(selectedStation.Name));
+            }
 
-            var request = new NotificationRequest
-            {
-                NotificationId = 1000,
-                Title = "App",
-                Subtitle = "Sick you started the app",
-                Description = "Description",
-                BadgeNumber = 50,
-                Schedule = new NotificationRequestSchedule
-                {
-                    NotifyTime = DateTime.Now.AddSeconds(5),
-                    NotifyRepeatInterval = TimeSpan.FromSeconds(60),
-                }
-            };
-
-            LocalNotificationCenter.Current.Show(request);
+            ((ListView)sender).SelectedItem = null;
         }
     }
 }
