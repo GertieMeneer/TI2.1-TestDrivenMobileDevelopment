@@ -77,6 +77,9 @@ namespace Eindopdracht
                 GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
 
                 location = await Geolocation.GetLocationAsync(request);
+
+                Preferences.Set("locationLat", location.Latitude);
+                Preferences.Set("locationLng", location.Longitude);
             }
             catch (FeatureNotSupportedException fnsEx)
             {
