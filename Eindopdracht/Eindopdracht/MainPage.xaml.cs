@@ -119,10 +119,15 @@ namespace Eindopdracht
                     // Voeg station en afstand toe aan de lijst
                     stations.Add(new NSStation
                     {
+<<<<<<< HEAD
                         Name = station.Namen.Lang,
                         Distance = distance,
                         Lat = stationLat,
                         Lng = stationLng
+=======
+                        Name = station.Names.Lang,
+                        Distance = distance
+>>>>>>> 0de2434b05eb36eeefb41a8bdf3950d27fe8c301
                     });
                 }
             }

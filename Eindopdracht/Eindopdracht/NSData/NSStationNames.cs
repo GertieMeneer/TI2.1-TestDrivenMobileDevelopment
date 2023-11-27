@@ -1,6 +1,6 @@
 ﻿namespace Eindopdracht
 {
-    public class StationNamen
+    public class NSStationNames
     {
         public string Lang { get; set; }
         public string Middel { get; set; }

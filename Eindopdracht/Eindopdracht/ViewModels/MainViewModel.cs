@@ -40,7 +40,7 @@ namespace Eindopdracht.ViewModels
             {
                 _searchQuery = value;
                 OnPropertyChanged();
-                SearchStations();
+                CheckForNoSearch();
             }
         }
 
@@ -90,18 +90,17 @@ namespace Eindopdracht.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void SearchStations()
+        private void CheckForNoSearch()
         {
             if (SearchQuery.Equals("") || SearchQuery == null)
             {
-                Console.WriteLine("wordt wel aangeroepen");
                 ShowStations = NearestStations;
             }
-            else
-            {
-                Console.WriteLine("wordddddddddddddddd");
-                ShowStations = AllStations.FindAll(station => station.Name.ToLower().Contains(SearchQuery.ToLower()));
-            }
+        }
+
+        private void SearchStations()
+        {
+            ShowStations = AllStations.FindAll(station => station.Name.ToLower().Contains(SearchQuery.ToLower()));
         }
     }
 }
