@@ -21,6 +21,20 @@ public partial class StationDetailPage
         BindingContext = new StationDetailViewModel(station);
         Load();
         CheckFavourite();
+
+        Station testStation = new Station
+        {
+            Naam = "Station1",
+            Distance = 10.5,
+            Lat = 40.7128,
+            Lng = -74.0060
+        };
+
+        Database _database = new Database();
+        _database.SaveStation(testStation);
+        List<Station> lijst = _database.GetStations();
+        _database.DeleteStationByName("Station1");
+        List<Station> lijst2 = _database.GetStations();
     }
 
     private void CheckFavourite()
