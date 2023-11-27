@@ -1,4 +1,5 @@
-﻿using Eindopdracht.NSData;
+﻿using System.Security.Cryptography;
+using Eindopdracht.NSData;
 using Eindopdracht.ViewModels;
 using Newtonsoft.Json;
 using Plugin.LocalNotification;
@@ -36,9 +37,9 @@ namespace Eindopdracht
                 double userLongitude = _location.Longitude;
 
                 List<NSStation> allStations = await GetAllNSStations(userLatitude, userLongitude);      //fetch all stations from ns api
-                allStations.Sort((s1, s2) => string.Compare(s1.Naam, s2.Naam)); //sort based on name
+                allStations.Sort((s1, s2) => s1.Distance.CompareTo(s2.Distance));       //sort based on distance
                 List<NSStation> nearestStations = allStations.Take(10).ToList();        //get 10 closest stations to show as default in app
-                nearestStations.Sort((s1, s2) => s1.Distance.CompareTo(s2.Distance));   //sort 10 nearest based on distance
+                allStations.Sort((s1, s2) => string.Compare(s1.Naam, s2.Naam));     //sort based on name
 
                 // List<NSStation> favouriteStations = en dan hier je code om list uit datatbase te halen
 
