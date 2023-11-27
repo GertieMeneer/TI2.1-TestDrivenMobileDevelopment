@@ -1,4 +1,5 @@
-﻿using Eindopdracht.ViewModels;
+﻿using Eindopdracht.NSData;
+using Eindopdracht.ViewModels;
 using Microsoft.Maui.Maps;
 using Newtonsoft.Json;
 using Plugin.LocalNotification;
@@ -119,7 +120,7 @@ namespace Eindopdracht
                     // Voeg station en afstand toe aan de lijst
                     stations.Add(new NSStation
                     {
-                        Name = station.Namen.Lang,
+                        Name = station.Names.Lang,
                         Distance = distance,
                         Lat = stationLat,
                         Lng = stationLng
