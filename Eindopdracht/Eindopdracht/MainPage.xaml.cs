@@ -101,8 +101,6 @@ namespace Eindopdracht
 
             List<NSStation> stations = new List<NSStation>();
 
-            try
-            {
                 string nsStationsUrl = $"https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/stations?latitude={latitude}&longitude={longitude}";
                 httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", NSAPIKey);
 
@@ -120,18 +118,13 @@ namespace Eindopdracht
                     // Voeg station en afstand toe aan de lijst
                     stations.Add(new NSStation
                     {
-                        Name = station.Names.Lang,
+                        Name = station.Namen.Lang,
                         Distance = distance,
                         Lat = stationLat,
                         Lng = stationLng
                     });
                 }
-            }
-            catch (Exception ex)
-            {
-                // Behandel eventuele fouten bij het ophalen van gegevens
-                Console.WriteLine($"Fout bij het ophalen van stations: {ex.Message}");
-            }
+            
 
             return stations;
         }

@@ -6,6 +6,6 @@
         public string StationType { get; set; }
         public double Lat { get; set; }
         public double Lng { get; set; }
-        public NSStationNames Names { get; set; }
+        public NSStationNamen Namen { get; set; }
     }
 }
