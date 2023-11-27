@@ -15,10 +15,17 @@ namespace Eindopdracht.ViewModels
         private List<NSStation> _allStations;
         private List<NSStation> _nearestStations;
         private string _searchQuery;
+        private Location _location;
 
         public MainViewModel()
         {
             SearchCommand = new Command(SearchStations);
+        }
+
+        public Location Location
+        {
+            get => _location;
+            set => _location = value;
         }
 
         public bool IsLoading

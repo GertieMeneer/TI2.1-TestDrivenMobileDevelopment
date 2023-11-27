@@ -4,9 +4,9 @@
              Title="Station Information">
 
     <StackLayout Padding="20">
-        <Label Text="Huidige Locatie" FontSize="Title" HorizontalOptions="Center" />
+        <Label Text="{Binding Location}" FontSize="Title" HorizontalOptions="Center" />
         <Label x:Name="currentLocationLabel" FontSize="Body" HorizontalOptions="Center" />
-        <SearchBar x:Name="searchBar" Placeholder="Zoek stations" Text="{Binding SearchQuery}"
+        <SearchBar x:Name="searchBar" Placeholder="Search Stations" Text="{Binding SearchQuery}"
                    SearchCommand="{Binding SearchCommand}"
                    SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}" />
         <ActivityIndicator x:Name="loadingIndicator" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="Blue"/>
@@ -17,7 +17,7 @@
                     <ViewCell>
                         <StackLayout>
                             <Label Text="{Binding Naam}" FontSize="16" FontAttributes="Bold" />
-                            <Label Text="{Binding Distance, StringFormat='Afstand: {0:F2} km'}" FontSize="Small" />
+                            <Label Text="{Binding Distance, StringFormat='Distance: {0:F2} km'}" FontSize="Small" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
