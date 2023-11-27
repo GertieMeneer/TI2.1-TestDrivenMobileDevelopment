@@ -3,13 +3,22 @@
              x:Class="Eindopdracht.MainPage">
 
     <StackLayout Padding="20">
-        <Label Text="{Binding Location}" FontSize="Title" HorizontalOptions="Center" />
+        <Label Text="Stations" FontSize="32" HorizontalOptions="Center" FontAttributes="Bold"/>
         <Label x:Name="currentLocationLabel" FontSize="Body" HorizontalOptions="Center" />
         <SearchBar x:Name="searchBar" Placeholder="Search Stations" Text="{Binding SearchQuery}"
                    SearchCommand="{Binding SearchCommand}"
                    SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}" />
+        <Picker x:Name="ListSorter">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String x:Name="allListSorterOption">All</x:String>
+                    <x:String x:Name="top10ClosestOption">Top 10 closest</x:String>
+                    <x:String x:Name="favouritesOption">Favourites</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
         <ActivityIndicator x:Name="loadingIndicator" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="Blue"/>
-        <ListView x:Name="stationListView" ItemsSource="{Binding ShowStations}" VerticalOptions="FillAndExpand"
+        <ListView x:Name="stationListView" ItemsSource="{Binding VisibleStations}" VerticalOptions="FillAndExpand"
                   ItemTapped="OnStationTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>

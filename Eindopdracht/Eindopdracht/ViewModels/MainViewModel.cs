@@ -11,7 +11,7 @@ namespace Eindopdracht.ViewModels
     public class MainViewModel : INotifyPropertyChanged
     {
         private bool _isLoading;
-        private List<NSStation> _showStations;
+        private List<NSStation> _visibleStations;
         private List<NSStation> _allStations;
         private List<NSStation> _nearestStations;
         private string _searchQuery;
@@ -43,7 +43,7 @@ namespace Eindopdracht.ViewModels
 
         public void SetStations()
         {
-            ShowStations = NearestStations;
+            VisibleStations = NearestStations;
         }
 
         public string SearchQuery
@@ -59,12 +59,12 @@ namespace Eindopdracht.ViewModels
 
         public ICommand SearchCommand { get; private set; }
 
-        public List<NSStation> ShowStations
+        public List<NSStation> VisibleStations
         {
-            get => _showStations;
+            get => _visibleStations;
             set
             {
-                _showStations = value;
+                _visibleStations = value;
                 OnPropertyChanged();
             }
         }
@@ -95,7 +95,7 @@ namespace Eindopdracht.ViewModels
             {
                 if (SearchQuery.Equals("") || SearchQuery == null)
                 {
-                    ShowStations = NearestStations;
+                    VisibleStations = NearestStations;
                 }
             }
             else
@@ -108,7 +108,7 @@ namespace Eindopdracht.ViewModels
         {
             if (!IsLoading)
             {
-                ShowStations = AllStations.FindAll(station => station.Naam.ToLower().Contains(SearchQuery.ToLower()));
+                VisibleStations = AllStations.FindAll(station => station.Naam.ToLower().Contains(SearchQuery.ToLower()));
             }
             else
             {

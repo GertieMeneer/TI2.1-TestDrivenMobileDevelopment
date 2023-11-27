@@ -9,6 +9,7 @@ namespace Eindopdracht;
 public partial class StationDetailPage
 {
     private NSStation _station;
+    private bool _isFavourite;
     private Location _currentLocation;
 
     public StationDetailPage(NSStation station, Location currentLocation)
@@ -19,6 +20,26 @@ public partial class StationDetailPage
         Title = $"{station.Naam} - Details";
         BindingContext = new StationDetailViewModel(station);
         Load();
+        CheckFavourite();
+    }
+
+    private void CheckFavourite()
+    {
+        //compare with sqllite database: if in favourites database: button text changes
+
+        // foreach(NSStation station in SQLLITEDATABASE)
+        // {
+        //     if (station == _station)
+        //     {
+        //         FavoritesButton.Text = "Remove from favourites";
+        //          _isFavourite == true;
+        //     }
+        //     else
+        //     {
+        //         FavoritesButton.Text = "Add to favourites";
+        //          _isFavourite == false;
+        //     }
+        // }
     }
 
     private async void Load()
@@ -66,6 +87,14 @@ public partial class StationDetailPage
 
     private void FavoritesButton_OnClicked(object? sender, EventArgs e)
     {
-        throw new NotImplementedException();
+        if (!_isFavourite)
+        {
+            //add _station to favourite database
+            //miss toast notification of echte notification als station removed of added is aan database nunununutnut
+        }
+        else
+        {
+            //remove _station from favourite database
+        }
     }
 }

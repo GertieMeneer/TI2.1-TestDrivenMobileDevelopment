@@ -11,7 +11,6 @@ namespace Eindopdracht
         private static HttpClient? _httpClient;
         private static Location? _location;
         private static MainViewModel? _viewModel;
-        public static ListView? Stations;
 
         public MainPage()
         {
@@ -20,7 +19,7 @@ namespace Eindopdracht
             _viewModel = new MainViewModel();
             BindingContext = _viewModel;
             searchBar.BindingContext = _viewModel;
-            Stations = stationListView;
+            ListSorter.SelectedItem = top10ClosestOption;
 
             _httpClient = new HttpClient();
             _ = TaskGetStations();
