@@ -83,15 +83,21 @@ namespace Eindopdracht.ViewModels
 
         private void CheckForNoSearch()
         {
-            if (SearchQuery.Equals("") || SearchQuery == null)
+            if (!IsLoading)
             {
-                ShowStations = NearestStations;
+                if (SearchQuery.Equals("") || SearchQuery == null)
+                {
+                    ShowStations = NearestStations;
+                }
             }
         }
 
         private void SearchStations()
         {
-            ShowStations = AllStations.FindAll(station => station.Naam.ToLower().Contains(SearchQuery.ToLower()));
+            if (!IsLoading)
+            {
+                ShowStations = AllStations.FindAll(station => station.Naam.ToLower().Contains(SearchQuery.ToLower()));
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
