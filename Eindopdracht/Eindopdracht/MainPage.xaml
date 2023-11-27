@@ -5,23 +5,21 @@
     <StackLayout Padding="20">
         <Label Text="Huidige Locatie" FontSize="Title" HorizontalOptions="Center" />
         <Label x:Name="currentLocationLabel" FontSize="Body" HorizontalOptions="Center" />
-        <SearchBar x:Name="searchBar" Placeholder="Zoek stations" Text="{Binding SearchQuery}" 
-                   SearchCommand="{Binding SearchCommand}" 
+        <SearchBar x:Name="searchBar" Placeholder="Zoek stations" Text="{Binding SearchQuery}"
+                   SearchCommand="{Binding SearchCommand}"
                    SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}" />
-        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshData}">
-
-            <ListView x:Name="stationListView" ItemsSource="{Binding ShowStations}" VerticalOptions="FillAndExpand" ItemTapped="OnStationTapped">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout>
-                                <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold"/>
-                                <Label Text="{Binding Distance, StringFormat='Afstand: {0:F2} km'}" FontSize="Small" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </RefreshView>
+        <ListView x:Name="stationListView" ItemsSource="{Binding ShowStations}" VerticalOptions="FillAndExpand"
+                  ItemTapped="OnStationTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout>
+                            <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="{Binding Distance, StringFormat='Afstand: {0:F2} km'}" FontSize="Small" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 </ContentPage>
