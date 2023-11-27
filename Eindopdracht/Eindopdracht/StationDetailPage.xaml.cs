@@ -10,10 +10,12 @@ public partial class StationDetailPage
 {
     private NSStation _station;
     private bool _isFavourite;
+    private Location _currentLocation;
 
-    public StationDetailPage(NSStation station)
+    public StationDetailPage(NSStation station, Location currentLocation)
     {
         _station = station;
+        _currentLocation = currentLocation;
         InitializeComponent();
         Title = $"{station.Naam} - Details";
         BindingContext = new StationDetailViewModel(station);
@@ -53,13 +55,10 @@ public partial class StationDetailPage
             Type = PinType.Place
         };
 
-        double locationLat = Convert.ToDouble(Preferences.Get("locationLat", "error 404"));
-        double locationLng = Convert.ToDouble(Preferences.Get("locationLng", "error 404"));
-
         var currentLocationPin = new Pin
         {
             Label = "Current location",
-            Location = new Location(locationLat, locationLng),
+            Location = new Location(_currentLocation.Latitude, _currentLocation.Longitude),
             Type = PinType.Place
         };
 
