@@ -9,26 +9,33 @@ namespace Eindopdracht;
 
 public partial class StationDetailPage : ContentPage
 {
-	public StationDetailPage(string stationName)
-	{
-		InitializeComponent();
+    private string _stationName;
+    public StationDetailPage(string stationName)
+    {
+        _stationName = stationName;
+        InitializeComponent();
+        LocalNotificationCenter.Current.RequestNotificationPermission();
+        Work();
+    }
 
+    private async void Work()
+    {
         var savedPreferenceOfAllStationJSON = Preferences.Get("allStationsInJSON", "error 404");
 
         List<NSStation> allStations = JsonConvert.DeserializeObject<List<NSStation>>(savedPreferenceOfAllStationJSON);
 
-		NSStation stationToFind = null;
+        NSStation stationToFind = null;
 
         foreach (NSStation station in allStations)
-		{
-			if (station.Name == stationName)
-			{
+        {
+            if (station.Name == _stationName)
+            {
                 stationToFind = station;
                 break;
-			}
-		}
+            }
+        }
 
-        if (stationToFind != null) 
+        if (stationToFind != null)
         {
             var location = new Location(stationToFind.Lat, stationToFind.Lng);
             var mapSpan = new MapSpan(location, 0.01, 0.01);
@@ -57,14 +64,12 @@ public partial class StationDetailPage : ContentPage
 
             map.MoveToRegion(mapSpan);
 
-            showNotification(5, "Eindopdracht", "Map loaded succesfully!");
+            await showNotification(5, "Eindopdracht", "Map loaded succesfully!");
         }
     }
 
-    private async void showNotification(int whenSeconds, string title, string description)
+    private async Task showNotification(int whenSeconds, string title, string description)
     {
-        await LocalNotificationCenter.Current.RequestNotificationPermission();
-
         var request = new NotificationRequest
         {
             Title = title,
@@ -75,7 +80,6 @@ public partial class StationDetailPage : ContentPage
                 //NotifyRepeatInterval = TimeSpan.FromSeconds(10),
             }
         };
-
         LocalNotificationCenter.Current.Show(request);
     }
 }
