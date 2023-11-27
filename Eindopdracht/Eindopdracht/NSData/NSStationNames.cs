@@ -1,4 +1,4 @@
-﻿namespace Eindopdracht
+﻿namespace Eindopdracht.NSData
 {
     public class NSStationNames
     {
