@@ -24,17 +24,7 @@ public partial class StationDetailPage
     {
         var location = new Location(_station.Lat, _station.Lng);
 
-        double minLat = Math.Min(_station.Lat, location.Latitude);
-        double minLng = Math.Min(_station.Lng, location.Longitude);
-        double maxLat = Math.Max(_station.Lat, location.Latitude);
-        double maxLng = Math.Max(_station.Lng, location.Longitude);
-
-        double centerLat = (minLat + maxLat) / 2;
-        double centerLng = (minLng + maxLng) / 2;
-
-        double distanceKm = GetDistanceInKm(minLat, minLng, maxLat, maxLng);
-
-        var mapSpan = MapSpan.FromCenterAndRadius(new Location(centerLat, centerLng), Distance.FromKilometers(distanceKm));
+        var mapSpan = new MapSpan(location, 0.01, 00.1);
 
         var stationPin = new Pin
         {
@@ -59,24 +49,6 @@ public partial class StationDetailPage
         map.MoveToRegion(mapSpan);
 
         await showNotification(5, "Eindopdracht", "Map loaded succesfully!");
-    }
-
-    private double GetDistanceInKm(double lat1, double lng1, double lat2, double lng2)
-    {
-        double R = 6371;
-        double dLat = Deg2Rad(lat2 - lat1);
-        double dLng = Deg2Rad(lng2 - lng1);
-        double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                   Math.Cos(Deg2Rad(lat1)) * Math.Cos(Deg2Rad(lat2)) *
-                   Math.Sin(dLng / 2) * Math.Sin(dLng / 2);
-        double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-        double distance = R * c;
-        return distance;
-    }
-
-    private double Deg2Rad(double deg)
-    {
-        return deg * (Math.PI / 180);
     }
 
     private async Task showNotification(int whenSeconds, string title, string description)
