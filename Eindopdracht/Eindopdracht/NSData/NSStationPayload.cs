@@ -2,6 +2,6 @@
 {
     public class NSStationPayload
     {
-        public List<NSStationData> Payload { get; set; }
+        public List<NSStation> Payload { get; set; }
     }
 }

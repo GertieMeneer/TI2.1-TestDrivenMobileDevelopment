@@ -1,10 +1,32 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Eindopdracht.StationDetailPage"
-             Title="StationDetailPage"
+             Title="Station Details"
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps">
 
-    <maps:Map x:Name="map" MapType="Street"/>
-    
+    <VerticalStackLayout>
+        <CollectionView ItemsSource="{Binding StationDetails}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="1" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="{Binding StationType}" />
+                        <Label Grid.Column="1" Text="{Binding HeeftFaciliteiten}" />
+                        <Label Grid.Column="0" Text="{Binding HeeftReisassistentie}" />
+                        <Label Grid.Column="1" Text="{Binding Land}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <maps:Map x:Name="map" MapType="Street" />
+    </VerticalStackLayout>
+
 </ContentPage>

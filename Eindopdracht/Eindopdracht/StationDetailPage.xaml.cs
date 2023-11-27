@@ -1,50 +1,34 @@
 using Eindopdracht.NSData;
+using Eindopdracht.ViewModels;
 using Microsoft.Maui.Controls.Maps;
-using Microsoft.Maui.Devices.Sensors;
 using Microsoft.Maui.Maps;
-using Newtonsoft.Json;
 using Plugin.LocalNotification;
 
 namespace Eindopdracht;
 
-public partial class StationDetailPage : ContentPage
+public partial class StationDetailPage
 {
-    private string _stationName;
-    public StationDetailPage(string stationName)
+    private NSStation _station;
+    public StationDetailPage(NSStation station)
     {
-        _stationName = stationName;
+        _station = station;
         InitializeComponent();
+        Title = $"{station.Naam} - Details";
+        BindingContext = new StationDetailViewModel(station);
         LocalNotificationCenter.Current.RequestNotificationPermission();
-        Work();
+        Load();
     }
 
-    private async void Work()
+    private async void Load()
     {
-        var savedPreferenceOfAllStationJSON = Preferences.Get("allStationsInJSON", "error 404");
-
-        List<NSStation> allStations = JsonConvert.DeserializeObject<List<NSStation>>(savedPreferenceOfAllStationJSON);
-
-        NSStation stationToFind = null;
-
-        foreach (NSStation station in allStations)
-        {
-            if (station.Name == _stationName)
-            {
-                stationToFind = station;
-                break;
-            }
-        }
-
-        if (stationToFind != null)
-        {
-            var location = new Location(stationToFind.Lat, stationToFind.Lng);
+            var location = new Location(_station.Lat, _station.Lng);
             var mapSpan = new MapSpan(location, 0.01, 0.01);
 
             // Add a pin for the station
             var stationPin = new Pin
             {
-                Label = "Station: " + stationToFind.Name,
-                Location = new Location(stationToFind.Lat, stationToFind.Lng),
+                Label = "Station: " + _station.Naam,
+                Location = new Location(_station.Lat, _station.Lng),
                 Type = PinType.Place
             };
 
@@ -65,7 +49,7 @@ public partial class StationDetailPage : ContentPage
             map.MoveToRegion(mapSpan);
 
             await showNotification(5, "Eindopdracht", "Map loaded succesfully!");
-        }
+        
     }
 
     private async Task showNotification(int whenSeconds, string title, string description)

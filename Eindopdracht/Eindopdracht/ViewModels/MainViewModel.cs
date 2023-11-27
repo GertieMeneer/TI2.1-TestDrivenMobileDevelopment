@@ -9,6 +9,7 @@ namespace Eindopdracht.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        private bool _isLoading;
         private List<NSStation> _showStations;
         private List<NSStation> _allStations;
         private List<NSStation> _nearestStations;
@@ -17,6 +18,19 @@ namespace Eindopdracht.ViewModels
         public MainViewModel()
         {
             SearchCommand = new Command(SearchStations);
+        }
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                if (_isLoading != value)
+                {
+                    _isLoading = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public void SetStations()
@@ -77,7 +91,7 @@ namespace Eindopdracht.ViewModels
 
         private void SearchStations()
         {
-            ShowStations = AllStations.FindAll(station => station.Name.ToLower().Contains(SearchQuery.ToLower()));
+            ShowStations = AllStations.FindAll(station => station.Naam.ToLower().Contains(SearchQuery.ToLower()));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

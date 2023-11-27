@@ -1,17 +1,15 @@
 ﻿using Eindopdracht.NSData;
 using Eindopdracht.ViewModels;
-using Microsoft.Maui.Maps;
 using Newtonsoft.Json;
-using Plugin.LocalNotification;
 
 namespace Eindopdracht
 {
     public partial class MainPage : ContentPage
     {
-        static string NSAPIKey = "12ef36ad08a1435597ae44c554d62ef8";
+        private static string _nsapiKey = "12ef36ad08a1435597ae44c554d62ef8";
         // const string GoogleMapsAPIKey = "AIzaSyBXG_XrA3JRTL58osjxd0DbqH563e2t84o";
-        private static HttpClient httpClient;
-        private static Location location;
+        private static HttpClient? _httpClient;
+        private static Location? _location;
         private static MainViewModel _viewModel;
         public static ListView stations;
 
@@ -24,34 +22,19 @@ namespace Eindopdracht
             stations = stationListView;
 
 
-            httpClient = new HttpClient();
+            _httpClient = new HttpClient();
             TaskFindNearestStations();
-
-            //var location = new Location(36, -122);
-            //var mapSpan = new MapSpan(location, 0.01, 0.01);
-
-            //GetCurrentLocationAndSetIt();
-
-            //showNotification();
-
-            // string infoToSave = "Hallo ja dit is dus info die opgelagen moet worden weet je wel!";
-            //
-            // Preferences.Set("SaveInfo", infoToSave);
-            //
-            // var savedPreference = Preferences.Get("SaveInfo", "error 404");
-            //
-            // Toast.Make(savedPreference, ToastDuration.Long, 30).Show();
-
         }
 
         public static async Task TaskFindNearestStations()
         {
+            _viewModel.IsLoading = true;
             await GetCurrentLocationAndSetIt();
 
-            if (location != null)
+            if (_location != null)
             {
-                double userLatitude = location.Latitude;
-                double userLongitude = location.Longitude;
+                double userLatitude = _location.Latitude;
+                double userLongitude = _location.Longitude;
 
                 List<NSStation> allStations = await GetNearestNSStations(userLatitude, userLongitude);
 
@@ -66,6 +49,8 @@ namespace Eindopdracht
                 _viewModel.NearestStations = nearestStations;
                 _viewModel.SetStations();
             }
+
+            _viewModel.IsLoading = false;
         }
 
         public static async Task GetCurrentLocationAndSetIt()
@@ -76,10 +61,10 @@ namespace Eindopdracht
 
                 GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
 
-                location = await Geolocation.GetLocationAsync(request);
+                _location = await Geolocation.GetLocationAsync(request);
 
-                Preferences.Set("locationLat", location.Latitude);
-                Preferences.Set("locationLng", location.Longitude);
+                Preferences.Set("locationLat", _location.Latitude);
+                Preferences.Set("locationLng", _location.Longitude);
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -100,34 +85,35 @@ namespace Eindopdracht
 
         public static async Task<List<NSStation>> GetNearestNSStations(double latitude, double longitude)
         {
-
             List<NSStation> stations = new List<NSStation>();
 
                 string nsStationsUrl = $"https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/stations?latitude={latitude}&longitude={longitude}";
-                httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", NSAPIKey);
+                _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", _nsapiKey);
 
-                var nsResponse = await httpClient.GetStringAsync(nsStationsUrl);
+                var nsResponse = await _httpClient.GetStringAsync(nsStationsUrl);
 
                 var nsStationsPayload = JsonConvert.DeserializeObject<NSStationPayload>(nsResponse);
 
-                foreach (var station in nsStationsPayload.Payload)
+                foreach (NSStation station in nsStationsPayload.Payload)
                 {
                     double stationLat = station.Lat;
                     double stationLng = station.Lng;
 
                     double distance = CalculateDistance(latitude, longitude, stationLat, stationLng);
 
-                    // Voeg station en afstand toe aan de lijst
+                    // Voeg station toe aan de lijst
                     stations.Add(new NSStation
                     {
-                        Name = station.Namen.Lang,
+                        Naam = station.Namen.Lang,
                         Distance = distance,
-                        Lat = stationLat,
-                        Lng = stationLng
+                        Lat = station.Lat,
+                        Lng = station.Lng,
+                        StationType = station.StationType,
+                        HeeftFaciliteiten = station.HeeftFaciliteiten,
+                        HeeftReisassistentie = station.HeeftReisassistentie,
+                        Land = station.Land
                     });
                 }
-            
-
             return stations;
         }
 
@@ -141,7 +127,7 @@ namespace Eindopdracht
         {
             if (e.Item is NSStation selectedStation)
             {                
-                Navigation.PushAsync(new StationDetailPage(selectedStation.Name));
+                Navigation.PushAsync(new StationDetailPage(selectedStation));
             }
 
             ((ListView)sender).SelectedItem = null;
