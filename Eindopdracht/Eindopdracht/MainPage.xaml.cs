@@ -112,7 +112,7 @@ namespace Eindopdracht
                     // Voeg station en afstand toe aan de lijst
                     stations.Add(new NSStation
                     {
-                        Name = station.Namen.Lang,
+                        Name = station.Names.Lang,
                         Distance = distance
                     });
                 }

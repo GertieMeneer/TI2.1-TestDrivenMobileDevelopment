@@ -1,4 +1,4 @@
-﻿namespace Eindopdracht
+﻿namespace Eindopdracht.NSData
 {
     public class NSStationData
     {
@@ -6,6 +6,6 @@
         public string StationType { get; set; }
         public double Lat { get; set; }
         public double Lng { get; set; }
-        public StationNamen Namen { get; set; }
+        public NSStationNames Names { get; set; }
     }
 }
