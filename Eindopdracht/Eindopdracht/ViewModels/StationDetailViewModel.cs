@@ -5,19 +5,16 @@ namespace Eindopdracht.ViewModels
 {
     public class StationDetailViewModel
     {
-        public ObservableCollection<NSStation> Station { get; set; }
+        public string StationType { get; }
+        public bool HeeftFaciliteiten { get; }
+        public bool HeeftReisassistentie { get; }
+        public string Land { get; }
         public StationDetailViewModel(NSStation station)
         {
-            Station = new ObservableCollection<NSStation>()
-            {
-                new NSStation()
-                {
-                    StationType = station.StationType,
-                    HeeftFaciliteiten = station.HeeftFaciliteiten,
-                    HeeftReisassistentie = station.HeeftReisassistentie,
-                    Land = station.Land
-                }
-            };
+            StationType = station.StationType;
+            HeeftFaciliteiten = station.HeeftFaciliteiten;
+            HeeftReisassistentie = station.HeeftReisassistentie;
+            Land = station.Land;
         }
     }
 }

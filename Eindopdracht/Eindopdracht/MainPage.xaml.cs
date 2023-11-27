@@ -4,29 +4,28 @@ using Newtonsoft.Json;
 
 namespace Eindopdracht
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage
     {
         private static string _nsapiKey = "12ef36ad08a1435597ae44c554d62ef8";
-        // const string GoogleMapsAPIKey = "AIzaSyBXG_XrA3JRTL58osjxd0DbqH563e2t84o";
         private static HttpClient? _httpClient;
         private static Location? _location;
-        private static MainViewModel _viewModel;
-        public static ListView stations;
+        private static MainViewModel? _viewModel;
+        public static ListView? Stations;
 
         public MainPage()
         {
             InitializeComponent();
-            _viewModel = new MainViewModel();
-            this.BindingContext = _viewModel;
-            searchBar.BindingContext = _viewModel;
-            stations = stationListView;
 
+            _viewModel = new MainViewModel();
+            BindingContext = _viewModel;
+            searchBar.BindingContext = _viewModel;
+            Stations = stationListView;
 
             _httpClient = new HttpClient();
-            TaskFindNearestStations();
+            _ = TaskGetStations();
         }
 
-        public static async Task TaskFindNearestStations()
+        public static async Task TaskGetStations()
         {
             _viewModel.IsLoading = true;
             await GetCurrentLocationAndSetIt();
@@ -36,14 +35,9 @@ namespace Eindopdracht
                 double userLatitude = _location.Latitude;
                 double userLongitude = _location.Longitude;
 
-                List<NSStation> allStations = await GetNearestNSStations(userLatitude, userLongitude);
-
-                // store all the stations in a preference
-                string allStationsJson = JsonConvert.SerializeObject(allStations);
-                Preferences.Set("allStationsInJSON", allStationsJson);
-
-                allStations.Sort((s1, s2) => s1.Distance.CompareTo(s2.Distance));
-                List<NSStation> nearestStations = allStations.Take(10).ToList();
+                List<NSStation> allStations = await GetAllNSStations(userLatitude, userLongitude);      //fetch all stations from ns api
+                allStations.Sort((s1, s2) => s1.Distance.CompareTo(s2.Distance));       //sort based on distance
+                List<NSStation> nearestStations = allStations.Take(10).ToList();        //get 10 closest stations to show as default in app
 
                 _viewModel.AllStations = allStations;
                 _viewModel.NearestStations = nearestStations;
@@ -83,7 +77,7 @@ namespace Eindopdracht
             }
         }
 
-        public static async Task<List<NSStation>> GetNearestNSStations(double latitude, double longitude)
+        public static async Task<List<NSStation>> GetAllNSStations(double latitude, double longitude)
         {
             List<NSStation> stations = new List<NSStation>();
 
