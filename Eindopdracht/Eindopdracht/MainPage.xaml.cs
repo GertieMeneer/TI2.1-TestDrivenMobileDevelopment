@@ -64,8 +64,7 @@ namespace Eindopdracht
 
                 _viewModel.AllStations = allStations;
                 _viewModel.NearestStations = nearestStations;
-
-                _viewModel.IsRefreshing = false;
+                _viewModel.SetStations();
             }
         }
 

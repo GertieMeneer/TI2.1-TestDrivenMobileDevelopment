@@ -13,24 +13,14 @@ namespace Eindopdracht.ViewModels
         private List<NSStation> _allStations;
         private List<NSStation> _nearestStations;
         private string _searchQuery;
-        private bool _isRefreshing = false;
-
-        public bool IsRefreshing
-        {
-            get => _isRefreshing;
-            set
-            {
-                _isRefreshing = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ICommand RefreshDataCommand { get; private set; }
 
         public MainViewModel()
         {
             SearchCommand = new Command(SearchStations);
-            RefreshDataCommand = new Command(async () => await RefreshData());
+        }
+
+        public void SetStations()
+        {
             ShowStations = NearestStations;
         }
 
@@ -46,13 +36,6 @@ namespace Eindopdracht.ViewModels
         }
 
         public ICommand SearchCommand { get; private set; }
-
-        public async Task RefreshData()
-        {
-            IsRefreshing = true;
-            await MainPage.TaskFindNearestStations();
-            IsRefreshing = false;
-        }
 
         public List<NSStation> ShowStations
         {
@@ -84,16 +67,8 @@ namespace Eindopdracht.ViewModels
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
         private void CheckForNoSearch()
         {
-            Console.WriteLine("check");
             if (SearchQuery.Equals("") || SearchQuery == null)
             {
                 ShowStations = NearestStations;
@@ -102,8 +77,14 @@ namespace Eindopdracht.ViewModels
 
         private void SearchStations()
         {
-            Console.WriteLine("searching...");
             ShowStations = AllStations.FindAll(station => station.Name.ToLower().Contains(SearchQuery.ToLower()));
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
