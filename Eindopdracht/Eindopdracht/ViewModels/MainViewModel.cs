@@ -31,6 +31,10 @@ namespace Eindopdracht.ViewModels
         {
             SearchCommand = new Command(SearchStations);
             RefreshDataCommand = new Command(async () => await RefreshData());
+        }
+
+        public void SetStations()
+        {
             ShowStations = NearestStations;
         }
 
@@ -93,7 +97,6 @@ namespace Eindopdracht.ViewModels
 
         private void CheckForNoSearch()
         {
-            Console.WriteLine("check");
             if (SearchQuery.Equals("") || SearchQuery == null)
             {
                 ShowStations = NearestStations;
@@ -102,7 +105,6 @@ namespace Eindopdracht.ViewModels
 
         private void SearchStations()
         {
-            Console.WriteLine("searching...");
             ShowStations = AllStations.FindAll(station => station.Name.ToLower().Contains(SearchQuery.ToLower()));
         }
     }
