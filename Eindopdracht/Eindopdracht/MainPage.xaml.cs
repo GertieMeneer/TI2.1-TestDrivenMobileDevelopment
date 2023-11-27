@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Maps;
+﻿using Eindopdracht.ViewModels;
+using Microsoft.Maui.Maps;
 using Newtonsoft.Json;
 using Plugin.LocalNotification;
 
@@ -6,15 +7,21 @@ namespace Eindopdracht
 {
     public partial class MainPage : ContentPage
     {
-        const string NSAPIKey = "12ef36ad08a1435597ae44c554d62ef8";
-        const string GoogleMapsAPIKey = "AIzaSyBXG_XrA3JRTL58osjxd0DbqH563e2t84o";
-        HttpClient httpClient;
-        private Location location;
+        static string NSAPIKey = "12ef36ad08a1435597ae44c554d62ef8";
+        // const string GoogleMapsAPIKey = "AIzaSyBXG_XrA3JRTL58osjxd0DbqH563e2t84o";
+        private static HttpClient httpClient;
+        private static Location location;
+        private static MainViewModel _viewModel;
+
         public MainPage()
         {
             InitializeComponent();
+            _viewModel = new MainViewModel();
+            this.BindingContext = _viewModel;
+            searchBar.BindingContext = _viewModel;
+
             httpClient = new HttpClient();
-            FindNearestStations();
+            TaskFindNearestStations();
 
             //var location = new Location(36, -122);
             //var mapSpan = new MapSpan(location, 0.01, 0.01);
@@ -33,7 +40,7 @@ namespace Eindopdracht
 
         }
 
-        private async void FindNearestStations()
+        public static async Task TaskFindNearestStations()
         {
             await GetCurrentLocationAndSetIt();
 
@@ -42,32 +49,24 @@ namespace Eindopdracht
                 double userLatitude = location.Latitude;
                 double userLongitude = location.Longitude;
 
-                List<NSStation> nearestStations = await GetNearestNSStations(userLatitude, userLongitude);
-                nearestStations.Sort((s1, s2) => s1.Distance.CompareTo(s2.Distance));
-                List<NSStation> firstTenStations = nearestStations.Take(10).ToList();
+                List<NSStation> allStations = await GetNearestNSStations(userLatitude, userLongitude);
+                allStations.Sort((s1, s2) => s1.Distance.CompareTo(s2.Distance));
+                List<NSStation> nearestStations = allStations.Take(10).ToList();
 
+                _viewModel.AllStations = allStations;
+                _viewModel.NearestStations = nearestStations;
 
-                stationListView.ItemsSource = firstTenStations;
-            }
-            else
-            {
-                showNotification();
+                _viewModel.IsRefreshing = false;
             }
         }
 
-        public async Task GetCurrentLocationAndSetIt()
+        public static async Task GetCurrentLocationAndSetIt()
         {
             try
             {
                 GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
 
                 location = await Geolocation.GetLocationAsync(request);
-
-                // if (location != null)
-                // {
-                //     var mapSpan = new MapSpan(location, 0.01, 0.01);
-                //     map.MoveToRegion(mapSpan);
-                // }
             }
             catch (FeatureNotSupportedException fnsEx)
             {
@@ -86,7 +85,7 @@ namespace Eindopdracht
             }
         }
 
-        private async Task<List<NSStation>> GetNearestNSStations(double latitude, double longitude)
+        public static async Task<List<NSStation>> GetNearestNSStations(double latitude, double longitude)
         {
 
             List<NSStation> stations = new List<NSStation>();
@@ -124,7 +123,7 @@ namespace Eindopdracht
             return stations;
         }
 
-        private double CalculateDistance(double userLat, double userLong, double stationLat, double stationLong)
+        private static double CalculateDistance(double userLat, double userLong, double stationLat, double stationLong)
         {
             double distance = Location.CalculateDistance(userLat, userLong, stationLat, stationLong, DistanceUnits.Kilometers);
             return distance;
