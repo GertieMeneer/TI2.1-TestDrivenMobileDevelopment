@@ -93,4 +93,9 @@ public partial class StationDetailPage
         };
         LocalNotificationCenter.Current.Show(request);
     }
+
+    private void FavoritesButton_OnClicked(object? sender, EventArgs e)
+    {
+        throw new NotImplementedException();
+    }
 }

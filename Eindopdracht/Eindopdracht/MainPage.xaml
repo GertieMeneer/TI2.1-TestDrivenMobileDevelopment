@@ -1,6 +1,7 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Eindopdracht.MainPage">
+             x:Class="Eindopdracht.MainPage"
+             Title="Station Information">
 
     <StackLayout Padding="20">
         <Label Text="Huidige Locatie" FontSize="Title" HorizontalOptions="Center" />
