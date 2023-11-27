@@ -12,6 +12,7 @@ namespace Eindopdracht
         private static HttpClient httpClient;
         private static Location location;
         private static MainViewModel _viewModel;
+        public static ListView stations;
 
         public MainPage()
         {
@@ -19,6 +20,8 @@ namespace Eindopdracht
             _viewModel = new MainViewModel();
             this.BindingContext = _viewModel;
             searchBar.BindingContext = _viewModel;
+            stations = stationListView;
+
 
             httpClient = new HttpClient();
             TaskFindNearestStations();

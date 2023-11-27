@@ -8,6 +8,7 @@ namespace Eindopdracht.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        private List<NSStation> _showStations;
         private List<NSStation> _allStations;
         private List<NSStation> _nearestStations;
         private string _searchQuery;
@@ -29,6 +30,7 @@ namespace Eindopdracht.ViewModels
         {
             SearchCommand = new Command(SearchStations);
             RefreshDataCommand = new Command(async () => await RefreshData());
+            ShowStations = NearestStations;
         }
 
         public string SearchQuery
@@ -38,6 +40,7 @@ namespace Eindopdracht.ViewModels
             {
                 _searchQuery = value;
                 OnPropertyChanged();
+                SearchStations();
             }
         }
 
@@ -48,6 +51,16 @@ namespace Eindopdracht.ViewModels
             IsRefreshing = true;
             await MainPage.TaskFindNearestStations();
             IsRefreshing = false;
+        }
+
+        public List<NSStation> ShowStations
+        {
+            get => _showStations;
+            set
+            {
+                _showStations = value;
+                OnPropertyChanged();
+            }
         }
 
         public List<NSStation> NearestStations
@@ -77,15 +90,17 @@ namespace Eindopdracht.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void SearchStations(object obj)
+        private void SearchStations()
         {
-            if (string.IsNullOrWhiteSpace(SearchQuery))
+            if (SearchQuery.Equals("") || SearchQuery == null)
             {
-                NearestStations = AllStations;
+                Console.WriteLine("wordt wel aangeroepen");
+                ShowStations = NearestStations;
             }
             else
             {
-                NearestStations = AllStations.FindAll(station => station.Name.ToLower().Contains(SearchQuery.ToLower()));
+                Console.WriteLine("wordddddddddddddddd");
+                ShowStations = AllStations.FindAll(station => station.Name.ToLower().Contains(SearchQuery.ToLower()));
             }
         }
     }
