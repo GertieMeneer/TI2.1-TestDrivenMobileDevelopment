@@ -11,9 +11,14 @@ namespace Eindopdracht.ViewModels
     public class MainViewModel : INotifyPropertyChanged
     {
         private bool _isLoading;
+
+        //binding with ui
         private List<NSStation> _visibleStations;
+
         private List<NSStation> _allStations;
         private List<NSStation> _nearestStations;
+        private List<NSStation> _favouriteStations;
+
         private string _searchQuery;
         private Location _location;
 
@@ -41,9 +46,22 @@ namespace Eindopdracht.ViewModels
             }
         }
 
-        public void SetStations()
+        public void SetStations(int option)
         {
-            VisibleStations = NearestStations;
+            switch (option)
+            {
+                case 0:
+                    VisibleStations = AllStations;
+                    break;
+                case 1:
+                    VisibleStations = NearestStations;
+                    break;
+                case 2:
+                    VisibleStations = FavouriteStations;
+                    break;
+                default:
+                    throw new Exception("SetStation received wrong option");    //if this gets called: serious skill issue
+            }
         }
 
         public string SearchQuery
@@ -52,13 +70,13 @@ namespace Eindopdracht.ViewModels
             set
             {
                 _searchQuery = value;
-                OnPropertyChanged();
                 CheckForNoSearch();
             }
         }
 
         public ICommand SearchCommand { get; private set; }
 
+        //binding with ui
         public List<NSStation> VisibleStations
         {
             get => _visibleStations;
@@ -86,6 +104,15 @@ namespace Eindopdracht.ViewModels
             {
                 _allStations = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public List<NSStation> FavouriteStations
+        {
+            get => _favouriteStations;
+            set
+            {
+                _favouriteStations = value;
             }
         }
 

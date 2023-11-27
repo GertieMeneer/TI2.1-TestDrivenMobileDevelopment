@@ -8,7 +8,7 @@
         <SearchBar x:Name="searchBar" Placeholder="Search Stations" Text="{Binding SearchQuery}"
                    SearchCommand="{Binding SearchCommand}"
                    SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}" />
-        <Picker x:Name="ListSorter">
+        <Picker x:Name="ListSorter" SelectedIndexChanged="ListSorter_OnSelectedIndexChanged">
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <x:String x:Name="allListSorterOption">All</x:String>

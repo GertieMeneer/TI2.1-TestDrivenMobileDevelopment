@@ -19,7 +19,7 @@ namespace Eindopdracht
             _viewModel = new MainViewModel();
             BindingContext = _viewModel;
             searchBar.BindingContext = _viewModel;
-            ListSorter.SelectedItem = top10ClosestOption;
+            ListSorter.SelectedIndex = 1;
 
             _httpClient = new HttpClient();
             _ = TaskGetStations();
@@ -36,12 +36,17 @@ namespace Eindopdracht
                 double userLongitude = _location.Longitude;
 
                 List<NSStation> allStations = await GetAllNSStations(userLatitude, userLongitude);      //fetch all stations from ns api
-                allStations.Sort((s1, s2) => s1.Distance.CompareTo(s2.Distance));       //sort based on distance
+                allStations.Sort((s1, s2) => string.Compare(s1.Naam, s2.Naam)); //sort based on name
                 List<NSStation> nearestStations = allStations.Take(10).ToList();        //get 10 closest stations to show as default in app
+                nearestStations.Sort((s1, s2) => s1.Distance.CompareTo(s2.Distance));   //sort 10 nearest based on distance
+
+                // List<NSStation> favouriteStations = en dan hier je code om list uit datatbase te halen
 
                 _viewModel.AllStations = allStations;
                 _viewModel.NearestStations = nearestStations;
-                _viewModel.SetStations();
+                // _viewModel.FavouriteStations = favouriteStations;        uncomment deze als lijst uit database werkt :D
+
+                _viewModel.SetStations(1);      //deze altijd op 1 houden, top 10 nearest stations is altijd default
             }
 
             _viewModel.IsLoading = false;
@@ -123,6 +128,14 @@ namespace Eindopdracht
             }
 
             ((ListView)sender).SelectedItem = null;
+        }
+
+        private void ListSorter_OnSelectedIndexChanged(object? sender, EventArgs e)
+        {
+            var picker = sender as Picker;
+            int selectedOption = picker.SelectedIndex;
+
+            _viewModel.SetStations(selectedOption);
         }
     }
 }
