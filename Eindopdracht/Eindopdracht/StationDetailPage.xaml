@@ -1,10 +1,23 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Eindopdracht.StationDetailPage"
-             Title="StationDetailPage"
+             Title="Station Details"
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps">
 
-    <maps:Map x:Name="map" MapType="Street"/>
-    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackLayout Grid.Row="0" HorizontalOptions="Center">
+            <Button x:Name="FavoritesButton" Text="Add to Favorites" Clicked="FavoritesButton_OnClicked"></Button>
+            <Label Text="{Binding StationType, StringFormat='Station Type: {0}'}" FontSize="16" HorizontalOptions="Center"/>
+            <Label Text="{Binding HeeftFaciliteiten, StringFormat='Heeft Faciliteiten: {0}'}" FontSize="16" HorizontalOptions="Center"/>
+            <Label Text="{Binding HeeftReisassistentie, StringFormat='Heeft Reisassistentie: {0}'}" FontSize="16" HorizontalOptions="Center"/>
+            <Label Text="{Binding Land, StringFormat='Land: {0}'}" FontSize="16" HorizontalOptions="Center"/>
+        </StackLayout>
+
+        <maps:Map x:Name="map" Grid.Row="1" MapType="Street" HeightRequest="400" VerticalOptions="FillAndExpand"/>
+    </Grid>
 </ContentPage>

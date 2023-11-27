@@ -1,6 +1,7 @@
 ﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Eindopdracht.MainPage">
+             x:Class="Eindopdracht.MainPage"
+             Title="Station Information">
 
     <StackLayout Padding="20">
         <Label Text="Huidige Locatie" FontSize="Title" HorizontalOptions="Center" />
@@ -8,13 +9,14 @@
         <SearchBar x:Name="searchBar" Placeholder="Zoek stations" Text="{Binding SearchQuery}"
                    SearchCommand="{Binding SearchCommand}"
                    SearchCommandParameter="{Binding Source={x:Reference searchBar}, Path=Text}" />
+        <ActivityIndicator x:Name="loadingIndicator" IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="Blue"/>
         <ListView x:Name="stationListView" ItemsSource="{Binding ShowStations}" VerticalOptions="FillAndExpand"
                   ItemTapped="OnStationTapped">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout>
-                            <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" />
+                            <Label Text="{Binding Naam}" FontSize="16" FontAttributes="Bold" />
                             <Label Text="{Binding Distance, StringFormat='Afstand: {0:F2} km'}" FontSize="Small" />
                         </StackLayout>
                     </ViewCell>
