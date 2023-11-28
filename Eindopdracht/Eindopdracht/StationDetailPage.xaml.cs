@@ -1,3 +1,5 @@
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using Eindopdracht.NSData;
 using Eindopdracht.ViewModels;
 using Microsoft.Maui.Controls.Maps;
@@ -9,51 +11,34 @@ namespace Eindopdracht;
 public partial class StationDetailPage
 {
     private NSStation _station;
-    private bool _isFavourite;
     private Location _currentLocation;
+    public Database _database;
 
     public StationDetailPage(NSStation station, Location currentLocation)
     {
+        InitializeComponent();
         _station = station;
         _currentLocation = currentLocation;
-        InitializeComponent();
+        _database = new Database();
         Title = $"{station.Naam} - Details";
         BindingContext = new StationDetailViewModel(station);
         Load();
-        CheckFavourite();
-
-        Station testStation = new Station
-        {
-            Naam = "Station1",
-            Distance = 10.5,
-            Lat = 40.7128,
-            Lng = -74.0060
-        };
-
-        Database _database = new Database();
-        _database.SaveStation(testStation);
-        List<Station> lijst = _database.GetStations();
-        _database.DeleteStationByName("Station1");
-        List<Station> lijst2 = _database.GetStations();
     }
 
-    private void CheckFavourite()
+    private bool CheckIfInFavourites()
     {
-        //compare with sqllite database: if in favourites database: button text changes
+        List<Station> stations = _database.GetStations();
 
-        // foreach(NSStation station in SQLLITEDATABASE)
-        // {
-        //     if (station == _station)
-        //     {
-        //         FavoritesButton.Text = "Remove from favourites";
-        //          _isFavourite == true;
-        //     }
-        //     else
-        //     {
-        //         FavoritesButton.Text = "Add to favourites";
-        //          _isFavourite == false;
-        //     }
-        // }
+        if (stations.Count.Equals(0)) { return false; }
+
+        foreach (Station station in stations)
+        {
+            if (station.Naam == _station.Naam)
+            {
+                return true; 
+            }
+        }
+        return false;
     }
 
     private async void Load()
@@ -75,6 +60,40 @@ public partial class StationDetailPage
             Location = new Location(_currentLocation.Latitude, _currentLocation.Longitude),
             Type = PinType.Place
         };
+
+        var currentLocationCircle = new Circle
+        {
+            Center = new Location(_currentLocation.Latitude, _currentLocation.Longitude),
+            Radius = Distance.FromMeters(100),
+            StrokeColor = Colors.White,
+            StrokeWidth = 8,
+            FillColor = Colors.Green,
+        };
+
+        var stationCircle = new Circle
+        {
+            Center = new Location(_station.Lat, _station.Lng),
+            Radius = Distance.FromMeters(100),
+            StrokeColor = Colors.White,
+            StrokeWidth = 8,
+            FillColor = Colors.Green,
+        };
+
+        var line = new Polyline
+        {
+            StrokeColor = Colors.Blue,
+            StrokeWidth = 15,
+            Geopath =
+            {
+                new Location(_station.Lat, _station.Lng),
+                new Location(_currentLocation.Latitude, _currentLocation.Longitude),
+            }
+        };
+
+        map.MapElements.Add(line);
+
+        map.MapElements.Add(currentLocationCircle);
+        map.MapElements.Add(stationCircle);
 
         map.Pins.Add(stationPin);
         map.Pins.Add(currentLocationPin);
@@ -99,16 +118,32 @@ public partial class StationDetailPage
         LocalNotificationCenter.Current.Show(request);
     }
 
+    private Station GetStation(NSStation NSStation)
+    {
+        Station station = new Station
+        {
+            Naam = NSStation.Naam,
+            Distance = NSStation.Distance,
+            Lat = NSStation.Lat,
+            Lng = NSStation.Lng
+        };
+
+        return station;
+    }
+
     private void FavoritesButton_OnClicked(object? sender, EventArgs e)
     {
-        if (!_isFavourite)
+        if (!CheckIfInFavourites())
         {
-            //add _station to favourite database
-            //miss toast notification of echte notification als station removed of added is aan database nunununutnut
+            _database.SaveStation(GetStation(_station));
+            showNotification(5, "Eindopdracht", "Added to favorites.");
+            Toast.Make("Added to favorites.", ToastDuration.Long, 15);
         }
         else
         {
-            //remove _station from favourite database
+            _database.DeleteStationByName(_station.Naam);
+            showNotification(5, "Eindopdracht", "Removed from favorites.");
+            Toast.Make("Removed from favorites.", ToastDuration.Long, 15);
         }
     }
 }

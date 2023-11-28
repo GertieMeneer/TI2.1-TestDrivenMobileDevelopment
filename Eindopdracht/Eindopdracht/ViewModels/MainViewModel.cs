@@ -17,7 +17,7 @@ namespace Eindopdracht.ViewModels
 
         private List<NSStation> _allStations;
         private List<NSStation> _nearestStations;
-        private List<NSStation> _favouriteStations;
+        private List<Station> _favouriteStations;
 
         private string _searchQuery;
         private Location _location;
@@ -57,7 +57,21 @@ namespace Eindopdracht.ViewModels
                     VisibleStations = NearestStations;
                     break;
                 case 2:
-                    VisibleStations = FavouriteStations;
+                    List<NSStation> NSStations = new List<NSStation>();
+
+                    foreach (Station station in FavouriteStations)
+                    {
+                        NSStation NSStation = new NSStation
+                        {
+                            Naam = station.Naam,
+                            Distance = station.Distance,
+                            Lat = station.Lat,
+                            Lng = station.Lng
+                        };
+                        NSStations.Add(NSStation);
+                    }
+
+                    VisibleStations = NSStations;
                     break;
                 default:
                     throw new Exception("SetStation received wrong option");    //if this gets called: serious skill issue
@@ -107,7 +121,7 @@ namespace Eindopdracht.ViewModels
             }
         }
 
-        public List<NSStation> FavouriteStations
+        public List<Station> FavouriteStations
         {
             get => _favouriteStations;
             set
