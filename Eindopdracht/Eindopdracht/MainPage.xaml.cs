@@ -123,6 +123,8 @@ namespace Eindopdracht
             if (e.Item is NSStation selectedStation)
             {                
                 Navigation.PushAsync(new StationDetailPage(selectedStation, _location));
+                _viewModel.SetStations(1);
+                ListSorter.SelectedIndex = 1;
             }
 
             ((ListView)sender).SelectedItem = null;
