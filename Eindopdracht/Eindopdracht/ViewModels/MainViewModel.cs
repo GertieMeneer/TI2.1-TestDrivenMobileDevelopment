@@ -94,7 +94,6 @@ namespace Eindopdracht.ViewModels
             set
             {
                 _searchQuery = value;
-                CheckForNoSearch();
             }
         }
 
@@ -137,21 +136,6 @@ namespace Eindopdracht.ViewModels
             set
             {
                 _favouriteStations = value;
-            }
-        }
-
-        private void CheckForNoSearch()
-        {
-            if (!IsLoading)
-            {
-                if (SearchQuery.Equals("") || SearchQuery == null)
-                {
-                    VisibleStations = NearestStations;
-                }
-            }
-            else
-            {
-                showNotification(0, "ERROR", "Cannot search while the app is loading");
             }
         }
 

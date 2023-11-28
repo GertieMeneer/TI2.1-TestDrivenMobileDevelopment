@@ -144,14 +144,12 @@ public partial class StationDetailPage
         {
             Database.SaveFavouriteStation(GetStation(_station));
             showNotification(0, "Eindopdracht", "Added to favorites.");
-            Toast.Make("Added to favorites.", ToastDuration.Long, 15);
             FavoritesButton.Text = "Remove from favourites";
         }
         else
         {
             Database.DeleteFavouriteStationByName(_station.Namen.Lang);
             showNotification(0, "Eindopdracht", "Removed from favorites.");
-            Toast.Make("Removed from favorites.", ToastDuration.Long, 15);
             FavoritesButton.Text = "Add to favourites";
         }
     }

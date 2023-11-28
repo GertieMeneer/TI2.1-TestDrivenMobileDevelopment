@@ -1,8 +1,6 @@
-﻿using System.Security.Cryptography;
-using Eindopdracht.NSData;
+﻿using Eindopdracht.NSData;
 using Eindopdracht.ViewModels;
 using Newtonsoft.Json;
-using Plugin.LocalNotification;
 
 namespace Eindopdracht
 {
@@ -19,7 +17,7 @@ namespace Eindopdracht
 
             _viewModel = new MainViewModel();
             BindingContext = _viewModel;
-            searchBar.BindingContext = _viewModel;
+            SearchBar.BindingContext = _viewModel;
             ListSorter.SelectedIndex = 1;
 
             _httpClient = new HttpClient();
@@ -45,7 +43,7 @@ namespace Eindopdracht
                 _viewModel.AllStations = allStations;
                 _viewModel.NearestStations = nearestStations;
 
-                _viewModel.SetStations(1);  //set the default listview when starting app
+                _viewModel.SetStations(1);  //set the default list for the listview when starting app
             }
 
             _viewModel.IsLoading = false;       //hide loading indicator
