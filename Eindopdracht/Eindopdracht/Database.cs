@@ -1,38 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using Eindopdracht.NSData;
+﻿using Eindopdracht.NSData;
 using SQLite;
 
-public class Database
+public static class Database
 {
     private const string databasePath = "database.db";
-    private SQLiteConnection connection;
+    private static SQLiteConnection connection;
 
-    public Database()
+    static Database()
     {
-        string applicationFolderPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Folder");
-        // Create the folder path.
-        System.IO.Directory.CreateDirectory(applicationFolderPath);
+        string applicationFolderPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Folder");
+        Directory.CreateDirectory(applicationFolderPath);
 
-        string databaseFileName = System.IO.Path.Combine(applicationFolderPath, databasePath);
+        string databaseFileName = Path.Combine(applicationFolderPath, databasePath);
         connection = new SQLiteConnection(databaseFileName);
 
-        // Create the Station table if it doesn't exist
-        connection.CreateTable<Station>();
+        connection.CreateTable<DatabaseStation>();
     }
      
-    public void SaveStation(Station station)
+    public static void SaveFavouriteStation(DatabaseStation station)
     {
         connection.Insert(station);
     }
 
-    public List<Station> GetStations()
+    public static List<DatabaseStation> GetFavouriteStations()
     {
-        return connection.Table<Station>().ToList();
+        return connection.Table<DatabaseStation>().ToList();
     }
 
-    public void DeleteStationByName(string stationName)
+    public static void DeleteFavouriteStationByName(string stationName)
     {
-        connection.Table<Station>().Delete(s => s.Naam == stationName);
+        connection.Table<DatabaseStation>().Delete(s => s.Naam == stationName);
     }
 }

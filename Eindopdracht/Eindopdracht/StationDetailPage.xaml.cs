@@ -12,28 +12,30 @@ public partial class StationDetailPage
 {
     private NSStation _station;
     private Location _currentLocation;
-    public Database _database;
 
     public StationDetailPage(NSStation station, Location currentLocation)
     {
         InitializeComponent();
         _station = station;
         _currentLocation = currentLocation;
-        _database = new Database();
-        Title = $"{station.Naam} - Details";
+        Title = $"{station.Namen.Lang} - Details";
         BindingContext = new StationDetailViewModel(station);
         Load();
+        if (CheckIfInFavourites())
+        {
+            FavoritesButton.Text = "Remove from favourites";
+        }
     }
 
     private bool CheckIfInFavourites()
     {
-        List<Station> stations = _database.GetStations();
+        List<DatabaseStation> stations = Database.GetFavouriteStations();
 
         if (stations.Count.Equals(0)) { return false; }
 
-        foreach (Station station in stations)
+        foreach (DatabaseStation station in stations)
         {
-            if (station.Naam == _station.Naam)
+            if (station.Naam == _station.Namen.Lang)
             {
                 return true; 
             }
@@ -49,7 +51,7 @@ public partial class StationDetailPage
 
         var stationPin = new Pin
         {
-            Label = "Station: " + _station.Naam,
+            Label = "Station: " + _station.Namen.Lang,
             Location = new Location(_station.Lat, _station.Lng),
             Type = PinType.Place
         };
@@ -118,14 +120,19 @@ public partial class StationDetailPage
         LocalNotificationCenter.Current.Show(request);
     }
 
-    private Station GetStation(NSStation NSStation)
+    private DatabaseStation GetStation(NSStation NSStation)
     {
-        Station station = new Station
+        DatabaseStation station = new DatabaseStation
         {
-            Naam = NSStation.Naam,
+            Id = NSStation.Id,
+            Naam = NSStation.Namen.Lang,
             Distance = NSStation.Distance,
             Lat = NSStation.Lat,
-            Lng = NSStation.Lng
+            Lng = NSStation.Lng,
+            StationType = NSStation.StationType,
+            HeeftFaciliteiten = NSStation.HeeftFaciliteiten,
+            HeeftReisassistentie = NSStation.HeeftReisassistentie,
+            Land = NSStation.Land
         };
 
         return station;
@@ -135,15 +142,17 @@ public partial class StationDetailPage
     {
         if (!CheckIfInFavourites())
         {
-            _database.SaveStation(GetStation(_station));
-            showNotification(5, "Eindopdracht", "Added to favorites.");
+            Database.SaveFavouriteStation(GetStation(_station));
+            showNotification(0, "Eindopdracht", "Added to favorites.");
             Toast.Make("Added to favorites.", ToastDuration.Long, 15);
+            FavoritesButton.Text = "Remove from favourites";
         }
         else
         {
-            _database.DeleteStationByName(_station.Naam);
-            showNotification(5, "Eindopdracht", "Removed from favorites.");
+            Database.DeleteFavouriteStationByName(_station.Namen.Lang);
+            showNotification(0, "Eindopdracht", "Removed from favorites.");
             Toast.Make("Removed from favorites.", ToastDuration.Long, 15);
+            FavoritesButton.Text = "Add to favourites";
         }
     }
 }

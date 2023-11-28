@@ -17,7 +17,7 @@ namespace Eindopdracht.ViewModels
 
         private List<NSStation> _allStations;
         private List<NSStation> _nearestStations;
-        private List<Station> _favouriteStations;
+        private List<NSStation> _favouriteStations;
 
         private string _searchQuery;
         private Location _location;
@@ -57,21 +57,31 @@ namespace Eindopdracht.ViewModels
                     VisibleStations = NearestStations;
                     break;
                 case 2:
-                    List<NSStation> NSStations = new List<NSStation>();
-
-                    foreach (Station station in FavouriteStations)
+                    FavouriteStations = new List<NSStation>();
+                    foreach (DatabaseStation station in Database.GetFavouriteStations())
                     {
-                        NSStation NSStation = new NSStation
+                        NSStation NSStation = new NSStation()
                         {
-                            Naam = station.Naam,
+                            Id = station.Id,
                             Distance = station.Distance,
                             Lat = station.Lat,
-                            Lng = station.Lng
+                            Lng = station.Lng,
+                            Naam = station.Naam,
+                            StationType = station.StationType,
+                            HeeftFaciliteiten = station.HeeftFaciliteiten,
+                            HeeftReisassistentie = station.HeeftReisassistentie,
+                            Land = station.Land,
+                            Namen = new NSStationNamen()
+                            {
+                                Lang = station.Naam,
+                                Middel = "",
+                                Kort = ""
+                            }
                         };
-                        NSStations.Add(NSStation);
+                        FavouriteStations.Add(NSStation);
                     }
 
-                    VisibleStations = NSStations;
+                    VisibleStations = FavouriteStations;
                     break;
                 default:
                     throw new Exception("SetStation received wrong option");    //if this gets called: serious skill issue
@@ -121,7 +131,7 @@ namespace Eindopdracht.ViewModels
             }
         }
 
-        public List<Station> FavouriteStations
+        public List<NSStation> FavouriteStations
         {
             get => _favouriteStations;
             set
@@ -141,7 +151,7 @@ namespace Eindopdracht.ViewModels
             }
             else
             {
-                showNotification(0, "ERROR", "Pls no searching while loading ty :DD");
+                showNotification(0, "ERROR", "Cannot search while the app is loading");
             }
         }
 
@@ -149,11 +159,11 @@ namespace Eindopdracht.ViewModels
         {
             if (!IsLoading)
             {
-                VisibleStations = AllStations.FindAll(station => station.Naam.ToLower().Contains(SearchQuery.ToLower()));
+                VisibleStations = AllStations.FindAll(station => station.Namen.Lang.ToLower().Contains(SearchQuery.ToLower()));
             }
             else
             {
-                showNotification(0, "ERROR", "Pls no searching while loading ty :DD");
+                showNotification(0, "ERROR", "Cannot search while the app is loading");
             }
         }
 
@@ -166,7 +176,6 @@ namespace Eindopdracht.ViewModels
                 Schedule = new NotificationRequestSchedule
                 {
                     NotifyTime = DateTime.Now.AddSeconds(whenSeconds)
-                    //NotifyRepeatInterval = TimeSpan.FromSeconds(10),
                 }
             };
             LocalNotificationCenter.Current.Show(request);

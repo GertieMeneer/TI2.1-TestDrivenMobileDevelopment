@@ -28,30 +28,27 @@ namespace Eindopdracht
 
         public static async Task TaskGetStations()
         {
-            _viewModel.IsLoading = true;
-            await GetCurrentLocationAndSetIt();
+            _viewModel.IsLoading = true;        //show loading indicator
+            await GetCurrentLocationAndSetIt();     //get location
 
             if (_location != null)
             {
                 double userLatitude = _location.Latitude;
                 double userLongitude = _location.Longitude;
 
-                List<NSStation> allStations = await GetAllNSStations(userLatitude, userLongitude);      //fetch all stations from ns api
+                List<NSStation> allStations = await GetAllNSStations(userLatitude, userLongitude);      //get all stations from ns api
                 allStations.Sort((s1, s2) => s1.Distance.CompareTo(s2.Distance));       //sort based on distance
                 List<NSStation> nearestStations = allStations.Take(10).ToList();        //get 10 closest stations to show as default in app
-                allStations.Sort((s1, s2) => string.Compare(s1.Naam, s2.Naam));     //sort based on name
+                allStations.Sort((s1, s2) => string.Compare(s1.Namen.Lang, s2.Namen.Lang));     //sort based on name
 
-                Database database = new Database();
-                List<Station> favouriteStations = database.GetStations();
-
+                //set all the lists in the viewmodel
                 _viewModel.AllStations = allStations;
                 _viewModel.NearestStations = nearestStations;
-                _viewModel.FavouriteStations = favouriteStations;
 
-                _viewModel.SetStations(1);      //deze altijd op 1 houden, top 10 nearest stations is altijd default
+                _viewModel.SetStations(1);  //set the default listview when starting app
             }
 
-            _viewModel.IsLoading = false;
+            _viewModel.IsLoading = false;       //hide loading indicator
         }
 
         public static async Task GetCurrentLocationAndSetIt()
@@ -100,17 +97,16 @@ namespace Eindopdracht
 
                     double distance = CalculateDistance(latitude, longitude, stationLat, stationLng);
 
-                    // Voeg station toe aan de lijst
                     stations.Add(new NSStation
                     {
-                        Naam = station.Namen.Lang,
+                        Namen = station.Namen,
                         Distance = distance,
                         Lat = station.Lat,
                         Lng = station.Lng,
                         StationType = station.StationType,
                         HeeftFaciliteiten = station.HeeftFaciliteiten,
                         HeeftReisassistentie = station.HeeftReisassistentie,
-                        Land = station.Land
+                        Land = station.Land,
                     });
                 }
             return stations;
