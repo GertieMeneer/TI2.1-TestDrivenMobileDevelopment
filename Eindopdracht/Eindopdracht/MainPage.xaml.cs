@@ -41,11 +41,12 @@ namespace Eindopdracht
                 List<NSStation> nearestStations = allStations.Take(10).ToList();        //get 10 closest stations to show as default in app
                 allStations.Sort((s1, s2) => string.Compare(s1.Naam, s2.Naam));     //sort based on name
 
-                // List<NSStation> favouriteStations = en dan hier je code om list uit datatbase te halen
+                Database database = new Database();
+                List<Station> favouriteStations = database.GetStations();
 
                 _viewModel.AllStations = allStations;
                 _viewModel.NearestStations = nearestStations;
-                // _viewModel.FavouriteStations = favouriteStations;        uncomment deze als lijst uit database werkt :D
+                _viewModel.FavouriteStations = favouriteStations;
 
                 _viewModel.SetStations(1);      //deze altijd op 1 houden, top 10 nearest stations is altijd default
             }
