@@ -20,10 +20,17 @@ namespace Eindopdracht
             _viewModel = new MainViewModel();
             BindingContext = _viewModel;
             searchBar.BindingContext = _viewModel;
-            ListSorter.SelectedIndex = 1;
+            ListSorter.SelectedIndex = 1;    
 
             _httpClient = new HttpClient();
             _ = TaskGetStations();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            TaskGetStations();
         }
 
         public static async Task TaskGetStations()
