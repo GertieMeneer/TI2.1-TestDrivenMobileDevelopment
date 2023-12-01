@@ -10,6 +10,7 @@ namespace Eindopdracht.ViewModels
 {
     public class MainViewModel : INotifyPropertyChanged
     {
+        private Database _database;
         private bool _isLoading;
 
         //binding with ui
@@ -48,6 +49,7 @@ namespace Eindopdracht.ViewModels
 
         public void SetStations(int option)
         {
+            _database = new Database();
             switch (option)
             {
                 case 0:
@@ -58,7 +60,7 @@ namespace Eindopdracht.ViewModels
                     break;
                 case 2:
                     FavouriteStations = new List<NSStation>();
-                    foreach (DatabaseStation station in Database.GetFavouriteStations())
+                    foreach (DatabaseStation station in _database.GetFavouriteStations())
                     {
                         NSStation NSStation = new NSStation()
                         {
@@ -139,7 +141,7 @@ namespace Eindopdracht.ViewModels
             }
         }
 
-        private void SearchStations()
+        public void SearchStations()
         {
             if (!IsLoading)
             {
