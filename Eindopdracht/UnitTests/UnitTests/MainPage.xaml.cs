@@ -7,7 +7,7 @@ namespace Eindopdracht
     public partial class MainPage
     {
         private static string _nsapiKey = "12ef36ad08a1435597ae44c554d62ef8";
-        private static HttpClient? _httpClient;
+        private static HttpClient _httpClient;
         private static Location? _location;
         private static MainViewModel? _viewModel;
 
@@ -26,6 +26,7 @@ namespace Eindopdracht
 
         public static async Task TaskGetStations()
         {
+            _viewModel = new MainViewModel();
             _viewModel.IsLoading = true;        //show loading indicator
             await GetCurrentLocationAndSetIt();     //get location
 
@@ -82,6 +83,7 @@ namespace Eindopdracht
             List<NSStation> stations = new List<NSStation>();
 
                 string nsStationsUrl = $"https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/stations?latitude={latitude}&longitude={longitude}";
+                _httpClient = new HttpClient();
                 _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", _nsapiKey);
 
                 var nsResponse = await _httpClient.GetStringAsync(nsStationsUrl);
@@ -110,7 +112,7 @@ namespace Eindopdracht
             return stations;
         }
 
-        private static double CalculateDistance(double userLat, double userLong, double stationLat, double stationLong)
+        public static double CalculateDistance(double userLat, double userLong, double stationLat, double stationLong)
         {
             double distance = Location.CalculateDistance(userLat, userLong, stationLat, stationLong, DistanceUnits.Kilometers);
             return distance;

@@ -125,7 +125,6 @@ public partial class StationDetailPage
     {
         DatabaseStation station = new DatabaseStation
         {
-            Id = NSStation.Id,
             Naam = NSStation.Namen.Lang,
             Distance = NSStation.Distance,
             Lat = NSStation.Lat,
