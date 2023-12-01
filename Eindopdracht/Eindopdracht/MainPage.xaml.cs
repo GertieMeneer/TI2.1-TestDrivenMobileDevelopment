@@ -18,7 +18,7 @@ namespace Eindopdracht
             _viewModel = new MainViewModel();
             BindingContext = _viewModel;
           
-            searchBar.BindingContext = _viewModel;
+            SearchBar.BindingContext = _viewModel;
             ListSorter.SelectedIndex = 1;
 
             _httpClient = new HttpClient();
