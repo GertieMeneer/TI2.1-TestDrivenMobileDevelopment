@@ -4,7 +4,9 @@ namespace UnitTests.Tests.HappyTests;
 
 public class HappyMainPageTests
 {
-    
+    /// <summary>
+    /// This test ensures that GetAllNSStations returns a non-null and non-empty list of stations.
+    /// </summary>
     [Fact]
     public static async Task GetAllNSStationsTest()
     {
@@ -19,7 +21,10 @@ public class HappyMainPageTests
         Assert.NotNull(stations);
         Assert.NotEmpty(stations);
     }
-    
+
+    /// <summary>
+    /// This test ensures that CalculateDistance returns a positive distance value.
+    /// </summary>
     [Fact]
     public void CalculateDistanceTest()
     {

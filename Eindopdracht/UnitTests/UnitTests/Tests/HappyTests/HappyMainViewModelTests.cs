@@ -5,6 +5,9 @@ namespace UnitTests.Tests.HappyTests;
 
 public class HappyMainViewModelTests
 {
+    /// <summary>
+    /// This test ensures that when the option is set to All, the VisibleStations are correctly set to AllStations.
+    /// </summary>
     [Fact]
     public void SetStations_WhenOptionIsAll_ShouldSetVisibleStationsToAllStations()
     {
@@ -22,6 +25,9 @@ public class HappyMainViewModelTests
         Assert.Equal(allStations, viewModel.VisibleStations);
     }
 
+    /// <summary>
+    /// This test ensures that when not loading and a search query is provided, the VisibleStations are correctly filtered.
+    /// </summary>
     [Fact]
     public void SearchStations_WhenNotLoading_ShouldFilterStationsBySearchQuery()
     {
@@ -41,7 +47,10 @@ public class HappyMainViewModelTests
         Assert.Collection(viewModel.VisibleStations,
             station => Assert.Equal("Station Alpha", station.Namen.Lang));
     }
-    
+
+    /// <summary>
+    /// This test ensures that when the option is set to Favourites, the VisibleStations are correctly set to FavouriteStations.
+    /// </summary>
     [Fact]
     public void SetStations_WhenOptionIsFavourites_ShouldSetVisibleStationsToFavouriteStations()
     {

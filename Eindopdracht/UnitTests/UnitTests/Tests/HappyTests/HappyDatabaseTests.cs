@@ -4,6 +4,9 @@ namespace UnitTests.Tests.HappyTests;
 
 public class HappyDatabaseTests
 {
+    /// <summary>
+    /// This test ensures that SaveFavouriteStation successfully saves a favorite station to the database.
+    /// </summary>
     [Fact]
     public void SaveFavouriteStation()
     {
@@ -27,6 +30,10 @@ public class HappyDatabaseTests
         Assert.True(savedStations[0].Naam == station.Naam);
     }
 
+    /// <summary>
+    /// This test ensures that DeleteFavouriteStationByName successfully deletes a favorite station by name from the database.
+    /// Assuming there is a station named "Save Favourite Station Database Happy Test" in the database.
+    /// </summary>
     [Fact]
     public void DeleteFavouriteStationByName()
     {
