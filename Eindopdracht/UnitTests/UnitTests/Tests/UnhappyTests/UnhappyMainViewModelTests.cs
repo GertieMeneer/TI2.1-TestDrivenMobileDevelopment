@@ -68,7 +68,6 @@ public class UnhappyMainViewModelTests
             new NSStation { Id = 2, Naam = "Station B", Distance = 20.0f }
         };
 
-        // Set an invalid value for AllStations to simulate failure
         viewModel.AllStations = null;
 
         viewModel.SetStations(0);
@@ -91,7 +90,6 @@ public class UnhappyMainViewModelTests
                 new NSStation { Id = 2, Naam = "Fav Station B", Distance = 15.0f }
             };
 
-        // Set an invalid value for FavouriteStations to simulate failure
         viewModel.FavouriteStations = null;
 
         viewModel.SetStations(2);

@@ -15,15 +15,11 @@ namespace UnitTests.Tests.UnhappyTests
         [Fact]
         public static async Task GetAllNSStationsTest_ShouldFail()
         {
-            // Arrange
             double latitude = 52.3702;
             double longitude = 4.8952;
 
-            // Simulate a failure scenario during API call
-            // Act
             var stations = await MainPage.GetAllNSStations(latitude, longitude);
 
-            // Assert
             Assert.Null(stations);
         }
 
@@ -33,17 +29,13 @@ namespace UnitTests.Tests.UnhappyTests
         [Fact]
         public void CalculateDistanceTest_ShouldFail()
         {
-            // Arrange
             double userLat = 52.3702;
             double userLong = 4.8952;
             double stationLat = 51.9225;
             double stationLong = 4.47917;
 
-            // Simulate a scenario where calculation fails
-            // Act
             double distance = MainPage.CalculateDistance(userLat, userLong, stationLat, stationLong);
 
-            // Assert
             Assert.True(double.IsNaN(distance));
         }
     }

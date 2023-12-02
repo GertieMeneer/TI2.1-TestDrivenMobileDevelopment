@@ -13,7 +13,6 @@ namespace UnitTests.Tests.UnhappyTests
             Database database = new Database();
             var station = new DatabaseStation
             {
-                // Invalid Distance value to make the test fail
                 Distance = -1,
                 Lat = 0,
                 Lng = 0,
@@ -35,7 +34,7 @@ namespace UnitTests.Tests.UnhappyTests
         public void DeleteFavouriteStationByName_ShouldFail()
         {
             Database database = new Database();
-            // Assuming there is no station named "Nonexistent Station" in the database
+            //Assuming there is no station named "Nonexistent Station" in the database
             string stationNameToDelete = "Nonexistent Station";
 
             Assert.Throws<Exception>(() => database.DeleteFavouriteStationByName(stationNameToDelete));

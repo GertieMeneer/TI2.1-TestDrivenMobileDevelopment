@@ -28,16 +28,13 @@ public class HappyMainPageTests
     [Fact]
     public void CalculateDistanceTest()
     {
-        // Arrange
         double userLat = 52.3702;
         double userLong = 4.8952;
         double stationLat = 51.9225;
         double stationLong = 4.47917;
 
-        // Act
         double distance = MainPage.CalculateDistance(userLat, userLong, stationLat, stationLong);
 
-        // Assert
         Assert.True(distance > 0);
     }
 
