@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Eindopdracht.NSData;
+﻿using Eindopdracht.NSData;
 
 namespace Eindopdracht.ViewModels
 {

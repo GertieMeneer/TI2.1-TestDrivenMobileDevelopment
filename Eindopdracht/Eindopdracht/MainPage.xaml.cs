@@ -6,10 +6,10 @@ namespace Eindopdracht
 {
     public partial class MainPage
     {
-        private static string _nsapiKey = "12ef36ad08a1435597ae44c554d62ef8";
-        private static HttpClient? _httpClient;
-        private static Location? _location;
-        private static MainViewModel? _viewModel;
+        private static string _nsapiKey = "12ef36ad08a1435597ae44c554d62ef8";       //dont worry, github repo is private :)
+        private static HttpClient _httpClient;
+        private static Location _location;
+        private static MainViewModel _viewModel;
 
         public MainPage()
         {
@@ -28,7 +28,6 @@ namespace Eindopdracht
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
             TaskGetStations();
         }
 
@@ -51,7 +50,7 @@ namespace Eindopdracht
                 _viewModel.AllStations = allStations;
                 _viewModel.NearestStations = nearestStations;
 
-                _viewModel.SetStations(1);  //set the default list for the listview when starting app
+                _viewModel.SetStations(1);  //set the default list for the listview when starting app (1 = top 10 nearest)
             }
 
             _viewModel.IsLoading = false;       //hide loading indicator

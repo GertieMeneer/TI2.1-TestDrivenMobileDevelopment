@@ -1,5 +1,3 @@
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
 using Eindopdracht.NSData;
 using Eindopdracht.ViewModels;
 using Microsoft.Maui.Controls.Maps;

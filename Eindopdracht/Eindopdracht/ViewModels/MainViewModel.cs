@@ -12,12 +12,11 @@ namespace Eindopdracht.ViewModels
     {
         private bool _isLoading;
 
-        //binding with ui
-        private List<NSStation> _visibleStations;
+        private List<NSStation> _visibleStations;   //stations that are currently visible in ui
 
-        private List<NSStation> _allStations;
-        private List<NSStation> _nearestStations;
-        private List<NSStation> _favouriteStations;
+        private List<NSStation> _allStations;       //all stations
+        private List<NSStation> _nearestStations;   //10 nearest stations
+        private List<NSStation> _favouriteStations; //favourited stations
 
         private string _searchQuery;
         private Location _location;
@@ -84,7 +83,7 @@ namespace Eindopdracht.ViewModels
                     VisibleStations = FavouriteStations;
                     break;
                 default:
-                    throw new Exception("SetStation received wrong option");    //if this gets called: serious skill issue
+                    throw new Exception("SetStation received wrong option");    //if this gets called: serious skill issue lol
             }
         }
 
@@ -99,7 +98,6 @@ namespace Eindopdracht.ViewModels
 
         public ICommand SearchCommand { get; private set; }
 
-        //binding with ui
         public List<NSStation> VisibleStations
         {
             get => _visibleStations;
