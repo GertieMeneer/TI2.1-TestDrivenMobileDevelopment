@@ -11,6 +11,7 @@ namespace TDMD
     public partial class MainPage : ContentPage
     {
         private MainViewModel viewModel;
+        private string useriddingofzo;
 
         public MainPage()
         {
@@ -18,11 +19,25 @@ namespace TDMD
             viewModel = new MainViewModel();
             BindingContext = viewModel;
 
-            LoadLamps();
-            GetUserIDAsync();
+            InitializeAsync();
         }
 
-        private async void GetUserIDAsync()
+        private async void InitializeAsync()
+        {
+            await GetUserIDAsync();
+
+            if (Communicator.userid != null)
+            {
+                await LoadLamps();
+            }
+            else
+            {
+                DisplayAlert("error", "error", "Ok");
+                viewModel.UserIDText = "error";
+            }
+        }
+
+        private async Task GetUserIDAsync()
         {
             // before running the app click on the link button in the HUE emulator!!!
             if(await Communicator.GetUserIdAsync() == false)
@@ -40,18 +55,24 @@ namespace TDMD
 
         public async Task LoadLamps()
         {
+            string url = $"http://192.168.1.179/api/" + Communicator.userid;
+
+
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
                     //when android phone: http://10.0.2.2:8000/api/newdeveloper
-                    //when windows: http://localhost:8000/api/newdeveloper
-                    HttpResponseMessage response = await client.GetAsync("http://10.0.2.2:8000/api/newdeveloper");
+                    //when windows: http://192.168.1.179/api/newdeveloper
+                    
+                    HttpResponseMessage response = await client.GetAsync(url);
 
                     if (response.IsSuccessStatusCode)
                     {
                         Status.Text = "Status: Connected!";
                         string jsonString = await response.Content.ReadAsStringAsync();
+
+                        Debug.WriteLine(jsonString);
 
                         viewModel.Lamps = LampParser.ParseLights(jsonString);
                     }

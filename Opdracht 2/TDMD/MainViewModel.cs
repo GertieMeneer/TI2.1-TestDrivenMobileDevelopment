@@ -94,7 +94,7 @@ namespace TDMD
             {
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync("http://10.0.2.2:8000/api/newdeveloper");
+                    HttpResponseMessage response = await client.GetAsync("http://192.168.1.179/api/newdeveloper");
 
                     if (response.IsSuccessStatusCode)
                     {
