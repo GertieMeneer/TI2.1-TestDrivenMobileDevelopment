@@ -38,7 +38,6 @@ public partial class LampInfoPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-
     }
 
     private async void OnApplyBrightnessClick(Object sender, EventArgs e)
