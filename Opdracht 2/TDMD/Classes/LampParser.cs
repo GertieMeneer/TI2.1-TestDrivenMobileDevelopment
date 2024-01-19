@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace TDMD
+namespace TDMD.Classes
 {
     public class LampParser
     {
@@ -56,6 +54,6 @@ namespace TDMD
             }
 
             return lamps;
-        } 
+        }
     }
 }

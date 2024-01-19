@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace TDMD
+namespace TDMD.Classes
 {
     public class Lamp : INotifyPropertyChanged
     {
@@ -29,8 +25,8 @@ namespace TDMD
                 OnPropertyChanged();
             }
         }
-        public double Brightness 
-        { 
+        public double Brightness
+        {
             get { return _brightness; }
             set
             {
@@ -54,7 +50,7 @@ namespace TDMD
             using (HttpClient httpClient = new HttpClient())
             {
                 bool otherState = !Status;
-                string url = $"http://192.168.1.179/api/{Communicator.userid}/lights/{ID}/state";
+                string url = $"http://192.168.12.24/api/{Communicator.userid}/lights/{ID}/state";
                 string body = $"{{\"on\":{otherState.ToString().ToLower()}}}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -76,7 +72,7 @@ namespace TDMD
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://192.168.1.179/api/{Communicator.userid}/lights/{ID}/state";
+                string url = $"http://192.168.12.24/api/{Communicator.userid}/lights/{ID}/state";
                 string body = $"{{\"bri\":{value}}}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -99,7 +95,7 @@ namespace TDMD
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://192.168.1.179/api/{Communicator.userid}/lights/{ID}/state";
+                string url = $"http://192.168.12.24/api/{Communicator.userid}/lights/{ID}/state";
                 string body = $"{{\"hue\": {hue}, \"sat\": {sat}}}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");

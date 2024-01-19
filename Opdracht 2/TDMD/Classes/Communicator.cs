@@ -1,12 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace TDMD
+namespace TDMD.Classes
 {
     public static class Communicator
     {
@@ -17,7 +13,7 @@ namespace TDMD
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://192.168.1.179/api";
+                string url = $"http://192.168.12.24/api";
                 string body = "{\"devicetype\":\"my_hue_app#gertiemeneer\"}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");

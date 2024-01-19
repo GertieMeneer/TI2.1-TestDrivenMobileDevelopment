@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.Diagnostics;
-using System.Net.Http.Json;
-using System.Net.Security;
-using System.Text;
-using Microsoft.Extensions.Configuration;
+﻿using System.Diagnostics;
+using TDMD.Classes;
+using TDMD.ViewModels;
 
 namespace TDMD
 {
@@ -55,7 +51,7 @@ namespace TDMD
 
         public async Task LoadLamps()
         {
-            string url = $"http://192.168.1.179/api/" + Communicator.userid;
+            string url = $"http://192.168.12.24/api/" + Communicator.userid;
 
 
             using (HttpClient client = new HttpClient())

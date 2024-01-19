@@ -1,11 +1,8 @@
-﻿using Microsoft.Maui.Controls;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.Threading.Tasks;
-using static Microsoft.Maui.ApplicationModel.Permissions;
+using TDMD.Classes;
 
-namespace TDMD
+namespace TDMD.ViewModels
 {
     public class MainViewModel : BindableObject
     {
@@ -23,7 +20,7 @@ namespace TDMD
         {
             get { return _userID; }
             set
-            { 
+            {
                 _userID = value;
                 OnPropertyChanged();
             }
@@ -77,10 +74,10 @@ namespace TDMD
 
         private async Task RefreshData()
         {
-            if(Communicator.userid == null)
+            if (Communicator.userid == null)
             {
                 await Communicator.GetUserIdAsync();
-                if(Communicator.userid != null)
+                if (Communicator.userid != null)
                 {
                     UserIDText = $"UserID: {Communicator.userid}";
                 }
@@ -94,7 +91,7 @@ namespace TDMD
             {
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync("http://192.168.1.179/api/newdeveloper");
+                    HttpResponseMessage response = await client.GetAsync("http://192.168.12.24/api/newdeveloper");
 
                     if (response.IsSuccessStatusCode)
                     {
