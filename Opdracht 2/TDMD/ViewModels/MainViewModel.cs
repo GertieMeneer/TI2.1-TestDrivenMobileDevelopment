@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using TDMD.Classes;
 
@@ -14,6 +15,8 @@ namespace TDMD.ViewModels
         public MainViewModel()
         {
             Lamps = new ObservableCollection<Lamp>(new List<Lamp>());
+
+            InitializeAsync();
         }
 
         public string UserIDText
@@ -85,31 +88,69 @@ namespace TDMD.ViewModels
             LoadLamps();
         }
 
+        private async void InitializeAsync()
+        {
+            await GetUserIDAsync();
+
+            if (Communicator.userid != null)
+            {
+                await LoadLamps();
+            }
+            else
+            {
+                UserIDText = "error";
+            }
+        }
+
+        private async Task GetUserIDAsync()
+        {
+            // before running the app click on the link button in the HUE emulator!!!
+            if (await Communicator.GetUserIdAsync() == false)
+            {
+                UserIDText = "No UserID. Link button > refresh app";
+            }
+            else
+            {
+                UserIDText = $"UserID: {Communicator.userid}";
+            }
+
+        }
+
         public async Task LoadLamps()
         {
+            string url = $"http://192.168.12.24/api/" + Communicator.userid;
+
+
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
-                    HttpResponseMessage response = await client.GetAsync("http://192.168.12.24/api/newdeveloper");
+                    //when android phone: http://10.0.2.2:8000/api/newdeveloper
+                    //when windows: http://192.168.1.179/api/newdeveloper
+
+                    HttpResponseMessage response = await client.GetAsync(url);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        ConnectionStatus = "Status: Connected!";
+                        _status = "Status: Connected!";
                         string jsonString = await response.Content.ReadAsStringAsync();
+
+                        Debug.WriteLine(jsonString);
 
                         Lamps = LampParser.ParseLights(jsonString);
                     }
                     else
                     {
-                        //Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                        Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
                     }
                 }
                 catch (HttpRequestException ex)
                 {
-                    //Debug.WriteLine(ex);
+                    Debug.WriteLine(ex);
                 }
             }
         }
+
+
     }
 }
