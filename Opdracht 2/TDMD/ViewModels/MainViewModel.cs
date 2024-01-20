@@ -132,7 +132,7 @@ namespace TDMD.ViewModels
 
                     if (response.IsSuccessStatusCode)
                     {
-                        _status = "Status: Connected!";
+                        ConnectionStatus = "Status: Connected!";
                         string jsonString = await response.Content.ReadAsStringAsync();
 
                         Debug.WriteLine(jsonString);
