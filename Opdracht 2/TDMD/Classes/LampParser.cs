@@ -5,9 +5,9 @@ namespace TDMD.Classes
 {
     public class LampParser
     {
-        public static ObservableCollection<Lamp> ParseLights(string jsonResponse)
+        public static List<Lamp> ParseLights(string jsonResponse)
         {
-            ObservableCollection<Lamp> lamps = new ObservableCollection<Lamp>();
+            List<Lamp> lamps = new List<Lamp>();
 
             try
             {

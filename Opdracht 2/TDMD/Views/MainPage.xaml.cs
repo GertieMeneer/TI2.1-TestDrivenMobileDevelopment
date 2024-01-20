@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using TDMD.Classes;
+﻿using TDMD.Classes;
 using TDMD.ViewModels;
+
 
 namespace TDMD
 {
@@ -45,6 +45,5 @@ namespace TDMD
                 }
             }
         }
-
     }
 }

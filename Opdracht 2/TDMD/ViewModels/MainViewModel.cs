@@ -1,20 +1,22 @@
-﻿using System.Collections.ObjectModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
-using System.Windows.Input;
 using TDMD.Classes;
 
 namespace TDMD.ViewModels
 {
-    public class MainViewModel : BindableObject
+    public partial class MainViewModel : ObservableObject 
     {
-        private ObservableCollection<Lamp> _lamps;
+        [ObservableProperty]
+        private List<Lamp> _lampsList;
+
         private bool _isRefreshing = false;
         private string _status;
         private string _userID;
 
         public MainViewModel()
         {
-            Lamps = new ObservableCollection<Lamp>(new List<Lamp>());
+            Lamps = new List<Lamp>(new List<Lamp>());
 
             InitializeAsync();
         }
@@ -29,12 +31,12 @@ namespace TDMD.ViewModels
             }
         }
 
-        public ObservableCollection<Lamp> Lamps
+        public List<Lamp> Lamps
         {
-            get => _lamps;
+            get => _lampsList;
             set
             {
-                _lamps = value;
+                _lampsList = value;
                 OnPropertyChanged();
             }
         }
@@ -59,20 +61,15 @@ namespace TDMD.ViewModels
             }
         }
 
-        public ICommand RefreshCommand
+        [RelayCommand]
+        public async Task Refresh()
         {
-            get
-            {
-                return new Command(async () =>
-                {
-                    IsRefreshing = true;
+            IsRefreshing = true;
 
-                    // Call your method to refresh data here
-                    await RefreshData();
+            // Call your method to refresh data here
+            await RefreshData();
 
-                    IsRefreshing = false;
-                });
-            }
+            IsRefreshing = false;
         }
 
         private async Task RefreshData()
@@ -120,7 +117,6 @@ namespace TDMD.ViewModels
         {
             string url = $"http://192.168.12.24/api/" + Communicator.userid;
 
-
             using (HttpClient client = new HttpClient())
             {
                 try
@@ -150,7 +146,5 @@ namespace TDMD.ViewModels
                 }
             }
         }
-
-
     }
 }
