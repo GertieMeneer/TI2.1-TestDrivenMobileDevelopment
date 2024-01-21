@@ -1,0 +1,19 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Eindopdracht.StationDetailPage"
+             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+             xmlns:viewmodel="clr-namespace:Eindopdracht.ViewModels"
+             x:DataType="viewmodel:StationDetailViewModel"
+             Title="{Binding Station.Namen.Lang}">
+
+    <VerticalStackLayout>
+        <Button x:Name="FavoritesButton" Text="Add to favourites" ></Button>
+        
+        <Label Text="{Binding Station.StationType, StringFormat='Station Type: {0}'}" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Label Text="{Binding Station.HeeftFaciliteiten, StringFormat='Has facilities: {0}'}" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Label Text="{Binding Station.HeeftReisassistentie, StringFormat='Has travel assistance: {0}'}" HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Label Text="{Binding Station.Land, StringFormat='Country: {0}'}" HorizontalOptions="Center" VerticalOptions="Center"/>
+
+        <maps:Map x:Name="map" MapType="Street" HeightRequest="400" /> 
+    </VerticalStackLayout>
+</ContentPage>

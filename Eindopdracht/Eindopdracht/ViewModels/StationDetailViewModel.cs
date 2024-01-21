@@ -1,19 +1,15 @@
-﻿using Eindopdracht.NSData;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Eindopdracht.NSData;
+using System.Diagnostics;
 
 namespace Eindopdracht.ViewModels
 {
-    public class StationDetailViewModel
+    [QueryProperty(nameof(Station), "s")]
+    public partial class StationDetailViewModel : ObservableObject
     {
-        public string StationType { get; }
-        public bool HeeftFaciliteiten { get; }
-        public bool HeeftReisassistentie { get; }
-        public string Land { get; }
-        public StationDetailViewModel(NSStation station)
-        {
-            StationType = station.StationType;
-            HeeftFaciliteiten = station.HeeftFaciliteiten;
-            HeeftReisassistentie = station.HeeftReisassistentie;
-            Land = station.Land;
-        }
+        public StationDetailViewModel() { }
+
+        [ObservableProperty]
+        NSStation station;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Eindopdracht.ViewModels;
 using Microsoft.Extensions.Logging;
 using Plugin.LocalNotification;
 
@@ -23,6 +24,9 @@ namespace Eindopdracht
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddTransient<StationDetailViewModel>();
+            builder.Services.AddTransient<StationDetailPage>();
 
             return builder.Build();
         }
