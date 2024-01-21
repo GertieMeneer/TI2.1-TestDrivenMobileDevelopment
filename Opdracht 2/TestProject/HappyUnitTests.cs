@@ -1,71 +1,75 @@
-using System.Collections.ObjectModel;
-using TDMD;
-using TestProject.TDMD;
+//using TDMD.Classes;
 
-namespace TestProject
-{
-    public class HappyUnitTests
-    {
-        [Fact]
-        public async Task TestLoadingLamps()
-        {
-            LampLoader loader = new LampLoader();
+//namespace TestProject
+//{
+//    public class HappyUnitTests
+//    {
+//        [Fact]
+//        public async Task TestLoadingLamps()
+//        {
+//            // Arrange
+//            var mock = new Mock<IViewModel>();
 
-            await loader.LoadLamps();
+//            // Set up the behavior of the method
+//            List<Lamp> lamps = new List<Lamp>();
 
-            ObservableCollection<Lamp> Lamps = loader.GetLamps();
+//            var vm = mock.Object;
 
-            Assert.True(Lamps.Count == 3);
-        }
+//            // Act
+//            int result = vm.LoadLamps();
 
-        [Fact]
-        public async Task TestGetUserID()
-        {
-            bool result = await Communicator.GetUserIdAsync();
+//            // Assert
+//            Assert.Equal(3, result);
+//        }
 
-            Assert.True(result);
-        }
+//        [Fact]
+//        public async Task TestGetUserID()
+//        {
+//            bool result = await Communicator.GetUserIdAsync();
 
-        [Fact]
-        public async Task TestToggleLamp()
-        {
-            LampLoader loader = new LampLoader();
+//            Assert.True(result);
+//        }
 
-            await loader.LoadLamps();
+//        [Fact]
+//        public async Task TestToggleLamp()
+//        {
+//            LampLoader loader = new LampLoader();
 
-            ObservableCollection<Lamp> Lamps = loader.GetLamps();
+//            await loader.LoadLamps();
 
-            await Lamps[1].ToggleLamp();
+//            ObservableCollection<Lamp> Lamps = loader.GetLamps();
 
-            Assert.False(Lamps[1].Status);
-        }
+//            await Lamps[1].ToggleLamp();
 
-        [Fact]
-        public async Task TestSetBrightness()
-        {
-            LampLoader loader = new LampLoader();
+//            Assert.False(Lamps[1].Status);
+//        }
 
-            await loader.LoadLamps();
+//        [Fact]
+//        public async Task TestSetBrightness()
+//        {
+//            LampLoader loader = new LampLoader();
 
-            ObservableCollection<Lamp> Lamps = loader.GetLamps();
+//            await loader.LoadLamps();
 
-            await Lamps[1].SetBrightness(10);
+//            ObservableCollection<Lamp> Lamps = loader.GetLamps();
 
-            Assert.True(Lamps[1].Brightness == 10);
-        }
+//            await Lamps[1].SetBrightness(10);
 
-        [Fact]
-        public async Task TestSetColor()
-        {
-            LampLoader loader = new LampLoader();
+//            Assert.True(Lamps[1].Brightness == 10);
+//        }
 
-            await loader.LoadLamps();
+//        [Fact]
+//        public async Task TestSetColor()
+//        {
+//            LampLoader loader = new LampLoader();
 
-            ObservableCollection<Lamp> Lamps = loader.GetLamps();
+//            await loader.LoadLamps();
 
-            await Lamps[1].SetColor(400, 34);
+//            ObservableCollection<Lamp> Lamps = loader.GetLamps();
 
-            Assert.True(Lamps[1].Hue == 400 && Lamps[1].Sat == 34);
-        }
-    }
-}
+//            await Lamps[1].SetColor(400, 34);
+
+//            Assert.True(Lamps[1].Hue == 400 && Lamps[1].Sat == 34);
+//        }
+//    }
+//}

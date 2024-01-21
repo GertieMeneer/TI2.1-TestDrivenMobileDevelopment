@@ -2,56 +2,56 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TDMD.LampInfoPage"
+             xmlns:viewmodel="clr-namespace:TDMD.ViewModels"
+             x:DataType="viewmodel:LampInfoPageViewModel"
              Title="LampInfoPage">
+    
     <VerticalStackLayout>
         <Label
-            x:Name="LampNameLabel"
-            Text="lamp name"
+            Text="{Binding Lamp.Name}"
             FontSize="30"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
         <Label 
-            x:Name="LampStatusLabel"
-            Text="Lamp status"
+            Text="{Binding Lamp.Status, StringFormat='Status: {0}'}"
             VerticalOptions="Center"
             HorizontalOptions="Center"/>
         <Label 
-            x:Name="LampBrightnessLabel"
-            Text="Lamp brightness"
+            Text="{Binding Lamp.Brightness, StringFormat='Brightness: {0}'}"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
 
         <Slider 
             x:Name="BrightnessSlider"
             Minimum="0"
-            Maximum="100" />
+            Maximum="100" 
+            Value="{Binding Brightness}" />
 
-        <Button
-            x:Name="ApplyBrightnessButton"
-            Text="Apply Brightness"
-            Clicked="OnApplyBrightnessClick" />
+        <Button Text="Apply Brightness" Command="{Binding ApplyBrightnessCommand}"/>
 
         <Label Text=""/>
 
         <Label 
-            x:Name="LampHueLabel"
-            Text="Lamp hue"
+            Text="{Binding Lamp.Hue, StringFormat='Hue: {0}'}"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
-        <Slider x:Name="hueSlider" Minimum="0" Maximum="65535" />
+
+        <Slider x:Name="hueSlider" Minimum="0" Maximum="65535" Value="{Binding Hue}"/>
         
         
         <Label 
-            x:Name="LampSatLabel"
-            Text="Lamp sat"
+            Text="{Binding Lamp.Sat, StringFormat='Sat: {0}'}"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
-        <Slider x:Name="saturationSlider" Minimum="0" Maximum="254" />
-        
-        <Button Text="Change Light Color" Clicked="ChangeLightColor_Clicked" />
+
+        <Slider x:Name="saturationSlider" Minimum="0" Maximum="254" Value="{Binding Sat}"/>
+
+        <Button Text="Change Light Color" Command="{Binding ChangeLightColorCommand}"/>
 
         <Label Text=""/>
+
+        <Button Text="Toggle" Command="{Binding ToggleCommand}"/>
 
         <Label
             Text="Lamp Info"
@@ -59,28 +59,23 @@
             HorizontalOptions="Center"
             FontSize="20" />
         <Label
-            x:Name="LampIDLabel"
-            Text="Lamp id"
+            Text="{Binding Lamp.ID, StringFormat='ID: {0}'}"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
         <Label
-            x:Name="LampTypeLabel"
-            Text="Lamp type"
+            Text="{Binding Lamp.Type, StringFormat='Type: {0}'}"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
         <Label
-            x:Name="LampModelIDLabel"
-            Text="Lamp modelID"
+            Text="{Binding Lamp.ModelID, StringFormat='ModelID: {0}'}"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
         <Label
-            x:Name="LampSoftwareLabel"
-            Text="Lamp software"
+            Text="{Binding Lamp.SWVersion, StringFormat='SWVersion: {0}'}"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
         <Label
-            x:Name="LampUniqueIDLabel"
-            Text="Lamp unique id"
+            Text="{Binding Lamp.UniqueID, StringFormat='UniqueID: {0}'}"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
     </VerticalStackLayout>

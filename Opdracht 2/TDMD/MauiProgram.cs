@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using TDMD.Classes;
+using TDMD.ViewModels;
 
 namespace TDMD
 {
@@ -18,6 +20,9 @@ namespace TDMD
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddTransient<LampInfoPageViewModel>();
+            builder.Services.AddTransient<LampInfoPage>();
 
             return builder.Build();
         }

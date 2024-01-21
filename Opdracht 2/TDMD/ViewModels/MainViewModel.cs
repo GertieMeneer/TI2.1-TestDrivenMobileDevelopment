@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using System.Text;
 using TDMD.Classes;
+using TDMD.Interfaces;
 
 namespace TDMD.ViewModels
 {
-    public partial class MainViewModel : ObservableObject 
+    public partial class MainViewModel : ObservableObject, IViewModel
     {
         [ObservableProperty]
         private List<Lamp> _lampsList;
@@ -13,6 +16,8 @@ namespace TDMD.ViewModels
         private bool _isRefreshing = false;
         private string _status;
         private string _userID;
+
+        private string userId;
 
         public MainViewModel()
         {
@@ -72,24 +77,31 @@ namespace TDMD.ViewModels
             IsRefreshing = false;
         }
 
+        [RelayCommand]
+        async Task GoToLampInfoPage(Lamp lamp)
+        {
+            if (lamp == null)
+                return;
+
+            await Shell.Current.GoToAsync(nameof(LampInfoPage), true, new Dictionary<string, object>
+            {
+                {"Lamp", lamp }
+            });
+        }
+
         private async Task RefreshData()
         {
-            if (Communicator.userid == null)
+            if (userId != null)
             {
-                await Communicator.GetUserIdAsync();
-                if (Communicator.userid != null)
-                {
-                    UserIDText = $"UserID: {Communicator.userid}";
-                }
+                LoadLamps();
             }
-            LoadLamps();
         }
 
         private async void InitializeAsync()
         {
             await GetUserIDAsync();
 
-            if (Communicator.userid != null)
+            if (userId != null)
             {
                 await LoadLamps();
             }
@@ -102,20 +114,20 @@ namespace TDMD.ViewModels
         private async Task GetUserIDAsync()
         {
             // before running the app click on the link button in the HUE emulator!!!
-            if (await Communicator.GetUserIdAsync() == false)
+            if (await GetUserIdAsync() == false)
             {
                 UserIDText = "No UserID. Link button > refresh app";
             }
             else
             {
-                UserIDText = $"UserID: {Communicator.userid}";
+                UserIDText = $"UserID: {userId}";
             }
 
         }
 
         public async Task LoadLamps()
         {
-            string url = $"http://192.168.12.24/api/" + Communicator.userid;
+            string url = $"http://192.168.12.24/api/" + userId;
 
             using (HttpClient client = new HttpClient())
             {
@@ -133,7 +145,7 @@ namespace TDMD.ViewModels
 
                         Debug.WriteLine(jsonString);
 
-                        Lamps = LampParser.ParseLights(jsonString);
+                        Lamps = ParseLights(jsonString);
                     }
                     else
                     {
@@ -143,6 +155,99 @@ namespace TDMD.ViewModels
                 catch (HttpRequestException ex)
                 {
                     Debug.WriteLine(ex);
+                }
+            }
+        }
+
+        private List<Lamp> ParseLights(string jsonResponse)
+        {
+            List<Lamp> lamps = new List<Lamp>();
+
+            try
+            {
+                JObject jsonObject = JObject.Parse(jsonResponse);
+                JObject lightsObject = jsonObject["lights"].ToObject<JObject>();
+
+                foreach (var keyValuePair in lightsObject)
+                {
+                    string key = keyValuePair.Key;
+                    JObject lightObject = keyValuePair.Value.ToObject<JObject>();
+
+                    string id = key;
+                    string name = lightObject["name"].ToString();
+                    bool isOn = lightObject["state"]["on"].ToObject<bool>();
+                    string type = lightObject["type"].ToString();
+                    string swversion = lightObject["swversion"].ToString();
+                    string uniqueid = lightObject["uniqueid"].ToString();
+                    int brightness = lightObject["state"]["bri"].ToObject<int>();
+                    int hue = lightObject["state"]["hue"].ToObject<int>();
+                    int sat = lightObject["state"]["sat"].ToObject<int>();
+
+                    Lamp lamp = new Lamp
+                    {
+                        ID = key,
+                        Type = type,
+                        Name = name,
+                        ModelID = id,
+                        SWVersion = swversion,
+                        UniqueID = uniqueid,
+
+                        Status = isOn,
+                        Brightness = brightness,
+                        BrightnessPercentage = ValueToPercentage(brightness),
+                        Hue = hue,
+                        Sat = sat
+                    };
+
+                    lamps.Add(lamp);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
+
+            return lamps;
+        }
+
+        private static double ValueToPercentage(double value)
+        {
+            double percentage = value / 254.0 * 100.0;
+            return Math.Round(percentage);
+        }
+
+        public async Task<bool> GetUserIdAsync()
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string url = $"http://192.168.12.24/api";
+                string body = "{\"devicetype\":\"my_hue_app#gertiemeneer\"}";
+
+                var content = new StringContent(body, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await httpClient.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string result = await response.Content.ReadAsStringAsync();
+
+                    try
+                    {
+                        JArray jsonArray = JArray.Parse(result);
+                        JObject successObject = jsonArray[0]["success"] as JObject;
+                        userId = (string)successObject["username"];
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+
+                    Debug.WriteLine($"User ID: {userId}");
+                    return true;
+                }
+                else
+                {
+                    Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return false;
                 }
             }
         }

@@ -1,40 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TDMD.MainPage"
-             xmlns:viewModels="clr-namespace:TDMD">
+<ContentPage
+    x:Class="TDMD.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:TDMD.Classes"
+    xmlns:viewModels="clr-namespace:TDMD.ViewModels"
+    Title="HUE"
+    x:DataType="viewModels:MainViewModel">
 
     <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-        <ScrollView>
-            <VerticalStackLayout>
-                <Label x:Name="Status" Text="{Binding ConnectionStatus}" Margin="0, 0, 0, 10" FontSize="32" HorizontalOptions="Center" VerticalOptions="Center"/>
-                <Label Text="{Binding UserIDText}" Margin="0,0,0,10" HorizontalOptions="Center" VerticalOptions="Center"/>
-                <ListView ItemsSource="{Binding Lamps}" ItemSelected="OnItemSelected">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <HorizontalStackLayout>
-                                    <VerticalStackLayout Margin="0,0,20,0">
-                                        <Label Text="{Binding Name}" VerticalOptions="Center" Margin="10,0,0,0"/>
-                                        <Label Text="{Binding Status, StringFormat='Is On: {0}'}" VerticalOptions="Center" Margin="10,0,0,0"/>
-                                    </VerticalStackLayout>
-                                    <Label>
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="Brightness: " />
-                                                <Span Text="{Binding BrightnessPercentage}" />
-                                                <Span Text="%" />
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <BoxView HorizontalOptions="FillAndExpand"/>
-                                    <Button Text="Toggle" Clicked="OnToggleButtonClicked" CommandParameter="{Binding .}" Margin="10,0,0,0" BackgroundColor="Gray"/>
-                                </HorizontalStackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </VerticalStackLayout>
-        </ScrollView>
+        <CollectionView ItemsSource="{Binding Lamps}" SelectionMode="None">
+            <CollectionView.EmptyView>
+                <StackLayout Padding="100">
+                    <Image
+                        HorizontalOptions="Center"
+                        HeightRequest="160"
+                        WidthRequest="160"
+                        Source="nodata.png"
+                        VerticalOptions="Center" />
+                </StackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Lamp">
+                    <Grid Padding="10" HorizontalOptions="Fill">
+                        <Frame>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=GoToLampInfoPageCommand}" CommandParameter="{Binding .}" />
+                            </Frame.GestureRecognizers>
+                            <Grid Padding="0" ColumnDefinitions="125,*">
+                                <VerticalStackLayout Grid.Column="0">
+                                    <Label Text="{Binding Name}" />
+                                    <Label Text="{Binding Status, StringFormat='Is On: {0}'}" />
+                                    <Label Text="{Binding BrightnessPercentage, StringFormat='Brightness: {0}%'}" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </RefreshView>
 </ContentPage>
