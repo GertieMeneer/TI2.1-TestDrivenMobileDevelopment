@@ -7,7 +7,7 @@
              Title="{Binding Station.Namen.Lang}">
 
     <VerticalStackLayout>
-        <Button x:Name="FavoritesButton" Text="Add to favourites" ></Button>
+        <Button Text="{Binding ButtonText}" Command="{Binding FavoritesCommand}" > </Button>
         
         <Label Text="{Binding Station.StationType, StringFormat='Station Type: {0}'}" HorizontalOptions="Center" VerticalOptions="Center"/>
         <Label Text="{Binding Station.HeeftFaciliteiten, StringFormat='Has facilities: {0}'}" HorizontalOptions="Center" VerticalOptions="Center"/>

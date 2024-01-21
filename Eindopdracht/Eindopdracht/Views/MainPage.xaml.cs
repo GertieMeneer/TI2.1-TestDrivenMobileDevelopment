@@ -8,7 +8,7 @@ namespace Eindopdracht
         {
             InitializeComponent();
 
-            MainViewModel viewModel = new MainViewModel();
+            MainViewModel viewModel = new MainViewModel(new Database());
             BindingContext = viewModel;
         }
     }

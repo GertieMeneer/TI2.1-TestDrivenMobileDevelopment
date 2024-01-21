@@ -1,12 +1,13 @@
-﻿using Eindopdracht.NSData;
+﻿using Eindopdracht.Interfaces;
+using Eindopdracht.NSData;
 using SQLite;
 
-public static class Database
+public class Database : IDatabase
 {
     private const string databasePath = "database.db";
-    private static SQLiteConnection connection;
+    private SQLiteConnection connection;
 
-    static Database()
+    public Database()
     {
         string applicationFolderPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "Folder");
         Directory.CreateDirectory(applicationFolderPath);
@@ -17,17 +18,17 @@ public static class Database
         connection.CreateTable<DatabaseStation>();
     }
      
-    public static void SaveFavouriteStation(DatabaseStation station)
+    public void SaveFavouriteStation(DatabaseStation station)
     {
         connection.Insert(station);
     }
 
-    public static List<DatabaseStation> GetFavouriteStations()
+    public List<DatabaseStation> GetFavouriteStations()
     {
         return connection.Table<DatabaseStation>().ToList();
     }
 
-    public static void DeleteFavouriteStationByName(string stationName)
+    public void DeleteFavouriteStationByName(string stationName)
     {
         connection.Table<DatabaseStation>().Delete(s => s.Naam == stationName);
     }

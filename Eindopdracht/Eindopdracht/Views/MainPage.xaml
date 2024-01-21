@@ -6,7 +6,7 @@
              Title="NS"
              x:DataType="viewModels:MainViewModel">
 
-    <StackLayout Padding="20">
+    <StackLayout Padding="20" >
         <Label Text="Stations" FontSize="32" HorizontalOptions="Center" FontAttributes="Bold"/>
         <Label FontSize="Body" HorizontalOptions="Center" />
         
@@ -14,7 +14,7 @@
                    SearchCommand="{Binding SearchStationsCommand}"
                    SearchCommandParameter="{Binding Source={x:Reference SearchBar}, Path=Text}" />
 
-        <Picker x:Name="ListSorter" SelectedIndex="{Binding SelectedSortIndex}" AnchorX="0" AnchorY="0">
+        <Picker x:Name="ListSorter" SelectedIndex="{Binding SelectedSortIndex}" >
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
                     <!-- <x:String>All</x:String> -->

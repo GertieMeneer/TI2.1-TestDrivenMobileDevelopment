@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.Input;
+using Eindopdracht.Interfaces;
 using Eindopdracht.NSData;
 using Newtonsoft.Json;
 using Plugin.LocalNotification;
@@ -21,14 +22,16 @@ namespace Eindopdracht.ViewModels
         private Location _location;
         private int _selectedSortIndex;
         private bool _isRefreshing = false;
+        private IDatabase _database;
 
-        public MainViewModel()
+        public MainViewModel(IDatabase database)
         {
             _httpClient = new HttpClient();
 
             TaskGetStations();
 
             SelectedSortIndex = 0;
+            _database = database;
         }
 
         public Location Location
@@ -83,7 +86,7 @@ namespace Eindopdracht.ViewModels
                     break;
                 case 1:
                     FavouriteStations = new List<NSStation>();
-                    foreach (DatabaseStation station in Database.GetFavouriteStations())
+                    foreach (DatabaseStation station in _database.GetFavouriteStations())
                     {
                         NSStation NSStation = new NSStation()
                         {
@@ -195,17 +198,8 @@ namespace Eindopdracht.ViewModels
 
             IsRefreshing = true;
 
-            switch (option)
-            {
-                case 0:
-                    VisibleStations = NearestStations;
-                    break;
-                case 1:
-                    VisibleStations = FavouriteStations;
-                    break;
-                default:
-                    throw new Exception("SetStation received wrong option");    //if this gets called: serious skill issue lol
-            }
+            SetStations(option);
+
             IsRefreshing = false;
         }
 
