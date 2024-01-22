@@ -11,6 +11,8 @@ namespace TDMD.Classes
     {
         public Lamp() { GetUserIdAsync(); }
 
+        private string mainUrl = "http://10.0.2.2:80/api";
+
         private bool _status;
         private double _brightness;
         private string userId;
@@ -55,7 +57,7 @@ namespace TDMD.Classes
             using (HttpClient httpClient = new HttpClient())
             {
                 bool otherState = !Status;
-                string url = $"http://192.168.12.24/api/{userId}/lights/{ID}/state";
+                string url = $"{mainUrl}/{userId}/lights/{ID}/state";
                 string body = $"{{\"on\":{otherState.ToString().ToLower()}}}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -77,7 +79,7 @@ namespace TDMD.Classes
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://192.168.12.24/api/{userId}/lights/{ID}/state";
+                string url = $"{mainUrl}/{userId}/lights/{ID}/state";
                 string body = $"{{\"bri\":{value}}}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -100,7 +102,7 @@ namespace TDMD.Classes
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://192.168.12.24/api/{userId}/lights/{ID}/state";
+                string url = $"{mainUrl}/{userId}/lights/{ID}/state";
                 string body = $"{{\"hue\": {hue}, \"sat\": {sat}}}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
@@ -129,7 +131,7 @@ namespace TDMD.Classes
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://192.168.12.24/api";
+                string url = mainUrl;
                 string body = "{\"devicetype\":\"my_hue_app#gertiemeneer\"}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");

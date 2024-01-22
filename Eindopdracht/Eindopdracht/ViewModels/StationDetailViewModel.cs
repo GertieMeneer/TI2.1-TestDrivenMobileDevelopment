@@ -164,8 +164,6 @@ namespace Eindopdracht.ViewModels
             map.Pins.Add(currentLocationPin);
 
             map.MoveToRegion(mapSpan);
-
-            await showNotification(5, "Eindopdracht", "Map loaded succesfully!");
         }
 
         private void updateCurrentLocationElements(double lat, double lng)
@@ -245,13 +243,13 @@ namespace Eindopdracht.ViewModels
             if (!CheckIfInFavourites())
             {
                 _database.SaveFavouriteStation(GetStation(Station));
-                showNotification(0, "Eindopdracht", "Added to favorites.");
+                showNotification(0, "NS Stations", "Added to favorites.");
                 ButtonText = "Remove from favourites";
             }
             else
             {
                 _database.DeleteFavouriteStationByName(Station.Namen.Lang);
-                showNotification(0, "Eindopdracht", "Removed from favorites.");
+                showNotification(0, "NS Stations", "Removed from favorites.");
                 ButtonText = "Add to favourites";
             }
         }
@@ -292,7 +290,7 @@ namespace Eindopdracht.ViewModels
             var distance = CalculateDistance(e.Location.Latitude, e.Location.Longitude, Station.Lat, Station.Lng);
             if (distance < 0.15)
             {
-                await showNotification(5, "Eindopdracht", "You are very close to the station.");
+                await showNotification(0, "NS Stations", "You are very close to the station.");
             }
         }
 

@@ -17,7 +17,7 @@
         <Picker x:Name="ListSorter" SelectedIndex="{Binding SelectedSortIndex}" >
             <Picker.ItemsSource>
                 <x:Array Type="{x:Type x:String}">
-                    <!-- <x:String>All</x:String> -->
+                     <x:String>All</x:String> 
                     <x:String>Top 10 closest</x:String>
                     <x:String>Favourites</x:String>
                 </x:Array>

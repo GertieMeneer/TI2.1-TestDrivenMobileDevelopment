@@ -20,7 +20,7 @@ namespace Eindopdracht.ViewModels
         private List<NSStation> _favouriteStations; //favourited stations
         private string _searchQuery;
         private Location _location;
-        private int _selectedSortIndex;
+        private int _selectedSortIndex = 0;
         private bool _isRefreshing = false;
         private IDatabase _database;
 
@@ -78,13 +78,13 @@ namespace Eindopdracht.ViewModels
         {
             switch (option)
             {
-                //case 0:
-                    //VisibleStations = AllStations;
-                    //break;
                 case 0:
-                    VisibleStations = NearestStations;
+                    VisibleStations = AllStations;
                     break;
                 case 1:
+                    VisibleStations = NearestStations;
+                    break;
+                case 2:
                     FavouriteStations = new List<NSStation>();
                     foreach (DatabaseStation station in _database.GetFavouriteStations())
                     {
@@ -198,6 +198,8 @@ namespace Eindopdracht.ViewModels
 
             IsRefreshing = true;
 
+            TaskGetStations();
+
             SetStations(option);
 
             IsRefreshing = false;
@@ -243,7 +245,7 @@ namespace Eindopdracht.ViewModels
                 AllStations = allStations;
                 NearestStations = nearestStations;
 
-                SetStations(0);  //set the default list for the listview when starting app (1 = top 10 nearest)
+                SetStations(_selectedSortIndex);  //set the default list for the listview when starting app (1 = top 10 nearest)
             }
 
             IsLoading = false;       //hide loading indicator

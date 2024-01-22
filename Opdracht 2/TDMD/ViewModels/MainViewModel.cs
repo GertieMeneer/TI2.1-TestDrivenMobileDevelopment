@@ -19,6 +19,10 @@ namespace TDMD.ViewModels
 
         private string userId;
 
+        //when android phone: http://10.0.2.2:8000/
+        //when windows: http://192.168.1.179/
+        private string mainUrl = "http://10.0.2.2:80/api";
+
         public MainViewModel()
         {
             Lamps = new List<Lamp>(new List<Lamp>());
@@ -127,15 +131,12 @@ namespace TDMD.ViewModels
 
         public async Task LoadLamps()
         {
-            string url = $"http://192.168.12.24/api/" + userId;
+            string url = $"{mainUrl}" + "/" + userId;
 
             using (HttpClient client = new HttpClient())
             {
                 try
                 {
-                    //when android phone: http://10.0.2.2:8000/api/newdeveloper
-                    //when windows: http://192.168.1.179/api/newdeveloper
-
                     HttpResponseMessage response = await client.GetAsync(url);
 
                     if (response.IsSuccessStatusCode)
@@ -220,7 +221,7 @@ namespace TDMD.ViewModels
         {
             using (HttpClient httpClient = new HttpClient())
             {
-                string url = $"http://192.168.12.24/api";
+                string url = mainUrl;
                 string body = "{\"devicetype\":\"my_hue_app#gertiemeneer\"}";
 
                 var content = new StringContent(body, Encoding.UTF8, "application/json");
