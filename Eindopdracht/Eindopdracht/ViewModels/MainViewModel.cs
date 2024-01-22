@@ -257,7 +257,7 @@ namespace Eindopdracht.ViewModels
             {
                 await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
 
-                GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(1));
+                GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Best, TimeSpan.FromSeconds(10));
 
                 _location = await Geolocation.GetLocationAsync(request);
             }
