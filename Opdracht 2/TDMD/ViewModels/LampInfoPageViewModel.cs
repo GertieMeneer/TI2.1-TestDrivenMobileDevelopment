@@ -1,11 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TDMD.Classes;
+using TDMD.Interfaces;
 
 namespace TDMD.ViewModels
 {
     [QueryProperty(nameof(Lamp), "Lamp")]
-    public partial class LampInfoPageViewModel : ObservableObject
+    public partial class LampInfoPageViewModel : ObservableObject, ILampInfoPageViewModel
     {
         private double _brightness;
         private double _hue;
@@ -53,7 +54,7 @@ namespace TDMD.ViewModels
         }
 
         [RelayCommand]
-        async Task OnApplyBrightness()
+        public async Task OnApplyBrightness()
         {
             if (lamp.Status != false)
             {
@@ -64,7 +65,7 @@ namespace TDMD.ViewModels
         }
 
         [RelayCommand]
-        async Task ChangeLightColor()
+        public async Task ChangeLightColor()
         {
             if (lamp.Status != false)
             {
@@ -76,12 +77,12 @@ namespace TDMD.ViewModels
         }
 
         [RelayCommand]
-        async Task Toggle()
+        public async Task Toggle()
         {
             await lamp.ToggleLamp();
         }
 
-        private double PercentageToValue(double percentage)
+        public double PercentageToValue(double percentage)
         {
             double convertedValue = percentage / 100.0 * 253.0 + 1.0;
             return convertedValue;

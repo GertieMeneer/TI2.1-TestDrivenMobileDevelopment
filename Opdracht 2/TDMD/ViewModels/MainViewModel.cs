@@ -8,7 +8,7 @@ using TDMD.Interfaces;
 
 namespace TDMD.ViewModels
 {
-    public partial class MainViewModel : ObservableObject, IViewModel
+    public partial class MainViewModel : ObservableObject, IMainViewModel
     {
         [ObservableProperty]
         private List<Lamp> _lampsList;
@@ -82,7 +82,7 @@ namespace TDMD.ViewModels
         }
 
         [RelayCommand]
-        async Task GoToLampInfoPage(Lamp lamp)
+        public async Task GoToLampInfoPage(Lamp lamp)
         {
             if (lamp == null)
                 return;
@@ -93,21 +93,23 @@ namespace TDMD.ViewModels
             });
         }
 
-        private async Task RefreshData()
+        public async Task RefreshData()
         {
             if (userId != null)
             {
-                LoadLamps();
+                string jsonString = await LoadLamps();
+                Lamps = ParseLights(jsonString);
             }
         }
 
-        private async void InitializeAsync()
+        public async void InitializeAsync()
         {
             await GetUserIDAsync();
 
             if (userId != null)
             {
-                await LoadLamps();
+                string jsonString = await LoadLamps();
+                Lamps = ParseLights(jsonString);
             }
             else
             {
@@ -115,10 +117,13 @@ namespace TDMD.ViewModels
             }
         }
 
-        private async Task GetUserIDAsync()
+        public async Task GetUserIDAsync()
         {
             // before running the app click on the link button in the HUE emulator!!!
-            if (await GetUserIdAsync() == false)
+
+            string result = await GetUserIdAsync();
+
+            if (result.Equals(string.Empty))
             {
                 UserIDText = "No UserID. Link button > refresh app";
             }
@@ -126,10 +131,9 @@ namespace TDMD.ViewModels
             {
                 UserIDText = $"UserID: {userId}";
             }
-
         }
 
-        public async Task LoadLamps()
+        public async Task<string> LoadLamps()
         {
             string url = $"{mainUrl}" + "/" + userId;
 
@@ -146,21 +150,23 @@ namespace TDMD.ViewModels
 
                         Debug.WriteLine(jsonString);
 
-                        Lamps = ParseLights(jsonString);
+                        return jsonString;
                     }
                     else
                     {
                         Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                        return string.Empty;
                     }
                 }
                 catch (HttpRequestException ex)
                 {
                     Debug.WriteLine(ex);
+                    return string.Empty;
                 }
             }
         }
 
-        private List<Lamp> ParseLights(string jsonResponse)
+        public List<Lamp> ParseLights(string jsonResponse)
         {
             List<Lamp> lamps = new List<Lamp>();
 
@@ -211,13 +217,13 @@ namespace TDMD.ViewModels
             return lamps;
         }
 
-        private double ValueToPercentage(double value)
+        public double ValueToPercentage(double value)
         {
             double percentage = value / 254.0 * 100.0;
             return Math.Round(percentage);
         }
 
-        public async Task<bool> GetUserIdAsync()
+        public async Task<string> GetUserIdAsync()
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -239,16 +245,16 @@ namespace TDMD.ViewModels
                     }
                     catch
                     {
-                        return false;
+                        return string.Empty;
                     }
 
                     Debug.WriteLine($"User ID: {userId}");
-                    return true;
+                    return userId;
                 }
                 else
                 {
                     Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                    return false;
+                    return string.Empty;
                 }
             }
         }

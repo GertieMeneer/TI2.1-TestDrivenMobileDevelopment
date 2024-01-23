@@ -89,7 +89,7 @@ namespace TDMD.Classes
                 {
                     Debug.WriteLine($"Lamp {ID} turned on successfully.");
                     Brightness = value;
-                    BrightnessPercentage = ValueToPercentage(Brightness);
+                    BrightnessPercentage = Brightness / 254.0 * 100.0;
                 }
                 else
                 {
@@ -121,13 +121,7 @@ namespace TDMD.Classes
             }
         }
 
-        private double ValueToPercentage(double value)
-        {
-            double percentage = value / 254.0 * 100.0;
-            return Math.Round(percentage);
-        }
-
-        private async Task<bool> GetUserIdAsync()
+        public async Task<string> GetUserIdAsync()
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -149,16 +143,16 @@ namespace TDMD.Classes
                     }
                     catch
                     {
-                        return false;
+                        return string.Empty;
                     }
 
                     Debug.WriteLine($"User ID: {userId}");
-                    return true;
+                    return "userId";
                 }
                 else
                 {
                     Debug.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-                    return false;
+                    return string.Empty;
                 }
             }
         }
