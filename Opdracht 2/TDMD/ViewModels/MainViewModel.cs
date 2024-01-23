@@ -211,7 +211,7 @@ namespace TDMD.ViewModels
             return lamps;
         }
 
-        private static double ValueToPercentage(double value)
+        private double ValueToPercentage(double value)
         {
             double percentage = value / 254.0 * 100.0;
             return Math.Round(percentage);
