@@ -5,6 +5,7 @@
         [Fact]
         public async Task TestToggleLamp()
         {
+            // Summary: Verifies that toggling a lamp multiple times results in only one invocation of ToggleLamp, ensuring consistent lamp state.
             // Arrange
             Mock<ILamp> lampMock = new Mock<ILamp>();
             lampMock.Setup(l => l.ToggleLamp()).Returns(Task.CompletedTask);
@@ -23,6 +24,7 @@
         [Fact]
         public async Task TestSetBrightness()
         {
+            // Summary: Tests the behavior of setting lamp brightness, ensuring the correct invocation of SetBrightness and property value consistency.
             // Arrange
             Mock<ILamp> lampMock = new Mock<ILamp>();
 
@@ -41,6 +43,7 @@
         [Fact]
         public async Task TestSetColor()
         {
+            // Summary: Evaluates the behavior of setting lamp color, verifying the correct invocation of SetColor and property value consistency.
             // Arrange
             Mock<ILamp> lampMock = new Mock<ILamp>();
 
@@ -60,13 +63,14 @@
         [Fact]
         public async Task TestGetLamps()
         {
+            // Summary: Tests error handling in MainViewModel during user ID retrieval and lamp loading, ensuring proper handling of error scenarios.
             // Arrange
             Mock<IMainViewModel> mainViewModelMock = new Mock<IMainViewModel>();
 
             mainViewModelMock.Setup(mock => mock.GetUserIdAsync()).ReturnsAsync("link button not pressed");
             mainViewModelMock.Setup(mock => mock.LoadLamps()).ReturnsAsync("Error: no userid");
             mainViewModelMock.Setup(mock => mock.ParseLights(It.IsAny<string>())).Returns(new List<Lamp>());
-            
+
             var mainViewModel = mainViewModelMock.Object;
 
             // Act
