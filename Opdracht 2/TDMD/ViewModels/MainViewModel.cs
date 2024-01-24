@@ -174,8 +174,8 @@ namespace TDMD.ViewModels
         {
             List<Lamp> lamps = new List<Lamp>();
 
-            //try
-            //{
+            try
+            {
                 JObject jsonObject = JObject.Parse(jsonResponse);
                 JObject lightsObject = jsonObject["lights"].ToObject<JObject>();
 
@@ -217,11 +217,11 @@ namespace TDMD.ViewModels
 
                 lamps.Add(lamp);
                 }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine($"Error: {e.Message}");
-            //}
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error: {e.Message}");
+            }
 
             return lamps;
         }
