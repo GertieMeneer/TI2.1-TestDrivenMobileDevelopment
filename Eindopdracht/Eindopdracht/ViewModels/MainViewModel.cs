@@ -179,7 +179,7 @@ namespace Eindopdracht.ViewModels
         }
 
         [RelayCommand]
-        private void SearchStations()
+        public void SearchStations()
         {
             if (!IsLoading)
             {
@@ -311,7 +311,7 @@ namespace Eindopdracht.ViewModels
             return stations;
         }
 
-        private double CalculateDistance(double userLat, double userLong, double stationLat, double stationLong)
+        public double CalculateDistance(double userLat, double userLong, double stationLat, double stationLong)
         {
             double distance = Location.CalculateDistance(userLat, userLong, stationLat, stationLong, DistanceUnits.Kilometers);
             return distance;
