@@ -311,7 +311,7 @@ namespace Eindopdracht.ViewModels
             return stations;
         }
 
-        private static double CalculateDistance(double userLat, double userLong, double stationLat, double stationLong)
+        private double CalculateDistance(double userLat, double userLong, double stationLat, double stationLong)
         {
             double distance = Location.CalculateDistance(userLat, userLong, stationLat, stationLong, DistanceUnits.Kilometers);
             return distance;
