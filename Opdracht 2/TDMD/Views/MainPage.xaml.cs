@@ -7,10 +7,9 @@ namespace TDMD
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        public MainPage(MainViewModel viewModel)
         {
             InitializeComponent();
-            MainViewModel viewModel = new MainViewModel();
             BindingContext = viewModel;
         }
     }

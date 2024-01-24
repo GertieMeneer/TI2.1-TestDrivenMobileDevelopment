@@ -19,12 +19,16 @@ namespace TDMD.ViewModels
 
         private string userId;
 
+        private IServiceProvider services;
+
         //when android phone: http://10.0.2.2:8000/
         //when windows: http://192.168.1.179/
         private string mainUrl = "http://10.0.2.2:80/api";
 
-        public MainViewModel()
+        public MainViewModel(IServiceProvider services)
         {
+            this.services = services;
+
             Lamps = new List<Lamp>(new List<Lamp>());
 
             InitializeAsync();
@@ -170,8 +174,8 @@ namespace TDMD.ViewModels
         {
             List<Lamp> lamps = new List<Lamp>();
 
-            try
-            {
+            //try
+            //{
                 JObject jsonObject = JObject.Parse(jsonResponse);
                 JObject lightsObject = jsonObject["lights"].ToObject<JObject>();
 
@@ -189,7 +193,9 @@ namespace TDMD.ViewModels
                     int brightness = lightObject["state"]["bri"].ToObject<int>();
                     int hue = lightObject["state"]["hue"].ToObject<int>();
                     int sat = lightObject["state"]["sat"].ToObject<int>();
-
+                    
+                    var lampImplementation = services.GetRequiredService<ILamp>();
+                    
                     Lamp lamp = new Lamp
                     {
                         ID = key,
@@ -206,13 +212,16 @@ namespace TDMD.ViewModels
                         Sat = sat
                     };
 
-                    lamps.Add(lamp);
+                    lampImplementation = services.GetRequiredService<ILamp>();
+                    lamp.SetImplementation(lampImplementation);
+
+                lamps.Add(lamp);
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Error: {e.Message}");
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine($"Error: {e.Message}");
+            //}
 
             return lamps;
         }
