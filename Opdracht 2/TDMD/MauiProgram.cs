@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using TDMD.Classes;
+using TDMD.Interfaces;
 using TDMD.ViewModels;
 
 namespace TDMD
@@ -23,6 +25,9 @@ namespace TDMD
 
             builder.Services.AddTransient<LampInfoPageViewModel>();
             builder.Services.AddTransient<LampInfoPage>();
+            builder.Services.AddTransient<MainViewModel>();
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<ILamp, Lamp>();
 
             return builder.Build();
         }

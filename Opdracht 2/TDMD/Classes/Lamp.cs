@@ -9,7 +9,10 @@ namespace TDMD.Classes
 {
     public class Lamp : INotifyPropertyChanged, ILamp
     {
-        public Lamp() { GetUserIdAsync(); }
+        public Lamp() 
+        {
+            GetUserIdAsync(); 
+        }
 
         private string mainUrl = "http://10.0.2.2:80/api";
 
@@ -22,6 +25,7 @@ namespace TDMD.Classes
         public string ModelID { get; set; }
         public string SWVersion { get; set; }
         public string UniqueID { get; set; }
+        public ILamp Implementation { get; set; }
 
         public bool Status
         {
@@ -50,6 +54,11 @@ namespace TDMD.Classes
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void SetImplementation(ILamp implementation)
+        {
+            Implementation = implementation;
         }
 
         public async Task ToggleLamp()
