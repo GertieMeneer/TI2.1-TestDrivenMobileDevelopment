@@ -8,10 +8,10 @@ public class HappyDatabaseTests
     [Fact]
     public void SaveFavouriteStation()
     {
-        // Arrange
+        //arrange
         var mockDatabase = new Mock<IDatabase>();
 
-        // Set up the mock to return a list of favourite stations when GetFavouriteStations is called
+        //make the list of favourite stations
         var favouriteStationsList = new List<DatabaseStation>()
         {
             new DatabaseStation
@@ -28,11 +28,14 @@ public class HappyDatabaseTests
             }
         };
 
+        //make the mock return a list of favourite stations when GetFavouriteStations is called
         mockDatabase.Setup(m => m.GetFavouriteStations()).Returns(favouriteStationsList);
 
+        //make the callback so that the mock adds the station to the list
         mockDatabase.Setup(m => m.SaveFavouriteStation(It.IsAny<DatabaseStation>()))
             .Callback((DatabaseStation s) => favouriteStationsList.Add(s));
 
+        //make the new database station
         var newStationToAddToDatabase = new DatabaseStation
         {
             Id = 2,
@@ -46,11 +49,12 @@ public class HappyDatabaseTests
             Distance = 50
         };
 
-        // Act
+        //act
         mockDatabase.Object.SaveFavouriteStation(newStationToAddToDatabase);
 
-        // Assert
+        //assert
         mockDatabase.Verify(m => m.SaveFavouriteStation(It.IsAny<DatabaseStation>()), Times.Once());
+        //check if the list of favourite stations has 2 objects in it
         Assert.Equal(2, mockDatabase.Object.GetFavouriteStations().Count);
     }
 
@@ -61,14 +65,62 @@ public class HappyDatabaseTests
     [Fact]
     public void DeleteFavouriteStationByName()
     {
-        Database database = new Database();
-        //Assuming there is a station named "Save Favourite Station Database Happy Test" in the database
-        string stationNameToDelete = "Test Station";
+        //arrange
+        var mockDatabase = new Mock<IDatabase>();
 
-        database.DeleteFavouriteStationByName(stationNameToDelete);
+        //create a list of favourite stations
+        var favoriteStationsList = new List<DatabaseStation>()
+        {
+            new DatabaseStation
+            {
+                Id = 1,
+                Naam = "Station 1",
+                StationType = "TEST_STATION2",
+                HeeftFaciliteiten = false,
+                HeeftReisassistentie = true,
+                Land = "BE",
+                Lat = 10,
+                Lng = 22,
+                Distance = 50
+            },
+            new DatabaseStation
+            {
+                Id = 2,
+                Naam = "Station 2",
+                StationType = "TEST_STATION2",
+                HeeftFaciliteiten = false,
+                HeeftReisassistentie = true,
+                Land = "BE",
+                Lat = 10,
+                Lng = 22,
+                Distance = 50
+            },
+            new DatabaseStation
+            {
+                Id = 3,
+                Naam = "Test Station To Be Deleted",
+                StationType = "TEST_STATION2",
+                HeeftFaciliteiten = false,
+                HeeftReisassistentie = true,
+                Land = "BE",
+                Lat = 10,
+                Lng = 22,
+                Distance = 50
+            }
+        };
 
-        var savedStations = database.GetFavouriteStations();
+        //set up the mock to return the list of favorite stations when GetFavoriteStations is called
+        mockDatabase.Setup(m => m.GetFavouriteStations()).Returns(favoriteStationsList);
 
-        Assert.DoesNotContain(savedStations, station => station.Naam == stationNameToDelete);
+        //set up callback for mock when deletefavouritestationbyname is called to remove the station if the name equals to input parameter
+        mockDatabase.Setup(m => m.DeleteFavouriteStationByName(It.IsAny<string>()))
+            .Callback((string stationName) => favoriteStationsList.RemoveAll(station => station.Naam.Equals(stationName)));
+
+        //act
+        mockDatabase.Object.DeleteFavouriteStationByName("Test Station To Be Deleted");
+
+        //assert
+        mockDatabase.Verify(m => m.DeleteFavouriteStationByName("Test Station To Be Deleted"), Times.Once());
+        Assert.Equal(2, mockDatabase.Object.GetFavouriteStations().Count);
     }
 }

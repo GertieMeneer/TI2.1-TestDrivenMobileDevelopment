@@ -11,14 +11,14 @@ public class HappyMainPageTests
         IDatabase database = new Database();
         var viewModel = new MainViewModel(database);
 
-        // Arrange
+        //arrange
         double latitude = 52.3702;
         double longitude = 4.8952;
 
-        // Act
+        //act
         var stations = await viewModel.GetAllNSStations(latitude, longitude);
 
-        // Assert
+        //assert
         Assert.NotNull(stations);
         Assert.NotEmpty(stations);
     }
