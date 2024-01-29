@@ -9,6 +9,7 @@
         public void SaveFavouriteStation_ShouldFail()
         {
             Database database = new Database();
+
             var station = new DatabaseStation
             {
                 Distance = -1,

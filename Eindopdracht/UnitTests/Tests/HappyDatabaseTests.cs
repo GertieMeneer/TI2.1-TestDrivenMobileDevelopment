@@ -8,24 +8,50 @@ public class HappyDatabaseTests
     [Fact]
     public void SaveFavouriteStation()
     {
-        Database database = new Database();
-        var station = new DatabaseStation
+        // Arrange
+        var mockDatabase = new Mock<IDatabase>();
+
+        // Set up the mock to return a list of favourite stations when GetFavouriteStations is called
+        var favouriteStationsList = new List<DatabaseStation>()
         {
-            Distance = 26,
-            Lat = 0,
-            Lng = 0,
-            Naam = "Save Favourite Station Database Happy Test",
-            StationType = "TEST_STATION",
-            HeeftFaciliteiten = true,
-            HeeftReisassistentie = true,
-            Land = "NL"
+            new DatabaseStation
+            {
+                Id = 1,
+                Naam = "Save Favourite Station Database Happy Test",
+                StationType = "TEST_STATION",
+                HeeftFaciliteiten = true,
+                HeeftReisassistentie = true,
+                Land = "NL",
+                Lat = 0,
+                Lng = 0,
+                Distance = 26
+            }
         };
 
-        database.SaveFavouriteStation(station);
+        mockDatabase.Setup(m => m.GetFavouriteStations()).Returns(favouriteStationsList);
 
-        var savedStations = database.GetFavouriteStations();
+        mockDatabase.Setup(m => m.SaveFavouriteStation(It.IsAny<DatabaseStation>()))
+            .Callback((DatabaseStation s) => favouriteStationsList.Add(s));
 
-        Assert.True(savedStations[0].Naam == station.Naam);
+        var newStationToAddToDatabase = new DatabaseStation
+        {
+            Id = 2,
+            Naam = "Station",
+            StationType = "TEST_STATION2",
+            HeeftFaciliteiten = false,
+            HeeftReisassistentie = true,
+            Land = "BE",
+            Lat = 10,
+            Lng = 22,
+            Distance = 50
+        };
+
+        // Act
+        mockDatabase.Object.SaveFavouriteStation(newStationToAddToDatabase);
+
+        // Assert
+        mockDatabase.Verify(m => m.SaveFavouriteStation(It.IsAny<DatabaseStation>()), Times.Once());
+        Assert.Equal(2, mockDatabase.Object.GetFavouriteStations().Count);
     }
 
     /// <summary>

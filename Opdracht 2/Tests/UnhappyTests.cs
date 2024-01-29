@@ -10,12 +10,11 @@
             Mock<ILamp> lampMock = new Mock<ILamp>();
             lampMock.Setup(l => l.ToggleLamp()).Returns(Task.CompletedTask);
 
-            Lamp lamp = new Lamp();
-            lamp.SetImplementation(lampMock.Object);
-
+            var lamp = lampMock.Object;
+ 
             // Act
-            await lamp.Implementation.ToggleLamp();
-            await lamp.Implementation.ToggleLamp();
+            await lamp.ToggleLamp();
+            await lamp.ToggleLamp();
 
             // Assert
             lampMock.Verify(l => l.ToggleLamp(), Times.Once);

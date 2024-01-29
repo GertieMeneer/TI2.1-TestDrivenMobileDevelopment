@@ -27,7 +27,6 @@ namespace TDMD
             builder.Services.AddTransient<LampInfoPage>();
             builder.Services.AddTransient<MainViewModel>();
             builder.Services.AddTransient<MainPage>();
-            builder.Services.AddTransient<ILamp, Lamp>();
 
             return builder.Build();
         }

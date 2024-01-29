@@ -194,8 +194,6 @@ namespace TDMD.ViewModels
                     int hue = lightObject["state"]["hue"].ToObject<int>();
                     int sat = lightObject["state"]["sat"].ToObject<int>();
                     
-                    var lampImplementation = services.GetRequiredService<ILamp>();
-                    
                     Lamp lamp = new Lamp
                     {
                         ID = key,
@@ -211,9 +209,6 @@ namespace TDMD.ViewModels
                         Hue = hue,
                         Sat = sat
                     };
-
-                    lampImplementation = services.GetRequiredService<ILamp>();
-                    lamp.SetImplementation(lampImplementation);
 
                 lamps.Add(lamp);
                 }

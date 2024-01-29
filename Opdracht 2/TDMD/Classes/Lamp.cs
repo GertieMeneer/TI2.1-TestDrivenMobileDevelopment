@@ -3,11 +3,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
-using TDMD.Interfaces;
 
 namespace TDMD.Classes
 {
-    public class Lamp : INotifyPropertyChanged, ILamp
+    public class Lamp : INotifyPropertyChanged
     {
         public Lamp() 
         {
@@ -25,7 +24,6 @@ namespace TDMD.Classes
         public string ModelID { get; set; }
         public string SWVersion { get; set; }
         public string UniqueID { get; set; }
-        public ILamp Implementation { get; set; }
 
         public bool Status
         {
@@ -54,11 +52,6 @@ namespace TDMD.Classes
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        public void SetImplementation(ILamp implementation)
-        {
-            Implementation = implementation;
         }
 
         public async Task ToggleLamp()
