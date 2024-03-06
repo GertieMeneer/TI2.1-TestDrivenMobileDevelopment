@@ -104,6 +104,12 @@ namespace TDMD.ViewModels
                 string jsonString = await LoadLamps();
                 Lamps = ParseLights(jsonString);
             }
+            else
+            {
+                await GetUserIdAsync();
+                string jsonString = await LoadLamps();
+                Lamps = ParseLights(jsonString);
+            }
         }
 
         public async void InitializeAsync()
