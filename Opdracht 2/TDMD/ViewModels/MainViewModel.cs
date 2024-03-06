@@ -149,7 +149,6 @@ namespace TDMD.ViewModels
 
                     if (response.IsSuccessStatusCode)
                     {
-                        ConnectionStatus = "Status: Connected!";
                         string jsonString = await response.Content.ReadAsStringAsync();
 
                         Debug.WriteLine(jsonString);
@@ -246,9 +245,11 @@ namespace TDMD.ViewModels
                         JArray jsonArray = JArray.Parse(result);
                         JObject successObject = jsonArray[0]["success"] as JObject;
                         userId = (string)successObject["username"];
+                        ConnectionStatus = $"UserID: {userId}";
                     }
                     catch
                     {
+                        ConnectionStatus = $"Failed to connect. Did you press the link button?";
                         return string.Empty;
                     }
 

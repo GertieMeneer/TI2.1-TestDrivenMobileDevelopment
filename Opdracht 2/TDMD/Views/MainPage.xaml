@@ -8,36 +8,39 @@
     Title="HUE"
     x:DataType="viewModels:MainViewModel">
 
-    <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
-        <CollectionView ItemsSource="{Binding Lamps}" SelectionMode="None">
-            <CollectionView.EmptyView>
-                <StackLayout Padding="100">
-                    <Image
-                        HorizontalOptions="Center"
-                        HeightRequest="160"
-                        WidthRequest="160"
-                        Source="nodata.png"
-                        VerticalOptions="Center" />
-                </StackLayout>
-            </CollectionView.EmptyView>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Lamp">
-                    <Grid Padding="10" HorizontalOptions="Fill">
-                        <Frame>
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=GoToLampInfoPageCommand}" CommandParameter="{Binding .}" />
-                            </Frame.GestureRecognizers>
-                            <Grid Padding="0" ColumnDefinitions="125,*">
-                                <VerticalStackLayout Grid.Column="0">
-                                    <Label Text="{Binding Name}" />
-                                    <Label Text="{Binding Status, StringFormat='Is On: {0}'}" />
-                                    <Label Text="{Binding BrightnessPercentage, StringFormat='Brightness: {0}%'}" />
-                                </VerticalStackLayout>
-                            </Grid>
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
+    <StackLayout Orientation="Vertical">
+        <Label Text="{Binding ConnectionStatus}" VerticalOptions="Start" Margin="10" FontAttributes="Bold" HorizontalOptions="Center"/>
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+            <CollectionView ItemsSource="{Binding Lamps}" SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="100">
+                        <Image
+                            HorizontalOptions="Center"
+                            HeightRequest="160"
+                            WidthRequest="160"
+                            Source="nodata.png"
+                            VerticalOptions="Center" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Lamp">
+                        <Grid Padding="10" HorizontalOptions="Fill">
+                            <Frame>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=GoToLampInfoPageCommand}" CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+                                <Grid Padding="0" ColumnDefinitions="125,*">
+                                    <VerticalStackLayout Grid.Column="0">
+                                        <Label Text="{Binding Name}" />
+                                        <Label Text="{Binding Status, StringFormat='Is On: {0}'}" />
+                                        <Label Text="{Binding BrightnessPercentage, StringFormat='Brightness: {0}%'}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
 </ContentPage>
