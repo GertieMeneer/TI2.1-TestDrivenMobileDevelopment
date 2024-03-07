@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Android.Bluetooth;
 using CommunityToolkit.Mvvm.Input;
 using Eindopdracht.Interfaces;
 using Eindopdracht.NSData;
@@ -23,6 +24,7 @@ namespace Eindopdracht.ViewModels
         private int _selectedSortIndex = 0;
         private bool _isRefreshing = false;
         private IDatabase _database;
+        IEnumerable<ConnectionProfile> profiles = Connectivity.Current.ConnectionProfiles;
 
         public MainViewModel(IDatabase database)
         {
@@ -171,6 +173,11 @@ namespace Eindopdracht.ViewModels
         //RelayCommands. Passes execution from the view to the viewmodel,
         //without directly connecting them together.
 
+        /// <summary>
+        /// RelayCommands for opening the station detail page
+        /// </summary>
+        /// <param name="nsStation">Which station to open</param>
+        /// <returns></returns>
         [RelayCommand]
         async Task GoToStationDetailPage(NSStation nsStation)
         {
@@ -260,6 +267,13 @@ namespace Eindopdracht.ViewModels
         public async Task TaskGetStations()
         {
             IsLoading = true;        //show loading indicator
+
+            if (!CheckInternet())
+            {
+                showNotification(0, "Error", "Make sure you are connected to the internet");
+                IsLoading = false; return;
+            }
+
             await GetCurrentLocationAndSetIt();     //get location
 
             if (_location != null)
@@ -365,6 +379,15 @@ namespace Eindopdracht.ViewModels
         {
             double distance = Location.CalculateDistance(userLat, userLong, stationLat, stationLong, DistanceUnits.Kilometers);
             return distance;
+        }
+
+        public bool CheckInternet()
+        {
+            if (profiles.Contains(ConnectionProfile.WiFi) || profiles.Contains(ConnectionProfile.Cellular) || profiles.Contains(ConnectionProfile.Ethernet))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
