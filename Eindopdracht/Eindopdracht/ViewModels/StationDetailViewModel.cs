@@ -1,9 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+
 using Eindopdracht.Interfaces;
 using Eindopdracht.NSData;
+
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
+
 using Plugin.LocalNotification;
 using Map = Microsoft.Maui.Controls.Maps.Map;
 
@@ -30,6 +33,21 @@ namespace Eindopdracht.ViewModels
 
         public StationDetailViewModel(IDatabase database) { _database = database; }
 
+        public string ButtonText
+        {
+            get => buttonText;
+            set
+            {
+                buttonText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Loads and sets elements on detail page
+        /// </summary>
+        /// <param name="map">Map of the device and station</param>
+        /// <returns></returns>
         public async Task Initialize(Map map)
         {
             this.map = map;
@@ -53,16 +71,10 @@ namespace Eindopdracht.ViewModels
             OnStartListening();
         }
 
-        public string ButtonText
-        {
-            get => buttonText;
-            set
-            {
-                buttonText = value;
-                OnPropertyChanged();
-            }
-        }
-
+        /// <summary>
+        /// Checks if a station is inside the favourites database
+        /// </summary>
+        /// <returns>True if it is in the database, otherwise false</returns>
         private bool CheckIfInFavourites()
         {
             List<DatabaseStation> stations = _database.GetFavouriteStations();
@@ -79,6 +91,10 @@ namespace Eindopdracht.ViewModels
             return false;
         }
 
+        /// <summary>
+        /// Gets and sets the current device location
+        /// </summary>
+        /// <returns></returns>
         public async Task GetCurrentLocationAndSetIt()
         {
             try
@@ -106,6 +122,9 @@ namespace Eindopdracht.ViewModels
             }
         }
 
+        /// <summary>
+        /// Function for loading the map by drawing device and station location on it.
+        /// </summary>
         private async void Load()
         {
             var location = new Location(Station.Lat, Station.Lng);
@@ -166,6 +185,12 @@ namespace Eindopdracht.ViewModels
             map.MoveToRegion(mapSpan);
         }
 
+        /// <summary>
+        /// Gets called when device location changed.
+        /// Redraws the elements on the map
+        /// </summary>
+        /// <param name="lat">new y-coordinate of device</param>
+        /// <param name="lng">new x-coordinate of device</param>
         private void updateCurrentLocationElements(double lat, double lng)
         {
             line = null;
@@ -204,6 +229,13 @@ namespace Eindopdracht.ViewModels
             map.Pins.Add(currentLocationPin);
         }
 
+        /// <summary>
+        /// Sends a notifiction to the notification center of the phone.
+        /// </summary>
+        /// <param name="whenSeconds">Time from now on, when the notification will arrive.</param>
+        /// <param name="title">Title of the notification.</param>
+        /// <param name="description">Description of the notification.</param>
+        /// <returns></returns>
         private async Task showNotification(int whenSeconds, string title, string description)
         {
             var request = new NotificationRequest
@@ -219,6 +251,11 @@ namespace Eindopdracht.ViewModels
             LocalNotificationCenter.Current.Show(request);
         }
 
+        /// <summary>
+        /// Converts NSStation to a DatabaseStation object
+        /// </summary>
+        /// <param name="NSStation">The NSStation to be converted</param>
+        /// <returns></returns>
         private DatabaseStation GetStation(NSStation NSStation)
         {
             DatabaseStation station = new DatabaseStation
@@ -237,6 +274,10 @@ namespace Eindopdracht.ViewModels
             return station;
         }
 
+
+        /// <summary>
+        /// Gets called when user presses the favourite/unfavourite button
+        /// </summary>
         [RelayCommand]
         private void Favorites()
         {
@@ -254,12 +295,23 @@ namespace Eindopdracht.ViewModels
             }
         }
 
+        /// <summary>
+        /// Calculates the distance between the device and a station
+        /// </summary>
+        /// <param name="userLat">y-coordinate of device</param>
+        /// <param name="userLong">x-coordinate of device</param>
+        /// <param name="stationLat">y-coordinate of station</param>
+        /// <param name="stationLong">x-coordinate of station</param>
+        /// <returns>The distance between the device and a station</returns>
         private double CalculateDistance(double userLat, double userLong, double stationLat, double stationLong)
         {
             double distance = Location.CalculateDistance(userLat, userLong, stationLat, stationLong, DistanceUnits.Kilometers);
             return distance;
         }
 
+        /// <summary>
+        /// Sets the listener for geolcation changed
+        /// </summary>
         async void OnStartListening()
         {
             try
@@ -278,6 +330,12 @@ namespace Eindopdracht.ViewModels
             }
         }
 
+        /// <summary>
+        /// Listens for new device locations.
+        /// Notifies the users if he is close to a station.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         async void Geolocation_LocationChanged(object sender, GeolocationLocationChangedEventArgs e)
         {
             map.MapElements.Clear();
