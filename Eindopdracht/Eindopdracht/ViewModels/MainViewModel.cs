@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Android.Bluetooth;
+
 using CommunityToolkit.Mvvm.Input;
+
 using Eindopdracht.Interfaces;
 using Eindopdracht.NSData;
+
 using Newtonsoft.Json;
 using Plugin.LocalNotification;
 
@@ -12,18 +14,22 @@ namespace Eindopdracht.ViewModels
 {
     public partial class MainViewModel : INotifyPropertyChanged
     {
-        private bool _isLoading;
         private readonly string _nsapiKey = "12ef36ad08a1435597ae44c554d62ef8";
         private HttpClient _httpClient;
+
         private List<NSStation> _visibleStations;   //stations that are currently visible in ui
         private List<NSStation> _allStations;       //all stations
         private List<NSStation> _nearestStations;   //10 nearest stations
         private List<NSStation> _favouriteStations; //favourited stations
+
         private string _searchQuery;
         private Location _location;
         private int _selectedSortIndex = 0;
         private bool _isRefreshing = false;
+        private bool _isLoading;
+
         private IDatabase _database;
+
         IEnumerable<ConnectionProfile> profiles = Connectivity.Current.ConnectionProfiles;
 
         public MainViewModel(IDatabase database)
@@ -381,6 +387,11 @@ namespace Eindopdracht.ViewModels
             return distance;
         }
 
+        /// <summary>
+        /// Checks if user is connected to some sort of ineternet network.
+        /// Based on the return value, the app will notify the user.
+        /// </summary>
+        /// <returns>True if connected, false if not connected</returns>
         public bool CheckInternet()
         {
             if (profiles.Contains(ConnectionProfile.WiFi) || profiles.Contains(ConnectionProfile.Cellular) || profiles.Contains(ConnectionProfile.Ethernet))
