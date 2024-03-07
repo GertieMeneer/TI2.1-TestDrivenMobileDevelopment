@@ -34,17 +34,17 @@ namespace Eindopdracht.ViewModels
             _database = database;
         }
 
-        public Location Location
-        {
-            get => _location;
-            set => _location = value;
-        }
+        //public Location Location
+        //{
+        //    get => _location;
+        //    set => _location = value;
+        //}
 
         public int SelectedSortIndex
         {
             get => _selectedSortIndex;
             set
-            {   
+            {
                 _selectedSortIndex = value;
                 SetStations(_selectedSortIndex);
                 OnPropertyChanged();
@@ -71,48 +71,6 @@ namespace Eindopdracht.ViewModels
                     _isLoading = value;
                     OnPropertyChanged();
                 }
-            }
-        }
-
-        public void SetStations(int option)
-        {
-            switch (option)
-            {
-                case 0:
-                    VisibleStations = AllStations;
-                    break;
-                case 1:
-                    VisibleStations = NearestStations;
-                    break;
-                case 2:
-                    FavouriteStations = new List<NSStation>();
-                    foreach (DatabaseStation station in _database.GetFavouriteStations())
-                    {
-                        NSStation NSStation = new NSStation()
-                        {
-                            Id = station.Id,
-                            Distance = station.Distance,
-                            Lat = station.Lat,
-                            Lng = station.Lng,
-                            Naam = station.Naam,
-                            StationType = station.StationType,
-                            HeeftFaciliteiten = station.HeeftFaciliteiten,
-                            HeeftReisassistentie = station.HeeftReisassistentie,
-                            Land = station.Land,
-                            Namen = new NSStationNamen()
-                            {
-                                Lang = station.Naam,
-                                Middel = "",
-                                Kort = ""
-                            }
-                        };
-                        FavouriteStations.Add(NSStation);
-                    }
-
-                    VisibleStations = FavouriteStations;
-                    break;
-                default:
-                    throw new Exception("SetStation received wrong option");    //if this gets called: serious skill issue lol
             }
         }
 
@@ -164,6 +122,55 @@ namespace Eindopdracht.ViewModels
             }
         }
 
+        /// <summary>
+        /// Sets the visible stations in the app based on the users selected input
+        /// </summary>
+        /// <param name="option">The user selected option</param>
+        /// <exception cref="Exception"></exception>
+        public void SetStations(int option)
+        {
+            switch (option)
+            {
+                case 0:
+                    VisibleStations = AllStations;
+                    break;
+                case 1:
+                    VisibleStations = NearestStations;
+                    break;
+                case 2:
+                    FavouriteStations = new List<NSStation>();
+                    foreach (DatabaseStation station in _database.GetFavouriteStations())
+                    {
+                        NSStation NSStation = new NSStation()
+                        {
+                            Id = station.Id,
+                            Distance = station.Distance,
+                            Lat = station.Lat,
+                            Lng = station.Lng,
+                            Naam = station.Naam,
+                            StationType = station.StationType,
+                            HeeftFaciliteiten = station.HeeftFaciliteiten,
+                            HeeftReisassistentie = station.HeeftReisassistentie,
+                            Land = station.Land,
+                            Namen = new NSStationNamen()
+                            {
+                                Lang = station.Naam,
+                                Middel = "",
+                                Kort = ""
+                            }
+                        };
+                        FavouriteStations.Add(NSStation);
+                    }
+                    VisibleStations = FavouriteStations;
+                    break;
+                default:
+                    VisibleStations = AllStations; break;
+            }
+        }
+
+        //RelayCommands. Passes execution from the view to the viewmodel,
+        //without directly connecting them together.
+
         [RelayCommand]
         async Task GoToStationDetailPage(NSStation nsStation)
         {
@@ -178,6 +185,10 @@ namespace Eindopdracht.ViewModels
             });
         }
 
+
+        /// <summary>
+        /// Searches in the list of all stations.
+        /// </summary>
         [RelayCommand]
         public void SearchStations()
         {
@@ -191,6 +202,9 @@ namespace Eindopdracht.ViewModels
             }
         }
 
+        /// <summary>
+        /// Executes when pull to refresh
+        /// </summary>
         [RelayCommand]
         private void Refresh()
         {
@@ -205,6 +219,13 @@ namespace Eindopdracht.ViewModels
             IsRefreshing = false;
         }
 
+        /// <summary>
+        /// Sends a notifiction to the notification center of the phone.
+        /// </summary>
+        /// <param name="whenSeconds">Time from now on, when the notification will arrive.</param>
+        /// <param name="title">Title of the notification.</param>
+        /// <param name="description">Description of the notification.</param>
+        /// <returns></returns>
         private async Task showNotification(int whenSeconds, string title, string description)
         {
             var request = new NotificationRequest
@@ -219,6 +240,9 @@ namespace Eindopdracht.ViewModels
             LocalNotificationCenter.Current.Show(request);
         }
 
+        /// <summary>
+        /// Event handler for changing properties.
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -226,6 +250,13 @@ namespace Eindopdracht.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Handles all stations from NS api.
+        /// Sorts all stations based on distance, then gets the 10 closest.
+        /// Sorts all stations based on name.
+        /// Then sets the stations in the app. Default is 10 closest.
+        /// </summary>
+        /// <returns>Task</returns>
         public async Task TaskGetStations()
         {
             IsLoading = true;        //show loading indicator
@@ -251,6 +282,10 @@ namespace Eindopdracht.ViewModels
             IsLoading = false;       //hide loading indicator
         }
 
+        /// <summary>
+        /// Gets the current location of the device and sets it.
+        /// </summary>
+        /// <returns></returns>
         public async Task GetCurrentLocationAndSetIt()
         {
             try
@@ -278,6 +313,13 @@ namespace Eindopdracht.ViewModels
             }
         }
 
+        /// <summary>
+        /// Sends api request to NS api in order to get all the stations from the api.
+        /// Then calculates the distance from device to station for each received station.
+        /// </summary>
+        /// <param name="latitude">y-coordinate of the device</param>
+        /// <param name="longitude">x-coordinate of the device</param>
+        /// <returns>List with all the NS Stations</returns>
         public async Task<List<NSStation>> GetAllNSStations(double latitude, double longitude)
         {
             List<NSStation> stations = new List<NSStation>();
@@ -311,6 +353,14 @@ namespace Eindopdracht.ViewModels
             return stations;
         }
 
+        /// <summary>
+        /// Calculates the distance between the device and a station
+        /// </summary>
+        /// <param name="userLat">y-coordinate of device</param>
+        /// <param name="userLong">x-coordinate of device</param>
+        /// <param name="stationLat">y-coordinate of station</param>
+        /// <param name="stationLong">x-coordinate of station</param>
+        /// <returns>The distance between the device and a station</returns>
         public double CalculateDistance(double userLat, double userLong, double stationLat, double stationLong)
         {
             double distance = Location.CalculateDistance(userLat, userLong, stationLat, stationLong, DistanceUnits.Kilometers);
