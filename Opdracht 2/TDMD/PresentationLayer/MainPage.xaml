@@ -3,8 +3,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:TDMD.DomainLayer"
-    x:Class="TDMD.InfrastructureLayer.MainPage"
-    xmlns:viewModels="clr-namespace:TDMD.ApplicationLayer"
+    x:Class="TDMD.PresentationLayer.MainPage"
+    xmlns:viewModels="clr-namespace:TDMD.PresentationLayer"
     x:DataType="viewModels:MainViewModel"
     Title="HUE">
     

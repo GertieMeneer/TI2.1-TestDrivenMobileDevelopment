@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using TDMD.DomainLayer;
 
-namespace TDMD.ApplicationLayer
+namespace TDMD.PresentationLayer
 {
     [QueryProperty(nameof(Lamp), "Lamp")]
     public partial class LampInfoPageViewModel : ObservableObject, ILampInfoPageViewModel

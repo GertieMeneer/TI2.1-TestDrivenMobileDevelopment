@@ -1,6 +1,4 @@
-﻿using TDMD.ApplicationLayer;
-
-namespace TDMD.InfrastructureLayer
+﻿namespace TDMD.PresentationLayer
 {
     public partial class MainPage : ContentPage
     {

@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TDMD.DomainLayer;
-using TDMD.InfrastructureLayer;
+using TDMD.ApplicationLayer;
 
-namespace TDMD.ApplicationLayer
+namespace TDMD.PresentationLayer
 {
     public partial class MainViewModel : ObservableObject, IMainViewModel
     {
