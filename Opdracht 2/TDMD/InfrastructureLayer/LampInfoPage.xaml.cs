@@ -1,7 +1,6 @@
-using TDMD.Classes;
-using TDMD.ViewModels;
+using TDMD.ApplicationLayer;
 
-namespace TDMD;
+namespace TDMD.InfrastructureLayer;
 
 public partial class LampInfoPage : ContentPage
 {

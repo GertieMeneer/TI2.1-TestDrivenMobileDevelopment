@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="TDMD.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:model="clr-namespace:TDMD.Classes"
-    xmlns:viewModels="clr-namespace:TDMD.ViewModels"
-    Title="HUE"
-    x:DataType="viewModels:MainViewModel">
-
+    xmlns:model="clr-namespace:TDMD.DomainLayer"
+    x:Class="TDMD.InfrastructureLayer.MainPage"
+    xmlns:viewModels="clr-namespace:TDMD.ApplicationLayer"
+    x:DataType="viewModels:MainViewModel"
+    Title="HUE">
+    
     <StackLayout Orientation="Vertical">
         <Label Text="{Binding ConnectionStatus}" VerticalOptions="Start" Margin="10" FontAttributes="Bold" HorizontalOptions="Center"/>
         <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">

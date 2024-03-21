@@ -1,9 +1,6 @@
-﻿using System.Diagnostics;
-using TDMD.Classes;
-using TDMD.ViewModels;
+﻿using TDMD.ApplicationLayer;
 
-
-namespace TDMD
+namespace TDMD.InfrastructureLayer
 {
     public partial class MainPage : ContentPage
     {

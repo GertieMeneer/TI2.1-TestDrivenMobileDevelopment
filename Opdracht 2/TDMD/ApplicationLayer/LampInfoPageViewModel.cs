@@ -1,9 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using TDMD.Classes;
-using TDMD.Interfaces;
+using TDMD.DomainLayer;
 
-namespace TDMD.ViewModels
+namespace TDMD.ApplicationLayer
 {
     [QueryProperty(nameof(Lamp), "Lamp")]
     public partial class LampInfoPageViewModel : ObservableObject, ILampInfoPageViewModel

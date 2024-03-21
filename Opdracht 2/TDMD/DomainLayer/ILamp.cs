@@ -1,4 +1,4 @@
-﻿namespace TDMD.Interfaces
+﻿namespace TDMD.DomainLayer
 {
     public interface ILamp
     {

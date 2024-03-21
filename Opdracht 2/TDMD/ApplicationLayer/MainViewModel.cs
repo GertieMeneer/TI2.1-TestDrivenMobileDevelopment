@@ -3,10 +3,10 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Text;
-using TDMD.Classes;
-using TDMD.Interfaces;
+using TDMD.DomainLayer;
+using TDMD.InfrastructureLayer;
 
-namespace TDMD.ViewModels
+namespace TDMD.ApplicationLayer
 {
     public partial class MainViewModel : ObservableObject, IMainViewModel
     {

@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using TDMD.Classes;
-using TDMD.Interfaces;
-using TDMD.ViewModels;
+﻿using Microsoft.Extensions.Logging;
+using TDMD.ApplicationLayer;
+using TDMD.InfrastructureLayer;
 
 namespace TDMD
 {

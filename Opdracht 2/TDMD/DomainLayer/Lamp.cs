@@ -4,13 +4,13 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace TDMD.Classes
+namespace TDMD.DomainLayer
 {
     public class Lamp : INotifyPropertyChanged
     {
-        public Lamp() 
+        public Lamp()
         {
-            GetUserIdAsync(); 
+            GetUserIdAsync();
         }
 
         private string mainUrl = "http://10.0.2.2:80/api";

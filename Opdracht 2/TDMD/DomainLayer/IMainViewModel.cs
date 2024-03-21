@@ -1,6 +1,4 @@
-﻿using TDMD.Classes;
-
-namespace TDMD.Interfaces
+﻿namespace TDMD.DomainLayer
 {
     public interface IMainViewModel 
     {
