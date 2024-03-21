@@ -9,7 +9,13 @@ public class HappyMainViewModelTests
     public void SetStations_WhenOptionIsAll_ShouldSetVisibleStationsToAllStations()
     {
         IDatabase database = new Database();
-        var viewModel = new MainViewModel(database);
+        DatabaseService databaseService = new DatabaseService(database);
+
+        INsApi nsApi = new NsApi();
+        NsApiService nsApiService = new NsApiService(nsApi);
+
+        var viewModel = new MainViewModel(databaseService, nsApiService);
+
         var allStations = new List<NSStation>
         {
             new NSStation { Id = 1, Naam = "Station A", Distance = 10.0f },
@@ -30,7 +36,13 @@ public class HappyMainViewModelTests
     public void SearchStations_WhenNotLoading_ShouldFilterStationsBySearchQuery()
     {
         IDatabase database = new Database();
-        var viewModel = new MainViewModel(database);
+        DatabaseService databaseService = new DatabaseService(database);
+
+        INsApi nsApi = new NsApi();
+        NsApiService nsApiService = new NsApiService(nsApi);
+
+        var viewModel = new MainViewModel(databaseService, nsApiService);
+
         var allStations = new List<NSStation>
         {
             new NSStation { Id = 1, Namen = new NSStationNamen { Lang = "Station Alpha" } },
@@ -54,7 +66,12 @@ public class HappyMainViewModelTests
     public void SetStations_WhenOptionIsFavourites_ShouldSetVisibleStationsToFavouriteStations()
     {
         IDatabase database = new Database();
-        var viewModel = new MainViewModel(database);
+        DatabaseService databaseService = new DatabaseService(database);
+
+        INsApi nsApi = new NsApi();
+        NsApiService nsApiService = new NsApiService(nsApi);
+
+        var viewModel = new MainViewModel(databaseService, nsApiService);
 
         var favouriteStations = new List<NSStation>
         {

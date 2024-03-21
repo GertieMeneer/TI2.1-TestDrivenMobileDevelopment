@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Maui;
-using Eindopdracht.Interfaces;
+using Eindopdracht.Domain;
 using Eindopdracht.ViewModels;
 using Microsoft.Extensions.Logging;
 using Plugin.LocalNotification;
+using Eindopdracht.ApplicationServices;
+using Eindopdracht.Infrastructure;
 
 namespace Eindopdracht
 {
@@ -27,8 +29,14 @@ namespace Eindopdracht
 #endif
 
             builder.Services.AddSingleton<IDatabase>(new Database());
+            builder.Services.AddSingleton<DatabaseService>();
+
+            builder.Services.AddSingleton<INsApi>(new NsApi());
+            builder.Services.AddSingleton<NsApiService>();
+
             builder.Services.AddTransient<StationDetailViewModel>();
             builder.Services.AddTransient<StationDetailPage>();
+            builder.Services.AddTransient<MainViewModel>();
 
             return builder.Build();
         }

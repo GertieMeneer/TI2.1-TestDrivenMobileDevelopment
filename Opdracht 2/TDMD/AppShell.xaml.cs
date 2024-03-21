@@ -1,4 +1,6 @@
-﻿namespace TDMD
+﻿using TDMD.PresentationLayer;
+
+namespace TDMD
 {
     public partial class AppShell : Shell
     {

@@ -1,0 +1,51 @@
+﻿<ContentPage x:Class="Eindopdracht.MainPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:Eindopdracht.Domain"
+             xmlns:viewModels="clr-namespace:Eindopdracht.ViewModels"
+             Title="NS"
+             x:DataType="viewModels:MainViewModel">
+
+    <StackLayout Padding="20" >
+        <Label Text="Stations" FontSize="32" HorizontalOptions="Center" FontAttributes="Bold"/>
+        <Label FontSize="Body" HorizontalOptions="Center" />
+        
+        <SearchBar x:Name="SearchBar" Placeholder="Search Stations" Text="{Binding SearchQuery}"
+                   SearchCommand="{Binding SearchStationsCommand}"
+                   SearchCommandParameter="{Binding Source={x:Reference SearchBar}, Path=Text}" />
+
+        <Picker x:Name="ListSorter" SelectedIndex="{Binding SelectedSortIndex}" >
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                     <x:String>All</x:String> 
+                    <x:String>Top 10 closest</x:String>
+                    <x:String>Favourites</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
+        <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" Color="Blue"/>
+
+        <RefreshView IsRefreshing="{Binding IsRefreshing}" Command="{Binding RefreshCommand}">
+            <CollectionView ItemsSource="{Binding VisibleStations}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:NSStation">
+                        <Grid Padding="10" HorizontalOptions="Fill">
+                            <Frame>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:MainViewModel}}, Path=GoToStationDetailPageCommand}" CommandParameter="{Binding .}" />
+                                </Frame.GestureRecognizers>
+                                <Grid Padding="0" ColumnDefinitions="125,*">
+                                    <VerticalStackLayout Grid.Column="0">
+                                        <Label Text="{Binding Namen.Lang}" />
+                                        <Label Text="{Binding Distance, StringFormat='Distance: {0:F2} km'}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
+</ContentPage>

@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using TDMD.Classes;
-using TDMD.Interfaces;
-using TDMD.ViewModels;
+﻿using Microsoft.Extensions.Logging;
+using TDMD.ApplicationLayer;
+using TDMD.DomainLayer;
+using TDMD.PresentationLayer;
+using TDMD.InfrastructureLayer;
 
 namespace TDMD
 {
@@ -22,6 +22,9 @@ namespace TDMD
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<IApi>(new Api());
+            builder.Services.AddSingleton<ApiService>();
 
             builder.Services.AddTransient<LampInfoPageViewModel>();
             builder.Services.AddTransient<LampInfoPage>();

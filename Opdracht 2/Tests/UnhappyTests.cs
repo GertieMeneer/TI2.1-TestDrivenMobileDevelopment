@@ -62,26 +62,19 @@
         [Fact]
         public async Task TestGetLamps()
         {
-            // Summary: Tests error handling in MainViewModel during user ID retrieval and lamp loading, ensuring proper handling of error scenarios.
+            // Summary: Tests the integration of lamp-related operations in MainViewModel, including user ID retrieval, lamp loading, and parsing, ensuring proper functioning.
             // Arrange
-            Mock<IMainViewModel> mainViewModelMock = new Mock<IMainViewModel>();
+            Mock<IApi> api = new Mock<IApi>();
 
-            mainViewModelMock.Setup(mock => mock.GetUserIdAsync()).ReturnsAsync("link button not pressed");
-            mainViewModelMock.Setup(mock => mock.LoadLamps()).ReturnsAsync("Error: no userid");
-            mainViewModelMock.Setup(mock => mock.ParseLights(It.IsAny<string>())).Returns(new List<Lamp>());
+            api.Setup(mock => mock.GetUserIdAsync()).ReturnsAsync("link button not pressed");
+            api.Setup(mock => mock.LoadLamps()).ReturnsAsync("Error: no userid");
+            api.Setup(mock => mock.ParseLights(It.IsAny<string>())).Returns(new List<Lamp>());
 
-            var mainViewModel = mainViewModelMock.Object;
+            ApiService apiService = new ApiService(api.Object);
 
             // Act
-            string userId = await mainViewModel.GetUserIdAsync();
-
-            List<Lamp> lamps = new();
-
-            if (userId != null)
-            {
-                string json = await mainViewModel.LoadLamps();
-                lamps = mainViewModel.ParseLights(json);
-            }
+            string userId = await apiService.getUserId();
+            List<Lamp> lamps = await apiService.Loadlamps();
 
             // Assert  
             Assert.Equal("33c7f5c6a0668b02c6811fe6e811265", userId);
