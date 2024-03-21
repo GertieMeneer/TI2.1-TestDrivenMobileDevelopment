@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using TDMD.ApplicationLayer;
+using TDMD.DomainLayer;
 using TDMD.InfrastructureLayer;
 
 namespace TDMD
@@ -20,6 +21,9 @@ namespace TDMD
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<IApi>(new Api());
+            builder.Services.AddSingleton<ApiService>();
 
             builder.Services.AddTransient<LampInfoPageViewModel>();
             builder.Services.AddTransient<LampInfoPage>();

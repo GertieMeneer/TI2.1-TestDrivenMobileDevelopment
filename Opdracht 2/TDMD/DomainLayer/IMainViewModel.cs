@@ -9,9 +9,5 @@
         Task RefreshData();
         void InitializeAsync();
         Task GetUserIDAsync();
-        Task<string> LoadLamps();
-        List<Lamp> ParseLights(string jsonResponse);
-        double ValueToPercentage(double value);
-        Task<string> GetUserIdAsync();
     }
 }

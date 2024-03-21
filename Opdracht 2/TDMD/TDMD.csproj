@@ -64,7 +64,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="InfrastructureLayer\LampInfoPage.xaml">
+	  <MauiXaml Update="PresentationLayer\LampInfoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
