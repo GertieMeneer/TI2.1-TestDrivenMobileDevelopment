@@ -10,6 +10,7 @@ namespace TDMD.PresentationLayer
     public partial class LampInfoPageViewModel : ObservableObject, ILampInfoPageViewModel
     {
         private double _brightness;
+        private double _brightnessPercentage;
         private double _hue;
         private double _sat;
 
@@ -23,6 +24,19 @@ namespace TDMD.PresentationLayer
                 if (_brightness != value)
                 {
                     _brightness = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public double BrightnessPercentage
+        {
+            get { return _brightnessPercentage; }
+            set
+            {
+                if (_brightnessPercentage != value)
+                {
+                    _brightnessPercentage = value;
                     OnPropertyChanged();
                 }
             }

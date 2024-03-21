@@ -18,6 +18,7 @@ namespace TDMD.DomainLayer
         private bool _status;
         private double _brightness;
         private string userId;
+        private double _brightnessPercentage;
         public string ID { get; set; }
         public string Type { get; set; }
         public string Name { get; set; }
@@ -43,7 +44,16 @@ namespace TDMD.DomainLayer
                 OnPropertyChanged();
             }
         }
-        public double BrightnessPercentage { get; set; }
+        public double BrightnessPercentage
+        {
+
+            get { return _brightnessPercentage; }
+            set
+            {
+                _brightnessPercentage = value;
+                OnPropertyChanged();
+            }
+        }
         public int Hue { get; set; }
         public int Sat { get; set; }
 
@@ -90,7 +100,7 @@ namespace TDMD.DomainLayer
                 if (response.IsSuccessStatusCode)
                 {
                     Debug.WriteLine($"Lamp {ID} changed brightness.");
-                    Brightness = Math.Round(value / 254.0 * 100.0);
+                    BrightnessPercentage = Math.Round(value / 254.0 * 100.0);
                 }
                 else
                 {

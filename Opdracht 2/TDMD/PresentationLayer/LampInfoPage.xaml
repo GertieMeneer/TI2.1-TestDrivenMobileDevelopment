@@ -18,7 +18,7 @@
             VerticalOptions="Center"
             HorizontalOptions="Center"/>
         <Label 
-            Text="{Binding Lamp.Brightness, StringFormat='Brightness: {0}%'}"
+            Text="{Binding Lamp.BrightnessPercentage, StringFormat='Brightness: {0}%'}"
             VerticalOptions="Center"
             HorizontalOptions="Center" />
 
