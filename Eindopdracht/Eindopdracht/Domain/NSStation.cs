@@ -1,15 +1,12 @@
-﻿using SQLite;
-
-namespace Eindopdracht.NSData
+﻿namespace Eindopdracht.Domain
 {
-    [Table("NSStation")]
-    public class DatabaseStation
+    public class NSStation
     {
-        [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
         public double Distance { get; set; }
         public double Lat { get; set; }
         public double Lng { get; set; }
+        public NSStationNamen Namen { get; set; }
         public string Naam { get; set; }
         public string StationType { get; set; }
         public bool HeeftFaciliteiten { get; set; }

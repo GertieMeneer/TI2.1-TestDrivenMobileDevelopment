@@ -1,6 +1,4 @@
-﻿using Eindopdracht.NSData;
-
-namespace Eindopdracht.Interfaces
+﻿namespace Eindopdracht.Domain
 {
     public interface IDatabase
     {

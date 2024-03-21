@@ -1,4 +1,4 @@
-﻿namespace Eindopdracht.NSData
+﻿namespace Eindopdracht.Domain
 {
     public class NSStationPayload
     {

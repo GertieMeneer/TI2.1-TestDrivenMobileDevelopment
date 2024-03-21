@@ -1,8 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-
-using Eindopdracht.Interfaces;
-using Eindopdracht.NSData;
+using Eindopdracht.ApplicationServices;
+using Eindopdracht.Domain;
 
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
@@ -29,9 +28,9 @@ namespace Eindopdracht.ViewModels
 
         private Map map;
 
-        private IDatabase _database;
+        private DatabaseService _databaseService;
 
-        public StationDetailViewModel(IDatabase database) { _database = database; }
+        public StationDetailViewModel(DatabaseService databaseService) { _databaseService = databaseService; }
 
         public string ButtonText
         {
@@ -77,7 +76,7 @@ namespace Eindopdracht.ViewModels
         /// <returns>True if it is in the database, otherwise false</returns>
         private bool CheckIfInFavourites()
         {
-            List<DatabaseStation> stations = _database.GetFavouriteStations();
+            List<DatabaseStation> stations = _databaseService.getFavoriteStationsWithoutCast();
 
             if (stations.Count.Equals(0)) { return false; }
 
@@ -283,13 +282,13 @@ namespace Eindopdracht.ViewModels
         {
             if (!CheckIfInFavourites())
             {
-                _database.SaveFavouriteStation(GetStation(Station));
+                _databaseService.SaveFavouriteStation(GetStation(Station));
                 showNotification(0, "NS Stations", "Added to favorites.");
                 ButtonText = "Remove from favourites";
             }
             else
             {
-                _database.DeleteFavouriteStationByName(Station.Namen.Lang);
+                _databaseService.DeleteFavouriteStationByName(Station.Namen.Lang);
                 showNotification(0, "NS Stations", "Removed from favorites.");
                 ButtonText = "Add to favourites";
             }

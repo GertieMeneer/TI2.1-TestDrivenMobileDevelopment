@@ -10,7 +10,12 @@ public class UnhappyMainViewModelTests
     public void SearchStations_WhenLoading_ShouldNotPerformSearch()
     {
         IDatabase database = new Database();
-        var viewModel = new MainViewModel(database);
+        DatabaseService databaseService = new DatabaseService(database);
+
+        INsApi nsApi = new NsApi();
+        NsApiService nsApiService = new NsApiService(nsApi);
+
+        var viewModel = new MainViewModel(databaseService, nsApiService);
 
         viewModel.IsLoading = true;
         viewModel.SearchQuery = "Station";
@@ -61,7 +66,12 @@ public class UnhappyMainViewModelTests
     public void SetStations_WhenOptionIsAll_ShouldFail()
     {
         IDatabase database = new Database();
-        var viewModel = new MainViewModel(database);
+        DatabaseService databaseService = new DatabaseService(database);
+
+        INsApi nsApi = new NsApi();
+        NsApiService nsApiService = new NsApiService(nsApi);
+
+        var viewModel = new MainViewModel(databaseService, nsApiService);
 
         var allStations = new List<NSStation>
         {
@@ -72,7 +82,7 @@ public class UnhappyMainViewModelTests
         viewModel.AllStations = null;
 
         viewModel.SetStations(0);
-
+        
         Assert.NotNull(viewModel.VisibleStations);
     }
 
@@ -84,7 +94,12 @@ public class UnhappyMainViewModelTests
     public void SetStations_WhenOptionIsFavourites_ShouldFail()
     {
         IDatabase database = new Database();
-        var viewModel = new MainViewModel(database);
+        DatabaseService databaseService = new DatabaseService(database);
+
+        INsApi nsApi = new NsApi();
+        NsApiService nsApiService = new NsApiService(nsApi);
+
+        var viewModel = new MainViewModel(databaseService, nsApiService);
 
         var favouriteStations = new List<NSStation>
             {
