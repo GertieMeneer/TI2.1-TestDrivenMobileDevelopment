@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Maui.Alerts;
 using TDMD.DomainLayer;
+using CommunityToolkit.Maui.Core;
 
 namespace TDMD.PresentationLayer
 {
@@ -61,6 +63,10 @@ namespace TDMD.PresentationLayer
 
                 await lamp.SetBrightness(PercentageToValue(percentage));
             }
+            else
+            {
+                ShowLampOffError();
+            }
         }
 
         [RelayCommand]
@@ -72,6 +78,10 @@ namespace TDMD.PresentationLayer
                 int sat = (int)Sat;
 
                 await lamp.SetColor(hue, sat);
+            }
+            else
+            {
+                ShowLampOffError();
             }
         }
 
@@ -85,6 +95,19 @@ namespace TDMD.PresentationLayer
         {
             double convertedValue = percentage / 100.0 * 253.0 + 1.0;
             return convertedValue;
+        }
+
+        private async void ShowLampOffError()
+        {
+            CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            string text = "Lamp is turned off";
+            ToastDuration duration = ToastDuration.Short;
+            double fontSize = 14;
+
+            var toast = Toast.Make(text, duration, fontSize);
+
+            await toast.Show(cancellationTokenSource.Token);
         }
 
         [ObservableProperty]
