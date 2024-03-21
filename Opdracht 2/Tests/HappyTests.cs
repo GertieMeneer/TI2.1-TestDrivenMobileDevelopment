@@ -63,29 +63,22 @@
         {
             // Summary: Tests the integration of lamp-related operations in MainViewModel, including user ID retrieval, lamp loading, and parsing, ensuring proper functioning.
             // Arrange
-            Mock<IMainViewModel> mainViewModelMock = new Mock<IMainViewModel>();
-
-            mainViewModelMock.Setup(mock => mock.GetUserIdAsync()).ReturnsAsync("33c7f5c6a0668b02c6811fe6e811265");
-            mainViewModelMock.Setup(mock => mock.LoadLamps()).ReturnsAsync("{\"lights\": { ... }}");
-            mainViewModelMock.Setup(mock => mock.ParseLights(It.IsAny<string>())).Returns(new List<Lamp>
+            Mock<IApi> api = new Mock<IApi>();
+            
+            api.Setup(mock => mock.GetUserIdAsync()).ReturnsAsync("33c7f5c6a0668b02c6811fe6e811265");
+            api.Setup(mock => mock.LoadLamps()).ReturnsAsync("{\"lights\": { ... }}");
+            api.Setup(mock => mock.ParseLights(It.IsAny<string>())).Returns(new List<Lamp>
             {
                 new Lamp { ID = "1", Type = "Extended color light", Name = "Hue Lamp 1", ModelID = "LCT001", SWVersion = "65003148", UniqueID = "00:17:88:01:00:d4:12:08-0a", Status = true, Brightness = 254, BrightnessPercentage = 100.0, Hue = 4444, Sat = 254 },
                 new Lamp { ID = "2", Type = "Extended color light", Name = "Hue Lamp 2", ModelID = "LCT001", SWVersion = "65003148", UniqueID = "00:17:88:01:00:d4:12:08-0b", Status = true, Brightness = 254, BrightnessPercentage = 100.0, Hue = 23536, Sat = 144 },
                 new Lamp { ID = "3", Type = "Extended color light", Name = "Hue Lamp 3", ModelID = "LCT001", SWVersion = "65003148", UniqueID = "00:17:88:01:00:d4:12:08-0c", Status = true, Brightness = 254, BrightnessPercentage = 100.0, Hue = 65136, Sat = 254 }
             });
 
-            var mainViewModel = mainViewModelMock.Object;
+            ApiService apiService = new ApiService(api.Object);
 
             // Act
-            string userId = await mainViewModel.GetUserIdAsync();
-
-            List<Lamp> lamps = new();
-
-            if (userId != null)
-            {
-                string json = await mainViewModel.LoadLamps();
-                lamps = mainViewModel.ParseLights(json);
-            }
+            string userId = await apiService.getUserId();
+            List<Lamp> lamps = await apiService.Loadlamps();
 
             // Assert  
             Assert.Equal("33c7f5c6a0668b02c6811fe6e811265", userId);
