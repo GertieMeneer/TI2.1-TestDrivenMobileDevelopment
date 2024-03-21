@@ -89,9 +89,8 @@ namespace TDMD.DomainLayer
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Debug.WriteLine($"Lamp {ID} turned on successfully.");
-                    Brightness = value;
-                    BrightnessPercentage = Brightness / 254.0 * 100.0;
+                    Debug.WriteLine($"Lamp {ID} changed brightness.");
+                    Brightness = Math.Round(value / 254.0 * 100.0);
                 }
                 else
                 {
