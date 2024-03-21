@@ -14,7 +14,7 @@ namespace TDMD.ApplicationLayer
 
         public async Task<List<Lamp>> Loadlamps()
         {
-            string jsonstring =  await _api.LoadLamps();
+            string jsonstring = await _api.LoadLamps();
 
             List<Lamp> lamps = new List<Lamp>();
 

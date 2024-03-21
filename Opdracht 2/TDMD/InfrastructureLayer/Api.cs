@@ -124,6 +124,7 @@ namespace TDMD.InfrastructureLayer
                     }
 
                     Debug.WriteLine($"User ID: {userId}");
+
                     return userId;
                 }
                 else

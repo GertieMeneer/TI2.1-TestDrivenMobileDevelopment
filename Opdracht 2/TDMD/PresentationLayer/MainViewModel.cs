@@ -1,8 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using System.Text;
 using TDMD.DomainLayer;
 using TDMD.InfrastructureLayer;
 
@@ -115,7 +112,7 @@ namespace TDMD.ApplicationLayer
 
             if (userId != null)
             {
-                Lamps = _apiService.Loadlamps().Result;
+                Lamps = await _apiService.Loadlamps();
             }
             else
             {
