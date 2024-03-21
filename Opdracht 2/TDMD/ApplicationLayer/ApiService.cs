@@ -1,5 +1,4 @@
 ﻿using TDMD.DomainLayer;
-using TDMD.InfrastructureLayer;
 
 namespace TDMD.ApplicationLayer
 {

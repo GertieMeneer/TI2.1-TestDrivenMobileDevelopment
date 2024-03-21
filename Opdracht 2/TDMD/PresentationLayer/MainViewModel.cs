@@ -97,12 +97,12 @@ namespace TDMD.ApplicationLayer
         {
             if (userId != null)
             {
-                Lamps = _apiService.Loadlamps().Result;
+                Lamps = await _apiService.Loadlamps();
             }
             else
             {
                 await GetUserIDAsync();
-                Lamps = _apiService.Loadlamps().Result;
+                Lamps = await _apiService.Loadlamps();
             }
         }
 
